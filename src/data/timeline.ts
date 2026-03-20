@@ -10,6 +10,7 @@ export const timelineEvents: TimelineEvent[] = [
   { conference: "miniorange", location: "Pune, India", topic: "Bluetooth Hacking Workshop", role: "Workshop", year: 2026 },
   { conference: "Seasides", location: "Goa, India", topic: "Advanced HW + BLE Exploitation", role: "Workshop", year: 2025 },
   { conference: "BSides Kerala", location: "Kerala, India", topic: "IoT Bug Discovery and Exploitation", role: "Workshop", year: 2025 },
+  { conference: "Bsides Bangalore", location: "Bangalore, India", topic: "Master IoT Security", role: "Training", year: 2024 },
   { conference: "BSides Dehradun", location: "Dehradun, India", topic: "Keynote", role: "Keynote", year: 2024 },
   { conference: "c0c0n", location: "Cochin, India", topic: "IoT Security Village", role: "Village Lead", year: 2023 },
   { conference: "OWASP Seasides", location: "Goa, India", topic: "BLE UAE", role: "Workshop", year: 2020 },
