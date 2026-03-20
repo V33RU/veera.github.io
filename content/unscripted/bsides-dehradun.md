@@ -10,7 +10,7 @@ tags: ["conference", "keynote", "bsides"]
 
 ![](/conference-talks/bsides-dehradun/1.jpeg)
 
-Strong people don't put others down — they lift them up, empowering and inspiring those around them to rise together. With this philosophy as my guiding light, I embarked on a new chapter in my career: delivering a keynote speech at BSides Dehradun. It was an opportunity not just to share my knowledge but to encourage others, create connections, and empower the cybersecurity community around me.
+Strong people don't put others down - they lift them up, empowering and inspiring those around them to rise together. With this philosophy as my guiding light, I embarked on a new chapter in my career: delivering a keynote speech at BSides Dehradun. It was an opportunity not just to share my knowledge but to encourage others, create connections, and empower the cybersecurity community around me.
 
 
 ![Giving Insights to Students](/conference-talks/bsides-dehradun/2.JPG)
@@ -18,7 +18,7 @@ Strong people don't put others down — they lift them up, empowering and inspir
 
 
 
-### Keynote: Zero-Click Attacks — Unveiling the Unseen Threats
+### Keynote: Zero-Click Attacks - Unveiling the Unseen Threats
 
 
 When I think back to Nullcon 2022, one talk that truly resonated with me was the keynote delivered by Dr.-Ing. Mario Heiderich [Keynote | Do we get stuff done? We don't get stuff done? Or do we? Or will we? | Mario Heiderich
