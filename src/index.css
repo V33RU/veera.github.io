@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 25 15% 5%;
+    --foreground: 35 60% 72%;
+
+    --card: 25 15% 8%;
+    --card-foreground: 35 60% 72%;
+
+    --popover: 25 15% 8%;
+    --popover-foreground: 35 60% 72%;
+
+    --primary: 38 80% 55%;
+    --primary-foreground: 25 15% 5%;
+
+    --secondary: 25 12% 12%;
+    --secondary-foreground: 35 45% 60%;
+
+    --muted: 25 10% 11%;
+    --muted-foreground: 30 20% 42%;
+
+    --accent: 38 80% 55%;
+    --accent-foreground: 25 15% 5%;
+
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 30 25% 16%;
+    --input: 30 25% 16%;
+    --ring: 38 80% 55%;
+
+    --radius: 0.25rem;
+
+    --terminal-amber: 38 80% 55%;
+    --terminal-amber-dim: 35 40% 40%;
+    --terminal-amber-bright: 40 90% 65%;
+    --pcb-amber: 30 40% 20%;
+    --pcb-trace: 35 60% 30%;
+    --crt-glow: 38 80% 55%;
+
+    --sidebar-background: 25 15% 7%;
+    --sidebar-foreground: 35 60% 72%;
+    --sidebar-primary: 38 80% 55%;
+    --sidebar-primary-foreground: 25 15% 5%;
+    --sidebar-accent: 25 12% 12%;
+    --sidebar-accent-foreground: 35 45% 60%;
+    --sidebar-border: 30 25% 16%;
+    --sidebar-ring: 38 80% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  }
+}
+
+/* CRT Scanlines Overlay */
+.crt-scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    hsla(38, 80%, 55%, 0.012) 2px,
+    hsla(38, 80%, 55%, 0.012) 4px
+  );
+}
+
+/* CRT Flicker Animation */
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.85; }
+  94% { opacity: 1; }
+  96% { opacity: 0.92; }
+  97% { opacity: 1; }
+}
+
+.crt-flicker {
+  animation: crt-flicker 8s infinite;
+}
+
+/* Phosphor Glow */
+.phosphor-glow {
+  text-shadow: 
+    0 0 5px hsl(38 80% 55% / 0.6),
+    0 0 10px hsl(38 80% 55% / 0.3),
+    0 0 20px hsl(38 80% 55% / 0.15);
+}
+
+.phosphor-glow-subtle {
+  text-shadow: 
+    0 0 3px hsl(38 80% 55% / 0.35),
+    0 0 8px hsl(38 80% 55% / 0.15);
+}
+
+/* Blinking Cursor */
+@keyframes blink-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.blink-cursor::after {
+  content: '█';
+  animation: blink-cursor 1s step-end infinite;
+  color: hsl(38 80% 55%);
+}
+
+/* PCB Trace Line */
+.pcb-trace {
+  background: linear-gradient(
+    180deg,
+    hsl(35 60% 30%) 0%,
+    hsl(30 40% 20%) 50%,
+    hsl(35 60% 30%) 100%
+  );
+  width: 3px;
+  box-shadow: 0 0 6px hsl(38 80% 55% / 0.2);
+}
+
+/* Solder Point */
+.solder-point {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    hsl(38 80% 60%) 0%,
+    hsl(35 60% 30%) 60%,
+    hsl(30 40% 20%) 100%
+  );
+  box-shadow: 0 0 8px hsl(38 80% 55% / 0.35);
+}
+
+/* Circuit Border */
+.circuit-border {
+  border: 1px solid hsl(30 25% 16%);
+  position: relative;
+}
+
+.circuit-border::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 10px;
+  width: 20px;
+  height: 3px;
+  background: hsl(35 60% 30%);
+  box-shadow: 0 0 6px hsl(38 80% 55% / 0.2);
+}
+
+.circuit-border::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: 10px;
+  width: 20px;
+  height: 3px;
+  background: hsl(35 60% 30%);
+  box-shadow: 0 0 6px hsl(38 80% 55% / 0.2);
+}
+
+/* Chip Card Style */
+.chip-card {
+  background: hsl(25 15% 8%);
+  border: 1px solid hsl(30 25% 16%);
+  position: relative;
+}
+
+.chip-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 8px,
+    hsl(35 60% 30%) 8px,
+    hsl(35 60% 30%) 12px
+  );
+}
+
+/* Film Strip */
+.film-strip-frame {
+  border: 3px solid hsl(30 25% 16%);
+  box-shadow: 
+    inset 0 0 20px hsl(38 80% 55% / 0.03),
+    0 0 15px hsl(38 80% 55% / 0.06);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(25 15% 5%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(30 25% 16%);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(35 30% 22%);
+}
+
+/* Markdown content styling */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  @apply phosphor-glow-subtle;
+  color: hsl(35 70% 68%);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+
+.markdown-content h1 { font-size: 1.75rem; }
+.markdown-content h2 { font-size: 1.375rem; }
+.markdown-content h3 { font-size: 1.125rem; }
+.markdown-content h4 { font-size: 1rem; }
+.markdown-content h5 { font-size: 0.9rem; }
+.markdown-content h6 { font-size: 0.85rem; color: hsl(35 40% 50%); }
+
+.markdown-content p {
+  margin-bottom: 1em;
+  line-height: 1.7;
+  color: hsl(30 20% 52%);
+}
+
+.markdown-content strong {
+  color: hsl(35 65% 65%);
+  font-weight: 600;
+}
+
+.markdown-content em {
+  color: hsl(33 35% 55%);
+}
+
+.markdown-content del {
+  color: hsl(30 10% 38%);
+  text-decoration: line-through;
+}
+
+.markdown-content code {
+  background: hsl(25 12% 10%);
+  padding: 0.15em 0.4em;
+  border-radius: 2px;
+  font-size: 0.9em;
+  color: hsl(38 75% 60%);
+  border: 1px solid hsl(30 25% 16%);
+}
+
+.markdown-content pre {
+  background: hsl(25 15% 6%);
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+  border: 1px solid hsl(30 25% 16%);
+  margin-bottom: 1em;
+}
+
+.markdown-content pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.markdown-content ul, .markdown-content ol {
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+  color: hsl(30 20% 52%);
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+}
+
+.markdown-content li {
+  margin-bottom: 0.3em;
+}
+
+.markdown-content li::marker {
+  color: hsl(38 80% 55%);
+}
+
+/* Task list / checkboxes */
+.markdown-content li:has(input[type="checkbox"]) {
+  list-style: none;
+  margin-left: -1.2em;
+}
+
+.markdown-content a {
+  color: hsl(38 80% 55%);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown-content a:hover {
+  color: hsl(40 90% 65%);
+}
+
+.markdown-content blockquote {
+  border-left: 3px solid hsl(35 60% 30%);
+  padding-left: 1em;
+  margin-bottom: 1em;
+  color: hsl(33 35% 48%);
+  font-style: italic;
+}
+
+.markdown-content blockquote p {
+  color: inherit;
+}
+
+/* Tables */
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+  font-size: 0.875rem;
+}
+
+.markdown-content th {
+  text-align: left;
+  padding: 0.5em 0.75em;
+  border: 1px solid hsl(30 25% 16%);
+  background: hsl(25 12% 10%);
+  color: hsl(38 75% 60%);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.markdown-content td {
+  padding: 0.5em 0.75em;
+  border: 1px solid hsl(30 25% 16% / 0.5);
+  color: hsl(30 20% 52%);
+}
+
+.markdown-content tr:hover td {
+  background: hsl(25 12% 8%);
+}
+
+/* Horizontal rule */
+.markdown-content hr {
+  border: none;
+  border-top: 1px solid hsl(30 25% 16%);
+  margin: 2em 0;
+}
+
+/* Images */
+.markdown-content img {
+  max-width: 100%;
+  border-radius: 4px;
+  border: 2px solid hsl(30 25% 16%);
+  margin: 1em 0;
+}
+
+/* Footnotes */
+.markdown-content sup a {
+  color: hsl(38 80% 55%);
+  text-decoration: none;
+  font-size: 0.75em;
+}
+
+/* Definition lists via HTML */
+.markdown-content dt {
+  color: hsl(35 70% 68%);
+  font-weight: 600;
+  margin-top: 1em;
+}
+
+.markdown-content dd {
+  color: hsl(30 20% 52%);
+  margin-left: 1.5em;
+  margin-bottom: 0.5em;
+}
