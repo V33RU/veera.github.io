@@ -55,10 +55,10 @@ const Home = () => {
               {/* Net labels */}
               <div className="space-y-1 flex-1">
                 {[
-                  { label: "TWITTER", url: "https://twitter.com/vaborun", netColor: "hsl(0 70% 55%)" },
-                  { label: "LINKEDIN", url: "https://linkedin.com/in/v33ru", netColor: "hsl(220 70% 55%)" },
+                  { label: "X", url: "https://x.com/v33riot", netColor: "hsl(0 70% 55%)" },
+                  { label: "LINKEDIN", url: "https://www.linkedin.com/in/veeraiot", netColor: "hsl(220 70% 55%)" },
                   { label: "GITHUB", url: "https://github.com/v33ru", netColor: "hsl(120 50% 45%)" },
-                  { label: "BLOG", url: "https://medium.com/@v33ru", netColor: "hsl(45 90% 55%)" },
+                  { label: "MEDIUM", url: "https://medium.com/@veerababupenugonda", netColor: "hsl(45 90% 55%)" },
                   { label: "COFFEE", url: "https://buymeacoffee.com/v33ru", netColor: "hsl(280 60% 55%)" },
                 ].map((link, i) => (
                   <motion.a
