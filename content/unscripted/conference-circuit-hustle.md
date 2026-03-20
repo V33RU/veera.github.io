@@ -17,4 +17,4 @@ But when you see someone's face light up the first time they dump firmware from 
 
 The hacker conference scene in India is growing fast. BSides chapters are popping up everywhere. The energy is real.
 
-If you're thinking about submitting a CFP — do it. The community needs your voice more than you think.
+If you're thinking about submitting a CFP - do it. The community needs your voice more than you think.
