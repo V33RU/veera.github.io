@@ -4,7 +4,18 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import rehypeRaw from "rehype-raw";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
+
+const sanitizeSchema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    span: [...(defaultSchema.attributes?.span || []), "style"],
+    img: [...(defaultSchema.attributes?.img || []), "src", "alt", "loading"],
+  },
+  tagNames: [...(defaultSchema.tagNames || []), "span", "figure", "figcaption"],
+};
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import TableOfContents, { extractToc } from "@/components/TableOfContents";
@@ -96,7 +107,7 @@ const BlogPostPage = () => {
         >
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkBreaks]}
-            rehypePlugins={[rehypeRaw, rehypeSlug]}
+            rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema], rehypeSlug]}
             components={{
               code: ({ className, children }) => (
                 <MarkdownCodeBlock className={className}>{children}</MarkdownCodeBlock>
