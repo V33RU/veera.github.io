@@ -5,7 +5,7 @@ description: "A general, globally grounded exploration of success, ego, and self
 tags: ["success", "mindset", "self-respect", "ego", "general"]
 ---
 
-<h2 style="color: orange; text-align: center;">What is Success?</h2>
+## What is Success?
 
 Success is meeting goals that are meaningful to you while growing as a person. It normally includes:
 
@@ -16,7 +16,7 @@ Success is meeting goals that are meaningful to you while growing as a person. I
 
 It is not defined only by fast fame, one viral moment, or external signals.
 
-<h2 style="color: orange; text-align: center;">Why Ego Can Block Success</h2>
+## Why Ego Can Block Success
 
 Ego is the part of us that demands immediate validation and resists critique. When ego leads, people tend to:
 
@@ -27,7 +27,7 @@ Ego is the part of us that demands immediate validation and resists critique. Wh
 
 These patterns reduce long-term growth and trust, which are the foundation of sustained success.
 
-<h2 style="color: orange; text-align: center;">What Self-Respect Means in Practice</h2>
+## What Self-Respect Means in Practice
 
 Self-respect is treating yourself with honesty and discipline. It shows as:
 
@@ -38,7 +38,7 @@ Self-respect is treating yourself with honesty and discipline. It shows as:
 
 This is not arrogance. It is an inner standard that keeps you aligned and focused.
 
-<h2 style="color: orange; text-align: center;">Ego vs Self-Respect: A Practical Comparison</h2>
+## Ego vs Self-Respect: A Practical Comparison
 
 - Ego-focused direction: busy with appearances, distracted by comparison.
 - Self-respect direction: focused on process, grounded in intrinsic value.
@@ -49,7 +49,7 @@ This is not arrogance. It is an inner standard that keeps you aligned and focuse
 - Ego creates winners and losers in the short term. 
 - Self-respect builds teams and sustainable capability in the long term.
 
-<h2 style="color: orange; text-align: center;">How to build this as a 2026 habit</h2>
+## How to build this as a 2026 habit
 
 1. Define success outcomes in 3 areas: skill, impact, and well-being.
 2. Measure progress weekly with small, repeatable actions.
