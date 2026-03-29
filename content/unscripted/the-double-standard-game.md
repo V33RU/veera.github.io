@@ -1,198 +1,192 @@
 ---
-title: "The Double Standard Game: Opposing AI While Building Everything With It"
+title: "Accountability Over Origin: The Industry's Quiet Dependency on AI"
 date: "2026-03-29"
-description: "Everyone's got an opinion on AI. Most of them are built on AI. Let's talk about that."
+description: "The gap between what practitioners say about AI and what they actually do with it has never been wider. It is time to address that honestly."
 tags: ["AI", "unscripted", "double standard", "tech", "honest take"]
 ---
 
-## Let's be honest for a second.
+## A Pattern Worth Naming
 
-There's a very specific type of person on the internet right now.
+There is a recognizable profile emerging in the technology industry.
 
-They write long threads about how AI is ruining creativity.
-They speak on panels about the dangers of AI replacing human work.
-They post LinkedIn essays titled "Why I Choose Human Over AI."
+Publicly, these individuals write extensively about how AI undermines creative work. They participate in panel discussions warning against AI displacing human labor. They publish thoughtful essays arguing for human-first development practices.
 
-And then they go home and open Cursor, ask Claude to write their backend, use ChatGPT to draft that very essay, and ship a product where 80% of the code was generated.
+Privately, the same individuals rely on AI-assisted IDEs for code generation, use large language models to draft the content they publish, and ship products where the majority of the codebase was AI-generated.
 
-I'm not calling them hypocrites.
+This is not a character judgment.
 
-I'm calling it **the double standard game** - and almost everyone is playing it.
+It is **the double standard game** - and it has become widespread enough to warrant an honest conversation.
 
 ---
 
-## The Context
+## How We Got Here
 
-We're at a weird inflection point.
+The pace of AI adoption in software development has been genuinely disorienting.
 
-AI went from a research lab curiosity to the backbone of how most software gets built - in under two years. That's genuinely disorienting. People haven't had time to form clean opinions. So they form *loud* ones instead.
+In under two years, AI tooling moved from a research novelty to a foundational part of how most software gets built. That shift did not give practitioners enough time to form considered positions. So many defaulted to loud ones instead.
 
-"AI-generated content is trash."
-*- posted from a blog drafted with AI, edited by a human, published with an AI-suggested headline.*
+> "AI-generated content is trash."
+> *- written in a post drafted with AI assistance, edited by the author, published with an AI-optimized headline.*
 
-"We need to protect human jobs."
-*- said by someone who cut their team in half because AI handled the rest.*
+> "We need to protect human jobs."
+> *- stated by someone whose team was reduced by half after AI absorbed the workload.*
 
-The gap between what people say about AI and what they actually do with it is massive. And it keeps growing.
-
----
-
-## The Specific Double Standard I Keep Seeing
-
-Here's the pattern in tech:
-
-**Front-facing:** Anti-AI messaging. Emphasize craft. Talk about the human touch. Build a brand around "we do it the right way."
-
-**Back-end reality:** Claude writes the boilerplate. Cursor handles refactors. GPT-4 does the first pass on every new feature. Midjourney for assets. AI for SEO. AI for emails. AI for onboarding flows.
-
-And here's the thing - **there's nothing wrong with using AI to build things.** I do it. It's fast. It works. It's the right tool.
-
-What's weird is the *performance* of not doing it.
-
-Why the act?
+The gap between stated positions and actual practice is significant. And it continues to widen.
 
 ---
 
-## Why People Play This Game
+## The Pattern in Practice
 
-A few reasons, none of them evil:
+The behavior follows a consistent structure across the industry:
 
-**1. Fear of devaluation.**
-If clients or followers think the work was "just AI," they might not pay the same price. So you hide it. Understandable. Still a lie.
+**Public-facing:** Anti-AI messaging. Emphasis on craft, human judgment, and authentic work. Brand positioning around "doing things the right way."
 
-**2. Identity protection.**
-A lot of people built their identity around being a craftsman, a writer, a coder. AI challenges that identity. So they attack AI publicly while quietly using it privately to stay competitive. Classic cognitive dissonance.
+**Operational reality:** AI handles boilerplate, refactoring, first-pass feature development, asset generation, SEO, communications, and onboarding flows.
 
-**3. Social signaling.**
-Being skeptical of AI sounds thoughtful. It sounds like you have principles. It sounds like you care about ethics. It's a clean position to hold in public. The alternative - saying "yeah, I use AI for basically everything" - sounds lazy, even when it isn't.
+To be clear: there is nothing inherently wrong with using AI in a professional workflow. It is fast, capable, and appropriate for a wide range of tasks.
 
-**4. Genuine complexity.**
-Some people actually do have mixed feelings. They use AI, feel weird about it, and haven't resolved that tension yet. The public stance and private behavior don't match because the internal conflict hasn't been resolved.
+What is worth examining is the deliberate performance of *not* using it.
 
 ---
 
-## What This Blog Is Built On
+## Why the Disconnect Persists
 
-I'm not going to pretend.
+Several factors sustain this pattern, none of them rooted in bad intent:
 
-This site? Built with AI assistance. Components, structure, logic - a lot of it went through Claude. This post? I wrote the thoughts. The sentences? Some were shaped with AI help. The code running this? Definitely had AI in the loop.
+**1. Perceived devaluation of work.**
+When clients or audiences associate AI with reduced effort, practitioners fear their work will be priced accordingly. Concealment feels like self-preservation. It is also, functionally, a form of misrepresentation.
 
-Does that make it less mine? I don't think so. I directed it. I edited it. I decided what stayed and what went. The ideas are mine. The intent is mine.
+**2. Identity under pressure.**
+Many professionals spent years building an identity around craft - as a developer, writer, or designer. AI disrupts the foundation of that identity. Attacking it publicly while using it privately is a textbook response to cognitive dissonance.
 
-But the *tool* I used was AI. And I'm not going to perform otherwise.
+**3. Reputational signaling.**
+Expressing skepticism about AI reads as principled and thoughtful. It signals that you care about quality and ethics. Saying "I use AI extensively in my workflow" carries a social cost in certain communities, even when the work produced is excellent.
 
----
-
-## The Real Conversation We Should Be Having
-
-Instead of "AI vs. Human" - which is a fake war - the real question is:
-
-**What are you responsible for when you ship something?**
-
-If you use AI to write code and don't understand it, that's a problem. Not because AI wrote it - because *you're responsible for it* and you don't understand what you shipped.
-
-If you use AI to write content and it's dishonest or wrong, that's a problem. Same reason.
-
-If you use AI to build faster, ship cleaner, explore ideas you'd have never reached alone - and you *own* the output - that's just leverage. That's what tools are for.
-
-The standard shouldn't be "did a human make every line?" The standard should be **"do you own what you put out?"**
+**4. Unresolved internal conflict.**
+Some practitioners genuinely hold mixed views. They use AI, feel uncertain about it, and have not yet reconciled the tension. The misalignment between what they say and what they do reflects that unresolved state, not deliberate deception.
 
 ---
 
-## Open Source Is the Loudest Player in This Game
+## Transparency About This Blog
 
-This one stings a little because open source is supposed to be about transparency.
+In the interest of consistency: this site was built with AI assistance. Components, structure, and logic were developed in collaboration with AI tools. This post reflects my thinking and perspective; portions of the prose were shaped with AI involvement. The code running this platform had AI in the loop throughout.
 
-I recently saw a file in a real open source project. One line. It said:
+That does not make the work less mine. I directed the process, made every significant decision, edited the output, and take full responsibility for what is published.
+
+The tool I used was AI. I see no reason to suggest otherwise.
+
+---
+
+## The Question That Actually Matters
+
+The "AI versus Human" framing is a distraction. The more substantive question is:
+
+**What are you accountable for when you ship something?**
+
+Using AI to write code you do not understand is a problem - not because AI generated it, but because you are responsible for output you cannot explain or maintain.
+
+Using AI to produce content that is inaccurate or misleading is a problem. For the same reason.
+
+Using AI to work faster, explore ideas beyond your immediate reach, and deliver better outcomes - while fully owning the result - is simply effective use of available tooling. That is what professional tools are for.
+
+The standard should not be "did a human write every line?" It should be: **do you own what you put out?**
+
+---
+
+## Open Source and the Loudest Double Standard
+
+This tension is most visible - and most ironic - in the open source community, where transparency is a founding principle.
+
+A recent example illustrates it precisely. A file committed to a real open source project contained a single purpose:
 
 > *"This file enforces the project's prohibition on AI-generated contributions."*
 
-A whole file. Dedicated to banning AI. In a codebase that uses automated tooling, dependency bots, and AI-assisted CI pipelines underneath.
+A dedicated file. Merged into a codebase that runs automated dependency bots, AI-assisted CI pipelines, and tooling built on the same underlying models. The prohibition exists at the contribution layer while AI operates freely at the infrastructure layer.
 
-That's the double standard in its most literal form - written, committed, and merged into the repo.
+That is the double standard in its most literal, version-controlled form.
 
-Walk into any major open source community right now and you'll find:
+Across major open source communities, the pattern holds:
 
-- Maintainers who gate-keep PRs with "no AI-generated code" policies
-- READMEs that proudly say "100% human written"
-- Contribution guides that explicitly ban AI assistance
-- Discord mods removing people for "using AI to answer questions"
+- Pull requests rejected under "no AI-generated code" policies
+- README files badged as "100% human written"
+- Contribution guidelines that explicitly prohibit AI assistance
+- Community moderators removing members for AI-assisted responses
 
-Meanwhile, the *same* maintainers are:
+While the same maintainers:
 
-- Using GitHub Copilot to write test boilerplate
-- Asking Claude to help debug a gnarly issue at 2am
-- Using AI to draft the release notes and changelogs
-- Running CI pipelines built with AI-generated YAML configs
+- Use code completion tools for boilerplate and test generation
+- Consult large language models when debugging complex issues
+- Draft release notes and changelogs with AI assistance
+- Operate CI pipelines built on AI-generated configuration
 
-The "no AI" policy is often performative purity. A way to signal seriousness. A gatekeeping mechanism that has nothing to do with code quality and everything to do with community identity.
+The "no AI" policy frequently functions as performative purity - a mechanism for signaling seriousness that has little to do with actual code quality and everything to do with community identity.
 
-The actual question - **is the contribution correct, tested, and maintained?** - gets replaced with **"did a human suffer to write it?"**
+The substantive question - *is this contribution correct, tested, and maintainable?* - gets displaced by *did a human produce sufficient effort to generate it?*
 
-That's not open source values. That's hazing.
+That is not an open source value. It is gatekeeping dressed as principle.
 
-And the real irony? Some of the most celebrated open source tools right now - the ones with thousands of stars, the ones everyone uses - have AI-generated code quietly sitting inside them. Nobody checked. Nobody knew. The contribution landed because it was *good*, not because of how it was made.
+Some of the most widely used open source tools in production today contain AI-generated code. It was reviewed, it passed, it works - because the standard applied was quality, not origin. Nobody flagged it. Nobody needed to.
 
-Open source was built on the idea that **the best idea wins, regardless of who it comes from.**
+Open source was built on the premise that **the best contribution wins, regardless of its source.**
 
-Quietly using AI while publicly banning it is the most anti-open-source move possible.
+Maintaining a private AI workflow while publicly prohibiting it is one of the more direct contradictions of that premise.
 
 ---
 
-## The Actual Line That Matters: Supportive vs. Dependent
+## The Line That Actually Matters: Supportive vs. Dependent
 
-Here's where I want to be clear about my own position - because this isn't a "use AI for everything, no questions asked" take.
+To be precise about where I stand: this is not an argument for uncritical AI adoption.
 
-**AI should be supportive. Not a dependency.**
+**AI should function as a support layer, not a dependency.**
 
-There's a real difference:
+The distinction is meaningful:
 
-**Supportive AI** - you understand the problem, you have the solution in your head, and AI helps you get there faster. You could do it without it. It just removes friction. You own the output completely.
+**Supportive use** means you understand the problem, you hold the solution, and AI accelerates your path to it. You could arrive there without it. It reduces friction. You own the output completely and can account for every decision within it.
 
-**Dependent AI** - you don't understand the problem. You paste an error into ChatGPT, copy the answer, and ship it. You can't explain what changed or why it works. If AI goes down, you're stuck.
+**Dependent use** means the problem exceeds your understanding. You paste an error into a model, ship the response, and cannot explain what changed or why it works. If access to the tool disappears, so does your ability to function.
 
-The first one makes you sharper. The second one makes you fragile.
+The first pattern develops sharper practitioners. The second creates fragile ones.
 
-When an open source project bans AI, they're often reacting to the *second* pattern - contributors pasting AI slop without understanding it, flooding issue trackers with hallucinated fixes, submitting PRs they can't defend in review.
+When open source projects move to ban AI, they are typically responding to the second pattern - unreviewed generations flooding issue trackers, hallucinated fixes submitted as PRs, contributors unable to defend their changes in review.
 
-That's a real problem. But the solution isn't banning the tool. It's raising the standard for what "understanding your contribution" means.
+That is a legitimate concern. The solution, however, is not prohibiting the tool. It is raising the standard for what it means to understand and stand behind a contribution.
 
 **Enforce comprehension. Not the method.**
 
-If you can explain every line, defend every decision, and maintain what you shipped - it doesn't matter how you got there. That's ownership. That's the bar.
+If you can explain every line, defend every decision, and maintain what you shipped - the path you took to get there is your business. That is ownership. That is the appropriate bar.
 
-If you can't do that - whether you wrote it yourself or copied it from AI - it's not ready.
+If you cannot do that - whether the code came from AI or from memory - it is not ready to ship.
 
-The goal was never "humans typed every character." The goal was always **working software, built by people who understand it.**
+The goal was never "every character typed by a human." It has always been **working software produced by people who understand what they built.**
 
-AI gets you there faster. It doesn't get you there for free.
-
----
-
-## The Uncomfortable Mirror
-
-Here's the real reason the double standard game is uncomfortable to watch:
-
-It means people are ashamed of the most useful tool they have.
-
-Think about that. We built something genuinely powerful, started using it to do better work, and then developed a *social performance* around pretending we don't.
-
-That's not a technology problem. That's a confidence problem.
-
-You don't have to announce AI on every post. But you also don't have to build a brand on opposing something you rely on to stay relevant.
+AI gets you there faster. It does not get you there for free.
 
 ---
 
-## Just say it.
+## The Underlying Issue
 
-You use AI. So do I. So does almost everyone in tech right now.
+The reason the double standard game is uncomfortable to observe is not the inconsistency itself. It is what the inconsistency reveals.
 
-It doesn't make the work fake. It doesn't make you a fraud. It doesn't mean you have no skill.
+It means practitioners are actively concealing their most effective working tool.
 
-It means you're using the most powerful leverage available in 2026 to build things that matter to you.
+Consider what that implies: a generation of professionals built something genuinely powerful, adopted it to produce better work, and then constructed a public posture around not having done so.
 
-The double standard game is exhausting. And it's unnecessary.
+That is not a technology problem. It is a confidence problem.
 
-Drop the act. Own the tools. Be responsible for what you ship.
+There is no obligation to disclose AI usage in every piece of work. But there is a meaningful difference between discretion and building a professional brand on the active rejection of something you depend on to remain competitive.
 
-That's it.
+---
+
+## A Straightforward Conclusion
+
+AI is part of how serious professionals work in 2026. That includes the authors of anti-AI essays, the maintainers of "human-only" repositories, and the panelists warning against AI's dangers.
+
+Using AI does not make the work fraudulent. It does not signal an absence of skill. It does not diminish professional judgment or creative contribution.
+
+It means you are applying effective leverage to build things that matter.
+
+The double standard game consumes energy that could go toward the work itself.
+
+Own the tools. Understand what you ship. Be accountable for the output.
+
+That is the standard worth holding.
