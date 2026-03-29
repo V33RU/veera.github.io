@@ -9,7 +9,7 @@ There's a quiet war happening in IoT security. On one side, you have billion-dol
 
 I build in public because **closed-source security is an oxymoron**. You can't secure what you can't inspect.
 
-Every tool I release - RFSploit, BlueSploit, HARDAX — they're not just tools. They're statements. They say: "This attack exists. This defense is possible. Here's the code. Verify it yourself."
+Every tool I release - RFSploit, BlueSploit, HARDAX - they're not just tools. They're statements. They say: "This attack exists. This defense is possible. Here's the code. Verify it yourself."
 
 The IoT underground doesn't need more NDAs. It needs more GitHub repos.
 
