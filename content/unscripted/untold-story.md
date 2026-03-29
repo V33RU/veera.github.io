@@ -59,14 +59,14 @@ On **December 2, 2014**, I stayed at a PG called "Ramachandra Reddy PG" (Room No
 ### Tough Days in Bangalore
 
 
-My time in Bangalore was challenging — **bed bugs** at the PG, no proper food, and low funds. After CEH, I didn't know what to do next. I got advice from a friend, **Vasu**, who was leaving his coordinator job. I stepped in and worked at the institute as a **coordinator**, learning while working.
+My time in Bangalore was challenging - **bed bugs** at the PG, no proper food, and low funds. After CEH, I didn't know what to do next. I got advice from a friend, **Vasu**, who was leaving his coordinator job. I stepped in and worked at the institute as a **coordinator**, learning while working.
 
 ---
 
 ### First Salary: 8000 Rupees Felt Like 8 Crore!
 
 
-My first salary was Rs.8000, which felt like Rs.8 crore at the time! During my CEH training, I became fascinated by **hardware hacking** — why not hack the hardware that supports all these layers? This curiosity led me to work on **RFID cloning** with **Raspberry Pi** and **Arduino**.
+My first salary was Rs.8000, which felt like Rs.8 crore at the time! During my CEH training, I became fascinated by **hardware hacking** - why not hack the hardware that supports all these layers? This curiosity led me to work on **RFID cloning** with **Raspberry Pi** and **Arduino**.
 
 ---
 
@@ -82,7 +82,7 @@ After leaving the institute, things became difficult. My roommates, **Subbarao A
 
 Finally, I attended my first **null meetup** in Bangalore with my friend **Kiran**. The monthly meetup completely changed my perspective. The session on **smart plug hacking** by **Anto Joseph** inspired me. That was the beginning of my work on **IoT devices**.
 
-Through the **null community**, I began participating in **CTF challenges**, and I was the **Runner-Up** in the **Nullcon Magic of Seven Contest** — a small but significant breakthrough for me.
+Through the **null community**, I began participating in **CTF challenges**, and I was the **Runner-Up** in the **Nullcon Magic of Seven Contest** - a small but significant breakthrough for me.
 
 ![](/conference-talks/untold-story/2.png)
 
@@ -131,7 +131,7 @@ Today, I'm the **Null Bangalore Chapter Lead**, giving back to the same communit
 ### Fun Times and Respect Moment
 
 
-**Contribution and passion** go hand in hand, and the community is where the real knowledge sharing happens. You don't need to attend big conferences to make an impact — your knowledge can be your reference.
+**Contribution and passion** go hand in hand, and the community is where the real knowledge sharing happens. You don't need to attend big conferences to make an impact - your knowledge can be your reference.
 
 
 ![](/conference-talks/untold-story/8.png)
