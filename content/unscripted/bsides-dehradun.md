@@ -38,7 +38,7 @@ Along with major points included
 
 The overall conference was a success, especially for a first-time initiative. Any challenges encountered have provided valuable insights for enhancing future events. Founders Aman Kumar, Ansh Raj Srivastava, and Sahil Yadav demonstrated great dedication, and the event, held at Graphic Era Hill University, laid a strong foundation. Future conferences will build on this achievement for even greater success.
 
-About Dehradun there is nothing new to explain , Imagine stepping into Dehradun for the first time — you're surrounded by the cool mountain breeze and the sight of hills touching the sky. Nestled in the Doon Valley, this city instantly feels like a peaceful retreat from the chaos of urban life.
+About Dehradun there is nothing new to explain , Imagine stepping into Dehradun for the first time - you're surrounded by the cool mountain breeze and the sight of hills touching the sky. Nestled in the Doon Valley, this city instantly feels like a peaceful retreat from the chaos of urban life.
 
 As you explore, it hits you that Dehradun is more than just a pretty place. The city carries a rich history and is home to some of India's most prestigious institutions, like the Indian Military Academy and the Forest Research Institute. You can sense the academic vibe, almost like the city itself is quietly proud of its legacy as an educational hub.
 
@@ -60,7 +60,7 @@ Wrapping up the talks, Sanjeev Multani, also known as Mr. BOF, delved into the s
 
 At the conference, I had the pleasure of meeting some truly remarkable co-speakers: Sanjeev Multani, Sagar Tiwari, and Shubham Kumar, others too. Their career accomplishments were incredibly impressive, and we engaged in some deeply insightful technical discussions. The event wrapped up with a memorable send-off, leaving me inspired by the knowledge and experiences we shared.
 
-### Microchip Makeover — The Reballing Realm by my IoTSecurity101 Team:
+### Microchip Makeover - The Reballing Realm by my IoTSecurity101 Team:
 
 
 While my keynote focused on attack vectors and vulnerabilities, my team delivered a highly technical and hands-on session titled "Microchip Makeover: The Reballing Realm."
@@ -90,7 +90,7 @@ Sunita's workshop was hands-on, engaging, and eye-opening, leaving the participa
 
 ![Sanchay Singh](/conference-talks/bsides-dehradun/Sanchay_Hackersvilla.jpeg)
 
-Sanchay Singh led a game hacking workshop that equipped the audience with hands-on skills and a deep understanding of advanced pentesting techniques in video games — his passion for the topic was truly evident. It was a pleasure meeting him, especially as it was my first time experiencing game hacking. I realized how much I lacked knowledge in the gaming field; most of the games discussed were entirely new to me. However, I learned valuable insights to get started, and I am especially grateful to Sanchay for that.
+Sanchay Singh led a game hacking workshop that equipped the audience with hands-on skills and a deep understanding of advanced pentesting techniques in video games - his passion for the topic was truly evident. It was a pleasure meeting him, especially as it was my first time experiencing game hacking. I realized how much I lacked knowledge in the gaming field; most of the games discussed were entirely new to me. However, I learned valuable insights to get started, and I am especially grateful to Sanchay for that.
 
 ### Reflection: A Community Effort
 
@@ -99,7 +99,7 @@ Sanchay Singh led a game hacking workshop that equipped the audience with hands-
 
 Being a part of BSides Dehradun as a keynote speaker was not only a personal milestone but also a community-driven effort. I am incredibly grateful for my team, who made the experience complete with their deep dive into hardware, and for Sunita, whose passion for teaching shone through her Android Hacking workshop.
 
-This experience wasn't just about delivering talks — it was about creating a platform for others to grow, learn, and share their own expertise. In the spirit of lifting others up, I left BSides Dehradun with a renewed sense of purpose, energized by the amazing people I had the opportunity to connect with and the collective knowledge we contributed to the community.
+This experience wasn't just about delivering talks - it was about creating a platform for others to grow, learn, and share their own expertise. In the spirit of lifting others up, I left BSides Dehradun with a renewed sense of purpose, energized by the amazing people I had the opportunity to connect with and the collective knowledge we contributed to the community.
 
 ![](/conference-talks/bsides-dehradun/final.jpeg)
 
