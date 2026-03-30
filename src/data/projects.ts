@@ -15,6 +15,7 @@ export const projects: Project[] = [
   { name: "ICE-Bite", year: 2024, track: "Active", description: "Hardware probing toolkit", url: "https://github.com/iotsrg/ICEBite" },
   { name: "SiDEWiNDER", year: 2026, track: "Active", description: "SSID Injection Detection & Wireless INjection Defense EngineeR", url: "https://github.com/V33RU/sidewinder" },
   { name: "CommandInWiFi", year: 2024, track: "Active", description: "Covert command channel via WiFi", url: "https://github.com/v33ru/CommandInWiFi-Zeroclick" },
+  { name: "Venoid", year: 2026, track: "Active", description: "Android security analysis toolkit", url: "https://github.com/V33RU/venoid" },
   { name: "IoT-PT OSv1", year: 2020, track: "Legacy", description: "A custom OS for IoT pentesting", url: "https://github.com/IoT-PTv/IoT-PT-v1" },
 ];
 
