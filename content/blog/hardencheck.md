@@ -463,7 +463,3 @@ The problem is not knowledge. The problem is that **nobody is checking**.
 Every firmware release should have its binary hardening measured. Every network daemon should be catalogued and risk-rated. Every hardcoded credential should be flagged before it reaches production. Every cryptographic dependency should be inventoried for the post-quantum transition.
 
 This is not aspirational. This is baseline. And the gap between baseline and reality is where the next Mirai is waiting.
-
----
-
-*[HardenCheck](https://github.com/v33ru/hardencheck) is open source under the MIT license. Created by [@v33ru](https://github.com/v33ru) | [IoT Security Research Group](https://github.com/v33ru/hardencheck)*
