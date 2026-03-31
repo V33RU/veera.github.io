@@ -22,21 +22,21 @@ const Blog = () => {
               to={`/blog/${post.slug}`}
               className="block chip-card rounded px-4 py-3 hover:border-primary/50 transition-colors group"
             >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-foreground font-medium group-hover:text-primary transition-colors">
+              <div className="flex flex-col gap-1">
+                <div className="flex items-start justify-between gap-4">
+                  <p className="text-foreground font-medium group-hover:text-primary transition-colors text-sm">
                     {post.title}
                   </p>
-                  <p className="text-muted-foreground text-xs mt-1">{post.description}</p>
-                  {post.tags.length > 0 && (
-                    <div className="flex gap-1 mt-2">
-                      {post.tags.map(t => (
-                        <Badge key={t} variant="secondary" className="text-xs">{t}</Badge>
-                      ))}
-                    </div>
-                  )}
+                  <span className="text-muted-foreground text-xs whitespace-nowrap shrink-0">{post.date}</span>
                 </div>
-                <span className="text-muted-foreground text-xs whitespace-nowrap">{post.date}</span>
+                <p className="text-muted-foreground text-xs mt-0.5 line-clamp-2">{post.description}</p>
+                {post.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {post.tags.map(t => (
+                      <Badge key={t} variant="secondary" className="text-[10px] px-1.5 py-0">{t}</Badge>
+                    ))}
+                  </div>
+                )}
               </div>
             </Link>
           ))}
