@@ -147,8 +147,4 @@ Until then: the walking dead are still walking. They just aren't getting any new
 
 ---
 
-**IOTSRG Research Team**
-
 *This is Part 4 of the Walking Dead of IoT series. [Part 1: The Hardware Graveyard](/blog/walking-dead-part1-hardware-graveyard) | [Part 2: The Patent Wall](/blog/walking-dead-part2-patent-wall-policy-vacuum) | [Part 3: The Price of Cheap](/blog/walking-dead-part3-price-of-cheap)*
-
-*References: MeitY Essential Requirements for CCTV (April 2024) | STQC IS 13252-1 | CVE-2021-36260 (Hikvision RCE, CVSS 9.8) | CVE-2021-33044/33045 (Dahua auth bypass) | MediaNama, Times of India, India Today, FirstPost - April 2026 coverage*
