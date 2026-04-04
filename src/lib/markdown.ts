@@ -55,12 +55,17 @@ function loadPosts(modules: Record<string, string>): BlogPost[] {
   }).sort((a, b) => (b.date > a.date ? 1 : -1));
 }
 
+let _blogPosts: BlogPost[] | null = null;
+let _unscriptedPosts: BlogPost[] | null = null;
+
 export function getBlogPosts(): BlogPost[] {
-  return loadPosts(blogModules);
+  if (!_blogPosts) _blogPosts = loadPosts(blogModules);
+  return _blogPosts;
 }
 
 export function getUnscriptedPosts(): BlogPost[] {
-  return loadPosts(unscriptedModules);
+  if (!_unscriptedPosts) _unscriptedPosts = loadPosts(unscriptedModules);
+  return _unscriptedPosts;
 }
 
 export function getBlogPost(slug: string): BlogPost | undefined {

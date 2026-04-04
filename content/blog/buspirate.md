@@ -19,11 +19,11 @@ tags: ["buspirate", "firmware upgrade"]
 - **ICSP Pins:** Focus on connecting the **"PGD"** and **"PGC"** pins for firmware loading. When in bootloader mode, the MODE LED of the Bus Pirate remains lit. Connect the **"PGD"** and **"PGC"** pins using a jumper cable as shown below:
 
 <p align="center">
-  <img src="/blog/firmware0-update-bp/2.png" alt="ICSP Pin Connection" width="500" height="300">
+  <img src="/blog/firmware0-update-bp/2.webp" alt="ICSP Pin Connection" width="500" height="300">
 </p>
 
 <p align="center">
-  <img src="/blog/firmware0-update-bp/3.png" alt="Bus Pirate in Bootloader Mode" width="500" height="300">
+  <img src="/blog/firmware0-update-bp/3.webp" alt="Bus Pirate in Bootloader Mode" width="500" height="300">
 </p>
 
 

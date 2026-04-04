@@ -136,7 +136,7 @@ const Home = () => {
                 className="shrink-0 w-[200px] h-[200px] md:w-[220px] md:h-[220px] rounded border border-border bg-card overflow-hidden relative self-center md:self-start"
               >
                 <img
-                  src="/veera.png"
+                  src="/veera.webp"
                   alt="Mr-IoT"
                   className="w-full h-full object-cover"
                   onError={(e) => {

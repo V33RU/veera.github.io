@@ -84,7 +84,7 @@ Check the VREG and PWR indicators on the Bus Pirate to ensure a proper connectio
 </p>
 
 <p align="center">
-  <img src="/blog/spi-dumping/5.png" alt="Bus Pirate wired to the EEPROM chip." style="border-radius: 8px;"/>
+  <img src="/blog/spi-dumping/5.webp" alt="Bus Pirate wired to the EEPROM chip." style="border-radius: 8px;"/>
 </p>
 
 <p align="center">
@@ -104,7 +104,7 @@ Check the VREG and PWR indicators on the Bus Pirate to ensure a proper connectio
 - Use this extra connector to the SOIC cable to identify the pins easily:
 
 <p align="center">
-  <img src="/blog/spi-dumping/8.png" alt="Extra connector aiding in pin identification." style="border-radius: 8px;"/>
+  <img src="/blog/spi-dumping/8.webp" alt="Extra connector aiding in pin identification." style="border-radius: 8px;"/>
 </p>
 
 <p align="center">

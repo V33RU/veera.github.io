@@ -84,7 +84,7 @@ Finally, I attended my first **null meetup** in Bangalore with my friend **Kiran
 
 Through the **null community**, I began participating in **CTF challenges**, and I was the **Runner-Up** in the **Nullcon Magic of Seven Contest** - a small but significant breakthrough for me.
 
-![](/conference-talks/untold-story/2.png)
+![](/conference-talks/untold-story/2.webp)
 
 ---
 
@@ -102,7 +102,7 @@ I joined a small firm as an **Information Security Analyst** but soon found myse
 
 **Isecurion** supported me in my **IoT research**, allowing me to publish my first blog post on **iotpentest.com**. I also met **Nagasai**, who helped with hardware I couldn't afford on my own.
 
-![](/conference-talks/untold-story/3.png)
+![](/conference-talks/untold-story/3.webp)
 
 
 ---
@@ -122,9 +122,9 @@ Despite lacking a degree, my skills landed me jobs in **big industries and MNCs*
 
 Today, I'm the **Null Bangalore Chapter Lead**, giving back to the same community that gave me hope when I needed it most. I also participate in **international remote conferences** and handle **IoT Villages**, all while staying true to my passion.
 
-![](/conference-talks/untold-story/5.png)
-![](/conference-talks/untold-story/6.png)
-![](/conference-talks/untold-story/7.png)
+![](/conference-talks/untold-story/5.webp)
+![](/conference-talks/untold-story/6.webp)
+![](/conference-talks/untold-story/7.webp)
 
 ---
 
@@ -134,11 +134,11 @@ Today, I'm the **Null Bangalore Chapter Lead**, giving back to the same communit
 **Contribution and passion** go hand in hand, and the community is where the real knowledge sharing happens. You don't need to attend big conferences to make an impact - your knowledge can be your reference.
 
 
-![](/conference-talks/untold-story/8.png)
-![](/conference-talks/untold-story/9.png)
-![](/conference-talks/untold-story/10.png)
-![](/conference-talks/untold-story/11.png)
-![](/conference-talks/untold-story/12.png)
+![](/conference-talks/untold-story/8.webp)
+![](/conference-talks/untold-story/9.webp)
+![](/conference-talks/untold-story/10.webp)
+![](/conference-talks/untold-story/11.webp)
+![](/conference-talks/untold-story/12.webp)
 
 
 ---

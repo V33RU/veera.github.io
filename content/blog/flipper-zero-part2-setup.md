@@ -96,7 +96,7 @@ The Video Game Module (Powered by Raspberry Pi) brings new entertainment and dev
 - **Standalone Mode:** use the module without Flipper Zero by running any alternative firmware compatible with Raspberry Pi Pico
 - **Open-Source Firmware and Schematics:** explore and customize any parts of the module, both software and hardware
 
-![](/blog/flipper-zero/part-2/vgm.png)
+![](/blog/flipper-zero/part-2/vgm.webp)
 
 #### <span style="color: orange;">Prototyping Boards for Flipper Zero</span>
 
