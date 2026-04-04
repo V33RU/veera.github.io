@@ -103,9 +103,6 @@ const Photography = () => {
         )}
       </AnimatePresence>
 
-      <p className="text-muted-foreground/50 text-xs text-center mt-8">
-        Edit content/photography.md to add photos: ![caption](url)
-      </p>
     </div>
   );
 };
