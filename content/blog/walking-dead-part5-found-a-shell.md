@@ -26,6 +26,25 @@ A significant portion of what gets called "vulnerability research" today is this
 
 This is not research. This is **vulnerability tourism**. And the IoT landscape - with its 15 billion unpatched, never-to-be-patched devices - is the perfect destination. The bugs are always there. The shells always open. The screenshots always look impressive. And nothing ever gets fixed.
 
+There is a hardware variant of this workflow that gets even more engagement because the photos are better:
+
+1. Buy a $15 camera from Amazon
+2. Open the case with a spudger
+3. Locate the UART pads with a multimeter (115200 8N1, always)
+4. Attach a CH341A or a CP2102 dongle
+5. Boot into U-Boot, interrupt the autoboot, get a root shell
+6. Alternatively: desolder the NAND flash, dump it with a CH341A programmer, extract the filesystem with binwalk
+7. Photograph the PCB under good lighting
+8. Post: "Opened this camera. Found UART. Got root. Here's the firmware. Full writeup in comments."
+9. Collect 1,200 reactions (hardware posts get more than software posts, the PCB photo helps)
+10. The camera runs its factory firmware until the hardware dies. Nothing changes.
+
+The UART shell is real. The firmware dump is real. The binwalk output is real. The research value - identifying hardcoded credentials, mapping the attack surface, locating the debug interface - is also real. I do this work. The ICEBite toolkit I built exists specifically for this.
+
+The problem is not the hardware research. The problem is what happens after the post. Which is: nothing. The vendor is either gone, unresponsive, or ships the same firmware in the next product revision under a different brand name on the same HiSilicon SoC with the same UART pads in the same place.
+
+**Opening the device is step one. Someone has to be alive on the other end to receive what you find.**
+
 ---
 
 ### <span style="color: orange;">CVE-2014-8361: Still Trending After 12 Years</span>
