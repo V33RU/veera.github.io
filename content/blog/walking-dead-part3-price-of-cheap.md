@@ -298,5 +298,4 @@ The devices currently deployed will be exploited until they physically fail. The
 
 ---
 
-**IOTSRG Research Team**
 *CVE Program: MITRE | CERT-In: VU#IOTSRG-2025-011 | null Security Conference 2026*
