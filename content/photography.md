@@ -2,7 +2,7 @@
 title: "Photography"
 ---
 
-![](/photos/kolkata/ambassador.webp)
-![](/photos/kolkata/building.webp)
-![](/photos/kolkata/fishermen.webp)
-![](/photos/kolkata/street-shop.webp)
+![Ambassador, Kolkata](/photos/kolkata/ambassador.webp)
+![Building, Kolkata](/photos/kolkata/building.webp)
+![Fishermen, Kolkata](/photos/kolkata/fishermen.webp)
+![Street Shop, Kolkata](/photos/kolkata/street-shop.webp)
