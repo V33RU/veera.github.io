@@ -45,7 +45,7 @@ const BlogPostPage = () => {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="mx-auto max-w-7xl px-4 py-10">
       {/* Breadcrumb */}
       <motion.div
         initial={{ opacity: 0, x: -10 }}
@@ -103,7 +103,7 @@ const BlogPostPage = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="markdown-content min-w-0 flex-1 max-w-3xl"
+          className="markdown-content min-w-0 flex-1 max-w-4xl"
         >
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkBreaks]}
