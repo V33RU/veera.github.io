@@ -32,8 +32,34 @@ export const domains = [
   "WiFi Exploitation and Covert Channels",
 ];
 
-export const publications = [
-  { title: "Hacking the IoT: A Pentester's OS", year: 2020, publishedIn: "Hakin9" },
-  { title: "Hunting IoT Devices with NetHunter Pt.1", year: 2019, publishedIn: "Hakin9" },
-  { title: "IoT Security Essentials 101", year: 2017, publishedIn: "Pentest Magazine" },
+export interface Publication {
+  title: string;
+  year: number;
+  publishedIn: string;
+  url: string;
+  cover: string;
+}
+
+export const publications: Publication[] = [
+  {
+    title: "Hacking the IoT: A Pentester's OS",
+    year: 2020,
+    publishedIn: "Hakin9",
+    url: "https://hakin9.org/product/android-applications-and-security/",
+    cover: "/publications/hakin9-2020.jpg",
+  },
+  {
+    title: "Hunting IoT Devices with NetHunter Pt.1",
+    year: 2019,
+    publishedIn: "Hakin9",
+    url: "https://hakin9.org/product/practical-devops/",
+    cover: "/publications/hakin9-2019.jpg",
+  },
+  {
+    title: "IoT Security Essentials 101",
+    year: 2017,
+    publishedIn: "Pentest Magazine",
+    url: "https://pentestmag.com/download/pentest-security-things/",
+    cover: "/publications/pentestmag-2017.jpg",
+  },
 ];
