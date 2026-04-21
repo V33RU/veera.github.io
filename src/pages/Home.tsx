@@ -236,14 +236,43 @@ const Home = () => {
           className="mb-16"
         >
           <SilkscreenLabel designator="C1" label="publications" />
-          <div className="space-y-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {publications.map((pub, i) => (
-              <div key={i} className="chip-card rounded px-4 py-3">
-                <p className="text-foreground text-sm font-medium">{pub.title}</p>
-                <p className="text-muted-foreground text-xs mt-1">
-                  {pub.publishedIn} • {pub.year}
-                </p>
-              </div>
+              <a
+                key={i}
+                href={pub.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col chip-card rounded overflow-hidden hover:border-primary/50 transition-colors"
+              >
+                <div className="w-full h-40 bg-secondary/30 overflow-hidden flex items-center justify-center relative">
+                  {pub.cover ? (
+                    <img
+                      src={pub.cover}
+                      alt={pub.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground/40 p-4 text-center">
+                      <div className="text-4xl">📄</div>
+                      <p className="text-[10px] tracking-widest uppercase">Cover unavailable</p>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                    <span className="text-white text-xs flex items-center gap-1">
+                      <ExternalLink size={11} /> View Publication
+                    </span>
+                  </div>
+                </div>
+                <div className="p-3">
+                  <p className="text-foreground text-xs font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                    {pub.title}
+                  </p>
+                  <p className="text-muted-foreground text-[10px] mt-1">
+                    {pub.publishedIn} • {pub.year}
+                  </p>
+                </div>
+              </a>
             ))}
           </div>
         </motion.section>
