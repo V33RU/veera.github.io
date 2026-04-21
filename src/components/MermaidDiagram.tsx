@@ -47,7 +47,11 @@ const MermaidDiagram = ({ code }: Props) => {
       .render(id, code)
       .then(({ svg }) => {
         if (cancelled) return;
-        const scaled = svg.replace(/max-width:\s*[^;"]+;?/g, "");
+        const scaled = svg
+          .replace(/max-width:\s*[^;"]+;?/g, "")
+          .replace(/<svg ([^>]*?)width="[^"]*"/, "<svg $1")
+          .replace(/<svg ([^>]*?)height="[^"]*"/, "<svg $1")
+          .replace(/<svg /, '<svg style="width:100%;height:auto;" ');
         setSvg(scaled);
       })
       .catch((e: unknown) => {
@@ -71,7 +75,7 @@ const MermaidDiagram = ({ code }: Props) => {
   return (
     <div
       ref={ref}
-      className="my-8 rounded border border-border bg-secondary/20 p-6 overflow-x-auto w-full [&_svg]:block [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:max-w-none [&_.nodeLabel]:!text-base [&_.nodeLabel]:!font-medium [&_text]:!fill-foreground [&_text]:!font-medium"
+      className="my-8 rounded border border-border bg-secondary/20 p-4 overflow-x-auto w-full [&_svg]:block [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:max-w-full [&_.nodeLabel]:!text-base [&_.nodeLabel]:!font-medium [&_text]:!fill-foreground [&_text]:!font-medium"
       dangerouslySetInnerHTML={{ __html: svg }}
     />
   );
