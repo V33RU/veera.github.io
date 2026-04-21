@@ -1,6 +1,6 @@
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useMemo } from "react";
+import MermaidDiagram from "./MermaidDiagram";
 
 const customTheme = {
   ...vscDarkPlus,
@@ -28,6 +28,10 @@ const MarkdownCodeBlock = ({ className, children }: CodeBlockProps) => {
   const match = /language-(\w+)/.exec(className || "");
   const language = match ? match[1] : "";
   const code = String(children).replace(/\n$/, "");
+
+  if (language === "mermaid") {
+    return <MermaidDiagram code={code} />;
+  }
 
   if (!match) {
     return (
