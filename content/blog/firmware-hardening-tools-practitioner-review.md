@@ -221,6 +221,51 @@ For both: set up FACT, export the analysis to EMBA reports for one-off auditor r
 
 ---
 
+### <span style="color: orange;">HardenCheck: The Tool I Built Because Nothing Did Exactly What I Wanted</span>
+
+Full disclosure: this is mine. [github.com/V33RU/hardencheck](https://github.com/V33RU/hardencheck). I am not going to pretend I am neutral about it.
+
+The origin story is the honest one. I kept running the same sequence on every firmware assessment: binwalk, firmwalker, checksec, a handful of custom LIEF scripts, EMBA, manual CVE checks, manual SBOM export, manual VEX triage for the auditor. Same sequence, every time, with glue scripts held together by duct tape. At some point I wrote it down as a proper tool instead of rewriting the glue scripts every quarter.
+
+HardenCheck is a 17-step Python pipeline. What it does that I could not get elsewhere in one tool:
+
+**Deeper binary hardening than checksec.** Standard checksec reports NX, PIE, Canary, RELRO, Fortify. HardenCheck adds Control Flow Integrity detection, Stack Clash protection, and per-architecture ASLR entropy calculation. The ASLR entropy one matters because "PIE is on" is not the same as "ASLR is effective." On a 32-bit MIPS binary with PIE enabled, you might still only get 8 bits of entropy because of how the MIPS address space is laid out, which is brute-forceable. On x86_64 you get 28+ bits which is not. Reporting "PIE: yes" hides this. Reporting effective entropy in bits per architecture does not.
+
+**Crypto binary audit with risk labeling.** Instead of just "this binary links libcrypto," the audit labels what the binary actually does with crypto (key storage, TLS termination, firmware signature verification, random number generation) and flags high-risk patterns. A binary doing firmware signing without secure element integration is labeled differently from a binary doing TLS termination. The labels drive different follow-up actions.
+
+**Post-quantum crypto readiness evaluation.** This is the future-looking one. PQC is coming. The CRA is going to grow teeth on this over the next few years. Nothing else I use tells me "this firmware uses RSA-2048 for update signing and has no path to a PQC signature algorithm." HardenCheck does.
+
+**VEX output alongside SBOM.** SBOM tells you what you shipped. VEX (Vulnerability Exploitability eXchange) tells you which of the CVE hits in your SBOM actually matter. Per-CVE triage states (`in_triage`, `not_affected`, `affected`, `fixed`) with justification text. This is the artifact an auditor wants next to the SBOM. EMBA does not emit VEX. grype and trivy do not generate it. Having SBOM and VEX come out of the same run, auto-populated with the evidence, saves hours of manual triage per firmware.
+
+**SARIF output for GitHub code scanning.** Plug it into CI and failures show up as annotated findings on pull requests. This is the path to making firmware hardening checks part of the regular development loop instead of a quarterly ritual.
+
+**Grade-based CI exit codes.** `--fail-on-grade B` will fail the build if the firmware scores worse than a B. You can tune the threshold per product. This is how you make "secure by default" an enforceable policy instead of an aspiration. The grade (A through F on a 100-point scale) is opinionated and that is intentional: the scoring forces a decision.
+
+**YARA rule support for custom IOCs.** If your threat model includes specific bad patterns (internal backdoor signatures, known-bad strings from a past incident, vendor-specific malware), you can write YARA rules and HardenCheck runs them as part of the pipeline.
+
+Typical usage:
+
+```bash
+# First pass
+python3 hardencheck.py ./firmware -o report.html
+
+# Full audit with every artifact
+python3 hardencheck.py ./firmware --sbom all --json --sarif -t 8
+
+# CI gate
+python3 hardencheck.py ./firmware --fail-on-grade B -q
+```
+
+Does this replace EMBA? No. EMBA's coverage across kernel config, script analysis, and emulation is broader. HardenCheck's coverage on binary hardening, crypto audit, and SBOM/VEX output is deeper. I run both. They overlap on about 30% of checks and the rest is complementary.
+
+Does this replace checksec? For my purposes, yes. Checksec is still a great fast tool when you want a 30-second table. HardenCheck subsumes it for real assessments because the per-architecture entropy analysis and CFI/Stack-Clash additions matter for findings I actually write into reports.
+
+**Compliance angle:** This is where I designed for the CRA from day one. The SBOM+VEX pair, the SARIF output, the grade-based gating, the secure-boot verification checks, the post-quantum readiness evaluation. These are the artifacts I could not produce cleanly with the other tools stitched together. The format outputs (CycloneDX 1.5, SPDX 2.3, SARIF 2.1.0) are all standards-track so the auditor toolchain can ingest them directly.
+
+If you are going to look at one tool from this blog and evaluate whether it fits your workflow, this is the one I am biased about but also the one that specifically addresses the CRA-aligned artifacts the other tools make you generate manually.
+
+---
+
 ### <span style="color: orange;">Firmadyne and FAT: The Emulation Gamble</span>
 
 Firmware emulation is where everyone gets optimistic and then disappointed. Both Firmadyne and Firmware Analysis Toolkit (Attify's wrapper around Firmadyne) try to:
@@ -422,25 +467,27 @@ For a first-time firmware assessment:
 
 1. `binwalk -Me firmware.bin`
 2. `firmwalker.sh _firmware.bin.extracted/squashfs-root/`
-3. Run checksec across all ELFs
-4. Run cwe_checker across the interesting ELFs (vendor daemons, custom httpd, anything not from a distro)
-5. Run EMBA with default profile for the SBOM and CVE matching
+3. HardenCheck for binary hardening, crypto audit, SBOM, and grade
+4. cwe_checker across the interesting ELFs (vendor daemons, custom httpd, anything not from a distro)
+5. EMBA with default profile for the cross-check and kernel-config depth
 6. Now open Ghidra for whatever looked bad in steps 2 through 5
 
 For ongoing firmware security program:
 
 1. Everything above, automated in CI
-2. FACT Core as the fleet-tracking platform
-3. Custom LIEF-based checks for your policies
-4. Incident response and disclosure process (not a tool)
+2. HardenCheck with `--fail-on-grade B --sarif` in the release pipeline
+3. FACT Core as the fleet-tracking platform
+4. Custom LIEF-based checks for policies HardenCheck does not cover
+5. Incident response and disclosure process (not a tool)
 
 For CRA compliance evidence:
 
-1. EMBA report per firmware
-2. checksec matrix per firmware
+1. HardenCheck SBOM + VEX per firmware
+2. HardenCheck or EMBA report for the full analysis
 3. cwe_checker CWE mapping per firmware
 4. FACT diff per firmware release
-5. Documented process for handling any issues found above
+5. SARIF output wired to the issue tracker for vulnerability handling paper trail
+6. Documented process for handling any issues found above
 
 The tools are not the hard part. The hard part is running them consistently, triaging the output, and fixing the actual problems they surface. The tools are cheap. The engineering time to act on what they find is expensive. Budget accordingly.
 
