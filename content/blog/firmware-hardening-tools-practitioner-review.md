@@ -19,6 +19,40 @@ So this is not a tool comparison. This is what I actually do when a firmware ima
 
 ---
 
+### <span style="color: orange;">The Complete Toolchain at a Glance</span>
+
+Before diving into each tool, here is the full list with where to get them and what you need to run them. Bookmark this section. You will come back to it.
+
+| Tool | Repository | Language / Runtime | Install | Primary Use |
+|---|---|---|---|---|
+| **binwalk** | [github.com/ReFirmLabs/binwalk](https://github.com/ReFirmLabs/binwalk) | Rust | `cargo install binwalk` or prebuilt binary | Firmware extraction, magic-byte scanning |
+| **firmwalker** | [github.com/craigz28/firmwalker](https://github.com/craigz28/firmwalker) | Bash | `git clone` and run the script | Extracted filesystem triage, secrets discovery |
+| **checksec** | [github.com/slimm609/checksec](https://github.com/slimm609/checksec) | Go | prebuilt binary or `go install` | Binary hardening flag inspection |
+| **BinSkim** | [github.com/microsoft/binskim](https://github.com/microsoft/binskim) | C# / .NET 8 | `dotnet tool install` | PE/ELF static security scanning, SARIF output |
+| **cwe_checker** | [github.com/fkie-cad/cwe_checker](https://github.com/fkie-cad/cwe_checker) | Rust (needs Ghidra) | `cargo install`, requires Ghidra install | Binary weakness pattern matching |
+| **EMBA** | [github.com/e-m-b-a/emba](https://github.com/e-m-b-a/emba) | Shell (heavy deps) | `./installer.sh`, needs root + Docker | End-to-end firmware analyzer |
+| **FACT Core** | [github.com/fkie-cad/FACT_core](https://github.com/fkie-cad/FACT_core) | Python + Docker | `./install/pre_install.sh`, Docker required | Firmware analysis platform with diffing |
+| **HardenCheck** | [github.com/V33RU/hardencheck](https://github.com/V33RU/hardencheck) | Python 3.10+ | `pip install -r requirements.txt` | Binary hardening, crypto audit, SBOM + VEX, SARIF |
+| **Firmadyne** | [github.com/firmadyne/firmadyne](https://github.com/firmadyne/firmadyne) | Shell + Python + qemu | requires qemu-system, PostgreSQL | Full-system firmware emulation |
+| **FAT** | [github.com/attify/firmware-analysis-toolkit](https://github.com/attify/firmware-analysis-toolkit) | Python (wraps Firmadyne) | Firmadyne prerequisites + FAT setup | Simplified firmware emulation wrapper |
+| **Ghidra** | [github.com/NationalSecurityAgency/ghidra](https://github.com/NationalSecurityAgency/ghidra) | Java 21+ | JDK 21, download release ZIP | Reverse engineering, decompilation |
+| **radare2** | [github.com/radareorg/radare2](https://github.com/radareorg/radare2) | C | `sys/install.sh` from source | CLI reverse engineering and patching |
+| **LIEF** | [github.com/lief-project/LIEF](https://github.com/lief-project/LIEF) | C++ / Python / Rust | `pip install lief` | Executable format library for custom checks |
+| **Trommel** | [github.com/CERTCC/trommel](https://github.com/CERTCC/trommel) | Python | `pip install`, archived but works | Alternate firmware filesystem scanner |
+| **Binbloom** | [github.com/quarkslab/binbloom](https://github.com/quarkslab/binbloom) | C | `make` from source | Raw firmware base-address and endianness detection |
+
+**System requirements by weight:**
+
+- **Lightweight (runs on any Linux VM, < 1 GB RAM):** binwalk, firmwalker, checksec, LIEF, Binbloom, Trommel, radare2
+- **Medium (needs 4-8 GB RAM, some dependencies):** cwe_checker (needs Ghidra), HardenCheck, BinSkim
+- **Heavy (needs Docker, PostgreSQL, qemu, 16+ GB RAM recommended):** EMBA, FACT Core, Firmadyne, FAT
+
+If you are setting up a dedicated analysis VM, allocate 32 GB RAM, 200 GB disk, Ubuntu 22.04 LTS, and install everything above. EMBA's installer alone pulls in several hundred packages. Give it room.
+
+If you are on a laptop and want the minimum, the lightweight tier plus HardenCheck covers 70% of what you actually need on a given assessment.
+
+---
+
 ### <span style="color: orange;">The Uncomfortable Truth About Firmware Security</span>
 
 Before tools: vendors ship terrible firmware. The industry has not improved much in a decade. What has improved is that we are better at finding the same classes of bugs faster.
