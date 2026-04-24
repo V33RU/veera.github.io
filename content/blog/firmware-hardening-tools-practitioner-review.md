@@ -217,25 +217,76 @@ A note on false positives. cwe_checker is static. It does not know if a `strcpy`
 
 ---
 
-### <span style="color: orange;">EMBA: The Full Pipeline I Use Even When I Do Not Want To</span>
+### <span style="color: orange;">EMBA: The Firmware Analysis Tool I Donate To</span>
 
-EMBA is a large shell script. It wraps binwalk, firmwalker, checksec, and about thirty other things, runs them in sequence, does CVE matching against extracted packages, and produces an HTML report.
+![EMBA sponsor](/blog/firmware-hardening/sponsor.png)
 
-I have a love-hate relationship with EMBA. The hate is that it is slow, it prints too much, the HTML reports are huge, and the false-positive rate on some checks (especially the script-analysis module) is high enough to be annoying.
+This one deserves a longer section because EMBA is genuinely the most complete open-source firmware analysis project out there and the team behind it has been shipping improvements for years. I am a donor to the project. That should tell you how much I rely on it.
 
-The love is that it produces an SBOM automatically and cross-references it against NVD. Doing this by hand is a day of work. EMBA does it in 40 minutes per firmware. Once you have the SBOM and the CVE hits, you have the bones of a real report.
+EMBA is a large shell orchestration pipeline. Underneath it wraps binwalk, firmwalker, checksec, cwe_checker, radare2, a rebuilt unblob pipeline, yara, nikto, a vulnerability matcher that queries against NVD locally, a kernel config analyzer, a bootloader analyzer, and about thirty other focused tools. The job EMBA does is orchestration done right: every tool runs in the right order, every output feeds into the next stage, and everything consolidates into a single navigable HTML report at the end.
 
-My actual usage pattern:
+What you get out of an EMBA run is enormous:
 
-1. Run EMBA with default profile against the firmware
-2. Go do something else for 40 minutes
-3. Come back, open the HTML report, jump to three sections: the SBOM, the CVE matches, and the cross-binary hardening matrix
-4. Ignore everything else in the report
-5. Cross-check the EMBA findings against my manual binwalk+firmwalker+checksec run (usually they match, occasionally EMBA finds something I missed)
+- Full extraction tree (binwalk, unblob, custom unpackers for vendor formats)
+- Filesystem triage (insecure permissions, setuid binaries, writable scripts on boot path)
+- Binary hardening matrix across every ELF
+- CWE-mapped static findings against vendor daemons
+- Automatic SBOM generation in CycloneDX and SPDX
+- Local CVE database matching against the SBOM components
+- Kernel version and kconfig hardening analysis
+- Credential discovery (weak shadow entries, plaintext tokens, SSH keys)
+- Certificate analysis with expiration tracking
+- Cryptography material inventory (which binaries use which libraries)
+- Web application surface mapping when a webroot is present
+- Optional emulation stage that boots the firmware in qemu for dynamic tests
 
-The firmware-specific CVE matching is where EMBA earns its disk space. It knows that a busybox 1.21 in the rootfs means CVE-2022-28391 and a handful of others probably apply. It knows the openssl 1.0.2 shipped in the firmware has the heartbleed lineage. It produces a prioritized list.
+The SBOM plus CVE matching alone would be worth the runtime. Doing this by hand is a full day per firmware. EMBA does it in the time it takes to drink a coffee and answer a few emails.
 
-**Compliance angle:** This is the CRA workhorse. If you have to demonstrate "vulnerability handling" in the CRA sense, an EMBA report is the best single artifact you can produce. It shows that you looked, that you generated an SBOM, that you cross-referenced against known vulnerabilities, and that you have a list of issues mapped to packages and versions. That is literally what the CRA Annex asks for.
+**My actual usage pattern:**
+
+1. Kick off EMBA with the default profile against the firmware
+2. Go work on something else for 40 to 90 minutes depending on firmware size and host CPU
+3. Come back, open the HTML report, jump first to the SBOM, then to the CVE matches, then to the cross-binary hardening matrix
+4. Pull every high/critical CVE into my findings spreadsheet
+5. Pull every "no canary, no PIE, no RELRO" binary into the "review manually in Ghidra" queue
+6. Check the credential discovery section for anything firmwalker might have missed
+7. Cross-check against my manual run to make sure nothing slipped (occasionally EMBA finds something I missed, which is exactly why I run it)
+
+Command for a first full run:
+
+```bash
+sudo ./emba -f firmware.bin -l ./logs/fw_assessment -p ./scan-profiles/default-scan.emba
+```
+
+Use `-p default-scan-no-notify.emba` if you want the complete run without the summary notifications. Use `-p quick-scan.emba` if you need a fast triage instead of full coverage. The profile files in the repo are worth reading because they tell you exactly which modules are gated on which options.
+
+**Hardware warning: read this before you kick it off**
+
+Here is something the EMBA documentation underplays. **EMBA is not laptop-friendly for real runs.** It will run on a laptop, but the experience is rough.
+
+Why it is rough on a laptop:
+
+- It pins multiple CPU cores at 100% for the entire run, often 40 to 90 minutes
+- It generates tens of gigabytes of intermediate extraction data on disk
+- It pulls large datasets (NVD mirror, kernel config fragments, YARA rule sets)
+- The CVE matching stage is memory-heavy if the SBOM has hundreds of components
+- The emulation stage pushes RAM into the 8+ GB range per emulated firmware
+
+A laptop will thermal throttle within 10 minutes, the fan will sound like a hair dryer, the battery drops faster than it charges, and the whole run stretches to twice the duration because the CPU is being throttled to save the silicon. I have killed more than one laptop battery cycle to EMBA runs.
+
+**Recommended setup:** a desktop or workstation with at least 8 physical cores, 32 GB RAM, an SSD with 200 GB free, and a decent cooler. If that sounds like overkill for "just running a script," remember EMBA is running 30 tools in parallel across every binary in a filesystem that might contain 500 ELFs. It is using every core you give it. Give it the cores.
+
+**If you must use a laptop:** plug into wall power, make sure the thermals are cleaned out, run on a hard surface (not in bed or on a couch cushion), and start with the quick-scan profile first to gauge heat behavior before committing to a default-scan run. An external USB 3 SSD helps with the intermediate data.
+
+If you assess firmware often, the one-time cost of a dedicated analysis PC pays for itself in the first month. Your laptop will thank you. Your eardrums will thank you.
+
+**Why this tool deserves support:**
+
+I want to be explicit about this. EMBA is maintained by a small team doing a disproportionate amount of work for the community. The project is GPL-3.0, actively developed, and they respond to issues. When a new firmware format or vendor quirk appears, they ship extractors. When a new CVE dataset changes format, they adapt the matcher. When the CRA requirements firmed up, they added the SBOM outputs in formats auditors ask for.
+
+This is the kind of open-source project where donating or sponsoring is directly buying more maintenance time for a thing you use. I donate. If you use EMBA in your professional work and your company benefits from it, donating a fraction of one billable hour a month is reasonable math. The GitHub Sponsors page on the EMBA repo accepts contributions. The project has a GitHub Sponsors button and also accepts other forms of support listed in the repo.
+
+**Compliance angle:** EMBA is the CRA workhorse. If you have to demonstrate "vulnerability handling" in the CRA sense, an EMBA report is the best single artifact you can produce. It shows that you looked, that you generated an SBOM, that you cross-referenced against known vulnerabilities, and that you have a list of issues mapped to packages and versions. That is literally what the CRA Annex asks for. Paired with HardenCheck's VEX output for per-CVE triage, you have the full "what did we ship, what are the knowns, how did we handle them" story that an auditor wants to see.
 
 ---
 
