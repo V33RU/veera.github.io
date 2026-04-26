@@ -4,10 +4,46 @@ import TypingText from "@/components/TypingText";
 import SilkscreenLabel from "@/components/SilkscreenLabel";
 import { projects, domains, publications } from "@/data/projects";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, GraduationCap, Ticket, Mail, Coffee } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
+const MENTORSHIP_EMAIL = "iotsrg1@gmail.com";
+const SPONSORSHIP_EMAIL = "iotsrg1@gmail.com";
+
+const mentorshipMailto = `mailto:${MENTORSHIP_EMAIL}?subject=${encodeURIComponent("IoT Security Mentorship Request")}&body=${encodeURIComponent(
+  "Hi Veera,\n\n" +
+  "Please include the following in your email:\n\n" +
+  "1. Full name and country\n" +
+  "2. Background (student / self-taught / working pro / researcher)\n" +
+  "3. Current experience level (absolute beginner / basics / hardware-curious / hardware-comfortable / pro / researcher)\n" +
+  "4. Topics you want to focus on (firmware RE, BLE, fault injection, secure boot, RF, etc.)\n" +
+  "5. Specific 3-6 month goal (be concrete: 'find first CVE', 'understand UART well enough to brick less hardware', 'get a job in IoT security')\n" +
+  "6. Realistic weekly time commitment (hours per week)\n" +
+  "7. Public work / links (GitHub, blog, writeups, CTF profile)\n" +
+  "8. Why mentorship from me specifically\n\n" +
+  "Replace the lines above with your actual answers and send.\n\n" +
+  "Thanks."
+)}`;
+
+const sponsorshipMailto = `mailto:${SPONSORSHIP_EMAIL}?subject=${encodeURIComponent("Conference Sponsorship Request")}&body=${encodeURIComponent(
+  "Hi Veera,\n\n" +
+  "Please include the following in your email:\n\n" +
+  "1. Full name, country, background (student / self-taught / pro / researcher)\n" +
+  "2. Conference name, URL, and dates\n" +
+  "3. Your research / work so far (CTFs, CVEs, blogs, tools, talks, bug bounty, hardware projects). Be specific.\n" +
+  "4. What help you need (ticket only, training pass, travel, accommodation, visa support letter, or all)\n" +
+  "5. Why you need sponsorship (why this conference matters to you, are you presenting, what changes after attending, why you can't self-fund)\n" +
+  "6. What you will give back (writeup, talk recap, open source release, mentoring others, etc.)\n" +
+  "7. Public work / links (GitHub, Twitter, blog, CTF profile, talk recordings)\n\n" +
+  "Replace the lines above with your actual answers and send.\n\n" +
+  "Thanks."
+)}`;
 
 const Home = () => {
   const [showContent, setShowContent] = useState(false);
+  const [mentorshipOpen, setMentorshipOpen] = useState(false);
+  const [sponsorshipOpen, setSponsorshipOpen] = useState(false);
+  const [coffeeOpen, setCoffeeOpen] = useState(false);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 crt-flicker">
@@ -54,18 +90,21 @@ const Home = () => {
             <div className="flex flex-col md:flex-row gap-8 items-start">
               {/* Net labels */}
               <div className="space-y-1 flex-1">
-                {[
+                {([
                   { label: "X", url: "https://x.com/v33riot", netColor: "hsl(0 70% 55%)" },
                   { label: "LINKEDIN", url: "https://www.linkedin.com/in/veeraiot", netColor: "hsl(220 70% 55%)" },
                   { label: "GITHUB", url: "https://github.com/v33ru", netColor: "hsl(120 50% 45%)" },
                   { label: "MEDIUM", url: "https://medium.com/@veerababupenugonda", netColor: "hsl(45 90% 55%)" },
-                  { label: "COFFEE", url: "https://buymeacoffee.com/v33ru", netColor: "hsl(280 60% 55%)" },
-                ].map((link, i) => (
+                  { label: "COFFEE", onClick: () => setCoffeeOpen(true), netColor: "hsl(280 60% 55%)" },
+                  { label: "MENTORSHIP", onClick: () => setMentorshipOpen(true), netColor: "hsl(170 70% 45%)" },
+                  { label: "CONFERENCE", onClick: () => setSponsorshipOpen(true), netColor: "hsl(35 90% 55%)" },
+                ] as Array<{ label: string; netColor: string; url?: string; onClick?: () => void }>).map((link, i) => (
                   <motion.a
                     key={link.label}
                     href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    onClick={link.onClick ? (e) => { e.preventDefault(); link.onClick!(); } : undefined}
+                    target={link.url ? "_blank" : undefined}
+                    rel={link.url ? "noopener noreferrer" : undefined}
                     initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 + i * 0.08 }}
@@ -160,6 +199,120 @@ const Home = () => {
           </motion.section>
         )}
       </AnimatePresence>
+
+      {/* Mentorship dialog */}
+      <Dialog open={mentorshipOpen} onOpenChange={setMentorshipOpen}>
+        <DialogContent className="max-w-xl bg-card border-border">
+          <DialogHeader>
+            <DialogTitle className="text-primary flex items-center gap-2">
+              <GraduationCap size={20} />
+              IoT Security Mentorship
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              I mentor a small number of people each cycle who are serious about IoT and hardware security. Drop me an email with the details below and I will read it personally.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="text-muted-foreground text-xs space-y-1">
+            <p className="text-foreground/80 font-medium">Include in your email:</p>
+            <ul className="list-disc list-inside space-y-0.5 pl-1">
+              <li>Name, country, background (student / self-taught / pro / researcher)</li>
+              <li>Current experience level with security and hardware</li>
+              <li>Topics you want to focus on (firmware RE, BLE, fault injection, secure boot, RF...)</li>
+              <li>Specific 3-6 month goal, be concrete</li>
+              <li>Realistic weekly time commitment</li>
+              <li>Public work links (GitHub, blog, writeups, CTF profile)</li>
+              <li>Why mentorship from me specifically</li>
+            </ul>
+          </div>
+          <a
+            href={mentorshipMailto}
+            className="group inline-flex items-center gap-3 px-5 py-3 rounded border border-primary/40 bg-primary/5 hover:bg-primary/15 hover:border-primary transition-all self-start"
+          >
+            <GraduationCap size={18} className="text-primary" />
+            <span className="text-foreground font-medium text-sm">Email Mentorship Request</span>
+            <Mail size={14} className="text-primary/60 group-hover:text-primary transition-colors" />
+          </a>
+          <p className="text-[10px] text-muted-foreground/60">
+            Opens your email client with a pre-filled template to {MENTORSHIP_EMAIL}.
+          </p>
+        </DialogContent>
+      </Dialog>
+
+      {/* Coffee / Support dialog */}
+      <Dialog open={coffeeOpen} onOpenChange={setCoffeeOpen}>
+        <DialogContent className="max-w-xl bg-card border-border">
+          <DialogHeader>
+            <DialogTitle className="text-primary flex items-center gap-2">
+              <Coffee size={20} />
+              Support the Work
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Everything on this site is free and stays free. If it has helped you, fueling the next round of work is the cleanest way to give back.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="text-muted-foreground text-xs space-y-1">
+            <p className="text-foreground/80 font-medium">Your support directly funds:</p>
+            <ul className="list-disc list-inside space-y-0.5 pl-1">
+              <li>Hosting and travel for IoT and hardware security <span className="text-foreground/80">meetups</span> in India</li>
+              <li>Buying target hardware to tear down for new <span className="text-foreground/80">deep technical blogs</span></li>
+              <li>Lab gear (logic analyzers, glitchers, SDRs, dev kits) for original research</li>
+              <li>Time to write longer-form <span className="text-foreground/80">publications</span> in Hakin9, PenTest Magazine, and similar outlets</li>
+              <li>Open source tools released for the community (HardenCheck, etc.)</li>
+            </ul>
+          </div>
+          <a
+            href="https://buymeacoffee.com/v33ru"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-5 py-3 rounded border border-primary/40 bg-primary/5 hover:bg-primary/15 hover:border-primary transition-all self-start"
+          >
+            <Coffee size={18} className="text-primary" />
+            <span className="text-foreground font-medium text-sm">Buy Me a Coffee</span>
+            <ExternalLink size={14} className="text-primary/60 group-hover:text-primary transition-colors" />
+          </a>
+          <p className="text-[10px] text-muted-foreground/60">
+            Opens buymeacoffee.com/v33ru in a new tab. Any amount helps. No subscription pressure.
+          </p>
+        </DialogContent>
+      </Dialog>
+
+      {/* Conference Sponsorship dialog */}
+      <Dialog open={sponsorshipOpen} onOpenChange={setSponsorshipOpen}>
+        <DialogContent className="max-w-xl bg-card border-border">
+          <DialogHeader>
+            <DialogTitle className="text-primary flex items-center gap-2">
+              <Ticket size={20} />
+              Conference Sponsorship
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Need sponsorship to attend or present at a security conference? Drop me an email with the details below and I will review it personally.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="text-muted-foreground text-xs space-y-1">
+            <p className="text-foreground/80 font-medium">Include in your email:</p>
+            <ul className="list-disc list-inside space-y-0.5 pl-1">
+              <li>Name, country, background</li>
+              <li>Conference name, URL, and dates</li>
+              <li>Your research / work so far (CTFs, CVEs, blogs, tools, talks, bug bounty, hardware projects). Be specific.</li>
+              <li>What help you need (ticket / training pass / travel / accommodation / visa letter)</li>
+              <li>Why you need sponsorship and why this conference matters to you</li>
+              <li>What you will give back (writeup, talk recap, open source release, mentoring)</li>
+              <li>Public work links (GitHub, Twitter, blog, CTF profile)</li>
+            </ul>
+          </div>
+          <a
+            href={sponsorshipMailto}
+            className="group inline-flex items-center gap-3 px-5 py-3 rounded border border-primary/40 bg-primary/5 hover:bg-primary/15 hover:border-primary transition-all self-start"
+          >
+            <Ticket size={18} className="text-primary" />
+            <span className="text-foreground font-medium text-sm">Email Sponsorship Request</span>
+            <Mail size={14} className="text-primary/60 group-hover:text-primary transition-colors" />
+          </a>
+          <p className="text-[10px] text-muted-foreground/60">
+            Opens your email client with a pre-filled template to {SPONSORSHIP_EMAIL}.
+          </p>
+        </DialogContent>
+      </Dialog>
 
       {/* Projects */}
       {showContent && (
