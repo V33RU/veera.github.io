@@ -296,7 +296,6 @@ const Home = () => {
               <li>Your research / work so far (CTFs, CVEs, blogs, tools, talks, bug bounty, hardware projects). Be specific.</li>
               <li>What help you need (ticket / training pass / travel / accommodation / visa letter)</li>
               <li>Why you need sponsorship and why this conference matters to you</li>
-              <li>What you will give back (writeup, talk recap, open source release, mentoring)</li>
               <li>Public work links (GitHub, Twitter, blog, CTF profile)</li>
             </ul>
           </div>
