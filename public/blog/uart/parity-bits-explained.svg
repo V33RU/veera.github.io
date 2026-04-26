@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" font-family="'JetBrains Mono','IBM Plex Mono',monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1410"/>
+      <stop offset="100%" stop-color="#0d0a08"/>
+    </linearGradient>
+    <linearGradient id="bitOne" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffb347"/>
+      <stop offset="100%" stop-color="#e08a1f"/>
+    </linearGradient>
+    <linearGradient id="bitZero" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a1f18"/>
+      <stop offset="100%" stop-color="#1a1410"/>
+    </linearGradient>
+    <linearGradient id="parity" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#c73e3e"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ffb347"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="820" fill="url(#bg)"/>
+
+  <!-- title -->
+  <text x="40" y="55" font-size="28" font-weight="700" fill="#ffb347" filter="url(#glow)">PARITY BITS</text>
+  <text x="40" y="82" font-size="14" fill="#a89b8c">the 1-bit error detector bolted onto UART since 1962</text>
+  <line x1="40" y1="98" x2="1060" y2="98" stroke="#ffb347" stroke-opacity="0.3" stroke-width="1"/>
+
+  <!-- left column: concept -->
+  <text x="40" y="135" font-size="16" font-weight="700" fill="#ffb347">01 / THE IDEA</text>
+  <text x="40" y="160" font-size="12" fill="#d4c9b8">Count the number of 1-bits in the data.</text>
+  <text x="40" y="178" font-size="12" fill="#d4c9b8">Append one extra bit to make that count</text>
+  <text x="40" y="196" font-size="12" fill="#d4c9b8">match an agreed rule. Receiver recomputes.</text>
+  <text x="40" y="214" font-size="12" fill="#d4c9b8">Mismatch = line glitched at least 1 bit.</text>
+
+  <!-- modes -->
+  <text x="40" y="255" font-size="16" font-weight="700" fill="#ffb347">02 / THE FIVE MODES</text>
+  <g font-size="12" fill="#d4c9b8">
+    <rect x="40" y="270" width="420" height="26" fill="#2a1f18" stroke="#ffb347" stroke-opacity="0.4"/>
+    <text x="52" y="288"><tspan fill="#ffb347" font-weight="700">EVEN</tspan>  total 1s including parity is EVEN</text>
+    <rect x="40" y="300" width="420" height="26" fill="#2a1f18" stroke="#ffb347" stroke-opacity="0.4"/>
+    <text x="52" y="318"><tspan fill="#ffb347" font-weight="700">ODD</tspan>   total 1s including parity is ODD</text>
+    <rect x="40" y="330" width="420" height="26" fill="#2a1f18" stroke="#ffb347" stroke-opacity="0.4"/>
+    <text x="52" y="348"><tspan fill="#ffb347" font-weight="700">MARK</tspan>  parity bit is always 1 (sticky)</text>
+    <rect x="40" y="360" width="420" height="26" fill="#2a1f18" stroke="#ffb347" stroke-opacity="0.4"/>
+    <text x="52" y="378"><tspan fill="#ffb347" font-weight="700">SPACE</tspan> parity bit is always 0 (sticky)</text>
+    <rect x="40" y="390" width="420" height="26" fill="#2a1f18" stroke="#ffb347" stroke-opacity="0.4"/>
+    <text x="52" y="408"><tspan fill="#ffb347" font-weight="700">NONE</tspan>  no parity bit transmitted</text>
+  </g>
+
+  <!-- right column: worked example -->
+  <text x="500" y="135" font-size="16" font-weight="700" fill="#ffb347">03 / WORKED EXAMPLE</text>
+  <text x="500" y="158" font-size="12" fill="#a89b8c">data byte = 0x41 ('A') = binary 0100 0001</text>
+  <text x="500" y="176" font-size="12" fill="#a89b8c">count of 1-bits in data = 2</text>
+
+  <!-- frame diagram -->
+  <g transform="translate(500,200)">
+    <!-- labels row -->
+    <g font-size="10" fill="#8a7e6e" text-anchor="middle">
+      <text x="25" y="0">start</text>
+      <text x="65" y="0">b0</text>
+      <text x="105" y="0">b1</text>
+      <text x="145" y="0">b2</text>
+      <text x="185" y="0">b3</text>
+      <text x="225" y="0">b4</text>
+      <text x="265" y="0">b5</text>
+      <text x="305" y="0">b6</text>
+      <text x="345" y="0">b7</text>
+      <text x="390" y="0" fill="#ff6b6b" font-weight="700">parity</text>
+      <text x="435" y="0">stop</text>
+    </g>
+    <!-- bit cells: 0x41 LSB first = 1,0,0,0,0,0,1,0 -->
+    <g>
+      <rect x="10" y="10" width="30" height="40" fill="url(#bitZero)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="25" y="36" font-size="14" fill="#ffb347" text-anchor="middle" font-weight="700">0</text>
+      <rect x="50" y="10" width="30" height="40" fill="url(#bitOne)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="65" y="36" font-size="14" fill="#0d0a08" text-anchor="middle" font-weight="700">1</text>
+      <rect x="90" y="10" width="30" height="40" fill="url(#bitZero)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="105" y="36" font-size="14" fill="#ffb347" text-anchor="middle" font-weight="700">0</text>
+      <rect x="130" y="10" width="30" height="40" fill="url(#bitZero)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="145" y="36" font-size="14" fill="#ffb347" text-anchor="middle" font-weight="700">0</text>
+      <rect x="170" y="10" width="30" height="40" fill="url(#bitZero)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="185" y="36" font-size="14" fill="#ffb347" text-anchor="middle" font-weight="700">0</text>
+      <rect x="210" y="10" width="30" height="40" fill="url(#bitZero)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="225" y="36" font-size="14" fill="#ffb347" text-anchor="middle" font-weight="700">0</text>
+      <rect x="250" y="10" width="30" height="40" fill="url(#bitZero)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="265" y="36" font-size="14" fill="#ffb347" text-anchor="middle" font-weight="700">0</text>
+      <rect x="290" y="10" width="30" height="40" fill="url(#bitOne)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="305" y="36" font-size="14" fill="#0d0a08" text-anchor="middle" font-weight="700">1</text>
+      <rect x="330" y="10" width="30" height="40" fill="url(#bitZero)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="345" y="36" font-size="14" fill="#ffb347" text-anchor="middle" font-weight="700">0</text>
+      <!-- parity cell -->
+      <rect x="375" y="10" width="30" height="40" fill="url(#parity)" stroke="#ff6b6b" filter="url(#glow)"/>
+      <text x="390" y="36" font-size="14" fill="#0d0a08" text-anchor="middle" font-weight="700">?</text>
+      <rect x="420" y="10" width="30" height="40" fill="url(#bitZero)" stroke="#ffb347" stroke-opacity="0.6"/>
+      <text x="435" y="36" font-size="14" fill="#ffb347" text-anchor="middle" font-weight="700">1</text>
+    </g>
+    <!-- bit position labels below -->
+    <g font-size="9" fill="#5a5040" text-anchor="middle">
+      <text x="25" y="68">LOW</text>
+      <text x="225" y="68">LSB first</text>
+      <text x="435" y="68">HIGH</text>
+    </g>
+  </g>
+
+  <!-- parity decision box -->
+  <g transform="translate(500,300)">
+    <rect x="0" y="0" width="540" height="130" fill="#1a1410" stroke="#ff6b6b" stroke-opacity="0.4"/>
+    <text x="15" y="22" font-size="12" font-weight="700" fill="#ff6b6b">PARITY DECISION FOR 0x41 (data has 2 ones)</text>
+    <g font-size="11" fill="#d4c9b8">
+      <text x="15" y="46"><tspan fill="#ffb347">EVEN parity</tspan> → total must be EVEN → already 2 → append <tspan fill="#ff6b6b" font-weight="700">0</tspan></text>
+      <text x="15" y="66"><tspan fill="#ffb347">ODD  parity</tspan> → total must be ODD  → need +1 → append <tspan fill="#ff6b6b" font-weight="700">1</tspan></text>
+      <text x="15" y="86"><tspan fill="#ffb347">MARK</tspan>        → always → append <tspan fill="#ff6b6b" font-weight="700">1</tspan></text>
+      <text x="15" y="106"><tspan fill="#ffb347">SPACE</tspan>       → always → append <tspan fill="#ff6b6b" font-weight="700">0</tspan></text>
+    </g>
+  </g>
+
+  <!-- receiver side -->
+  <text x="40" y="470" font-size="16" font-weight="700" fill="#ffb347">04 / RECEIVER LOGIC</text>
+  <g transform="translate(40,485)" font-size="11" fill="#d4c9b8">
+    <text x="0" y="18">1. sample 8 data bits into shift register</text>
+    <text x="0" y="36">2. XOR-reduce the data bits → p_calc</text>
+    <text x="0" y="54">3. sample the parity-position bit → p_rx</text>
+    <text x="0" y="72">4. compare against mode:</text>
+    <text x="20" y="90" fill="#ffb347">EVEN  : error if (p_calc XOR p_rx) != 0</text>
+    <text x="20" y="108" fill="#ffb347">ODD   : error if (p_calc XOR p_rx) != 1</text>
+    <text x="20" y="126" fill="#ffb347">MARK  : error if p_rx != 1</text>
+    <text x="20" y="144" fill="#ffb347">SPACE : error if p_rx != 0</text>
+    <text x="0" y="164">5. raise PE (parity error) in status register</text>
+  </g>
+
+  <!-- what it catches / what it misses -->
+  <text x="500" y="470" font-size="16" font-weight="700" fill="#ffb347">05 / WHAT IT CATCHES, WHAT IT MISSES</text>
+  <g transform="translate(500,485)">
+    <rect x="0" y="0" width="260" height="170" fill="#0d2a0d" stroke="#4ade80" stroke-opacity="0.4"/>
+    <text x="10" y="20" font-size="12" font-weight="700" fill="#4ade80">CATCHES</text>
+    <g font-size="11" fill="#a8d8a8">
+      <text x="10" y="42">any single bit flip</text>
+      <text x="10" y="60">any odd number of bit flips</text>
+      <text x="10" y="78">framing glitch that</text>
+      <text x="10" y="94">flips exactly 1 bit</text>
+      <text x="10" y="118">detection probability:</text>
+      <text x="10" y="136" fill="#4ade80" font-weight="700">50% for random noise</text>
+      <text x="10" y="154" fill="#4ade80" font-weight="700">100% for single-bit</text>
+    </g>
+    <rect x="280" y="0" width="260" height="170" fill="#2a0d0d" stroke="#ff6b6b" stroke-opacity="0.4"/>
+    <text x="290" y="20" font-size="12" font-weight="700" fill="#ff6b6b">MISSES</text>
+    <g font-size="11" fill="#d8a8a8">
+      <text x="290" y="42">any even number of bit flips</text>
+      <text x="290" y="60">burst errors (2, 4, 6...)</text>
+      <text x="290" y="78">malicious mutations that</text>
+      <text x="290" y="96">flip pairs of bits</text>
+      <text x="290" y="118">cannot correct, only detect</text>
+      <text x="290" y="136">no location information</text>
+      <text x="290" y="154" fill="#ff6b6b" font-weight="700">weak by modern standards</text>
+    </g>
+  </g>
+
+  <!-- attacker angle -->
+  <g transform="translate(40,685)">
+    <rect x="0" y="0" width="1020" height="110" fill="#1a1410" stroke="#ffb347" stroke-opacity="0.5"/>
+    <text x="15" y="22" font-size="14" font-weight="700" fill="#ffb347">06 / ATTACKER ANGLE</text>
+    <g font-size="11" fill="#d4c9b8">
+      <text x="15" y="44">• wrong parity setting is the #1 reason a correctly-bauded UART still shows garbage every second byte</text>
+      <text x="15" y="62">• a parity error generates an IRQ without delivering the byte → useful for triggering kernel error paths without input reaching userland</text>
+      <text x="15" y="80">• IGNPAR off on Linux → bad-parity bytes delivered as 0xFF marker → inject specific byte values by crafting parity deliberately</text>
+      <text x="15" y="98">• glitching the line during the parity bit sample can flip PE flag without flipping data bits → desync the receiver invisibly</text>
+    </g>
+  </g>
+</svg>
