@@ -31,7 +31,7 @@ const sponsorshipMailto = `mailto:${SPONSORSHIP_EMAIL}?subject=${encodeURICompon
   "1. Full name, country, background (student / self-taught / pro / researcher)\n" +
   "2. Conference name, URL, and dates\n" +
   "3. Your research / work so far (CTFs, CVEs, blogs, tools, talks, bug bounty, hardware projects). Be specific.\n" +
-  "4. What help you need (ticket only)\n" +
+  "4. What help you need (tickets only)\n" +
   "5. Why you need sponsorship (why this conference matters to you, are you presenting, what changes after attending, why you can't self-fund)\n" +
   "6. What you will give back (writeup, talk recap, open source release, mentoring others, etc.)\n" +
   "7. Public work / links (GitHub, Twitter, blog, CTF profile, talk recordings)\n\n" +
