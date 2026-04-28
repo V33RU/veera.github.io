@@ -124,7 +124,7 @@ const BlogPostPage = () => {
                 <td className="border-b border-border/40 px-4 py-2 text-muted-foreground text-sm">{children}</td>
               ),
               img: ({ src, alt }) => (
-                <figure className="my-6">
+                <figure className="my-6 flex flex-col items-center">
                   <img src={src} alt={alt || ""} className="rounded border border-border max-w-full" loading="lazy" />
                   {alt && <figcaption className="text-xs text-muted-foreground/60 mt-2 text-center">{alt}</figcaption>}
                 </figure>
