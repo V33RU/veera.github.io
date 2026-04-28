@@ -5,6 +5,10 @@ description: "A comprehensive security analysis of a Bluetooth Low Energy smart 
 tags: ["ble", "bluetooth", "smart-lock", "iot-security", "reverse-engineering", "vulnerability-research"]
 ---
 
+> **Note:** This lock has been pentested by many researchers before me. I'm not claiming new vulnerability discovery here — this writeup exists for detailed protocol-level analysis that goes beyond just "it's vulnerable." If you want to understand *why* it breaks, *how* the GATT profile works, and *how to build* an assessment framework around it, this is for you.
+
+---
+
 A Deep Dive into Bluetooth Low Energy Security Research
 
 ## Executive Summary
