@@ -21,7 +21,7 @@ Binwalk is a firmware analysis tool that allows users to identify, extract, and 
 |-------------------------|--------------------------------|---------------------------------|-----------------------------------|
 | **Release Year**        | 2010                           | 2021                            | 2023 (unstable/experimental)     |
 | **Signature Matching**  | Basic magic signature matching | Improved signature database     | Smart matching with confidence     |
-| **Performance**         | Slower analysis                | Multi-core processing           | Up to 70x faster                   |
+| **Performance**         | Slower analysis                | Multi-core processing           | Significantly faster on large firmware                   |
 | **Output Format**       | Standard text output           | Standard text output            | JSON output support                |
 | **Platform Support**    | Limited to Linux               | Limited to Linux                | 64-bit Linux only                  |
 | **Entropy Analysis**     | Not available                  | Basic entropy analysis          | Enhanced entropy graphs            |
