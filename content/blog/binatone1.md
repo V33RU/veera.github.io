@@ -1,6 +1,6 @@
 ---
 title: "Dumping Firmware with Bus Pirate v3.6 via USB"
-date: "2021-06-19"
+date: "2017-07-06"
 description: "The Bus Pirate v3.6a, a crucial tool for troubleshooting and communication between a PC and various embedded devices over multiple protocols. This guide focuses on using the Bus Pirate to dump firmware from embedded devices, vital for reverse engineering and security analysis."
 tags: ["buspirate", "firmware dumping"]
 ---
