@@ -1,6 +1,6 @@
 ---
 title: "Bus Pirate Firmware Update: Complete Hands-On Guide"
-date: "2026-04-28"
+date: "2021-06-19"
 tags: ["hardware", "firmware", "bus-pirate", "debugging", "serial-programming"]
 ---
 
