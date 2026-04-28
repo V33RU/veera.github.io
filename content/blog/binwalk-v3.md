@@ -2,7 +2,7 @@
 title: "Step Up Your Firmware Game with Binwalk v3: Features and Tips"
 date: "2024-09-25"
 description: "Unlock the full potential of Binwalk v3, the latest version of the leading firmware analysis tool. This post highlights key features, enhanced extraction techniques, and tips to improve your reverse engineering skills."
-tags: ["binwalk", "firmware reversing", "firmware ectraction", "reverse engineering"]
+tags: ["binwalk", "firmware reversing", "firmware extraction", "reverse engineering"]
 ---
 
 Binwalk v3 (https://github.com/ReFirmLabs/binwalk) is the latest version of the powerful firmware analysis tool widely used by security researchers, reverse engineers, and embedded systems developers. It provides advanced features for extracting, analyzing, and exploring firmware images, making it a go-to solution for anyone working with embedded device security. This guide will highlight the key features of Binwalk v3 and offer practical tips to maximize its potential.
