@@ -11,7 +11,7 @@ tags: ["IoT security", "policy", "regulation", "DMCA", "ETSI", "CRA", "vulnerabi
 
 ### <span style="color: orange;">The Research You Are Not Allowed to Do</span>
 
-Before we talk about policy, understand the legal landscape that security researchers operate in.
+Before I talk about policy, understand the legal landscape that security researchers operate in.
 
 #### DMCA Section 1201: The Anti-Circumvention Clause
 

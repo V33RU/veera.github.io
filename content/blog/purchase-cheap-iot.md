@@ -24,7 +24,7 @@ tags: ["IoT pentesting", "gadgets", "hardware"]
 
 
 
-Note : for **UART/JTAG/SPI/I2C**  - we can use [FT232H](https://www.adafruit.com/product/2264) hardware debugger instead of the buspirate and UART CABLE
+Note : for **UART/JTAG/SPI/I2C**  - I can use [FT232H](https://www.adafruit.com/product/2264) hardware debugger instead of the buspirate and UART CABLE
 
 Link : https://github.com/IoT-PTv/IoT-Security101-Kit-Roughly-costing-110USD
 

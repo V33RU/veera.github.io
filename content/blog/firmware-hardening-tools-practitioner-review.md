@@ -55,7 +55,7 @@ If you are on a laptop and want the minimum, the lightweight tier plus HardenChe
 
 ### <span style="color: orange;">The Uncomfortable Truth About Firmware Security</span>
 
-Before tools: vendors ship terrible firmware. The industry has not improved much in a decade. What has improved is that we are better at finding the same classes of bugs faster.
+Before tools: vendors ship terrible firmware. The industry has not improved much in a decade. What has improved is that I am better at finding the same classes of bugs faster.
 
 Here is what keeps being true across assessments:
 
@@ -213,7 +213,7 @@ find . -name '*.cwe.json' -exec jq -r \
 
 A note on false positives. cwe_checker is static. It does not know if a `strcpy` call is reachable from user input. So you get a list of "places that use strcpy" and most of them are safe because the source buffer is bounded by the program logic. Your job is to triage. But the list is finite and sorted, and the handful that are exploitable are real bugs you would have missed manually.
 
-**Compliance angle:** The CRA's Annex I talks about "protection from unauthorized access" and "security by design." CWE mapping is the direct industry-standard way to demonstrate you looked for known weakness classes. If you produce a report that says "we ran cwe_checker against all shipped binaries and here are the findings and here are the mitigations," that is an audit artifact. It is a strong one. I have never had an auditor reject a CWE-mapped report.
+**Compliance angle:** The CRA's Annex I talks about "protection from unauthorized access" and "security by design." CWE mapping is the direct industry-standard way to demonstrate you looked for known weakness classes. If you produce a report that says "I ran cwe_checker against all shipped binaries, here are the findings and here are the mitigations," that is an audit artifact. It is a strong one. I have never had an auditor reject a CWE-mapped report.
 
 ---
 
@@ -286,7 +286,7 @@ I want to be explicit about this. EMBA is maintained by a small team doing a dis
 
 This is the kind of open-source project where donating or sponsoring is directly buying more maintenance time for a thing you use. I donate. If you use EMBA in your professional work and your company benefits from it, donating a fraction of one billable hour a month is reasonable math. The GitHub Sponsors page on the EMBA repo accepts contributions. The project has a GitHub Sponsors button and also accepts other forms of support listed in the repo.
 
-**Compliance angle:** EMBA is the CRA workhorse. If you have to demonstrate "vulnerability handling" in the CRA sense, an EMBA report is the best single artifact you can produce. It shows that you looked, that you generated an SBOM, that you cross-referenced against known vulnerabilities, and that you have a list of issues mapped to packages and versions. That is literally what the CRA Annex asks for. Paired with HardenCheck's VEX output for per-CVE triage, you have the full "what did we ship, what are the knowns, how did we handle them" story that an auditor wants to see.
+**Compliance angle:** EMBA is the CRA workhorse. If you have to demonstrate "vulnerability handling" in the CRA sense, an EMBA report is the best single artifact you can produce. It shows that you looked, that you generated an SBOM, that you cross-referenced against known vulnerabilities, and that you have a list of issues mapped to packages and versions. That is literally what the CRA Annex asks for. Paired with HardenCheck's VEX output for per-CVE triage, you have the full "what did I ship, what are the knowns, how did I handle them" story that an auditor wants to see.
 
 ---
 

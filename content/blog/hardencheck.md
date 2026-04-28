@@ -41,7 +41,7 @@ These aren't obscure embedded devices in a lab. These are enterprise-grade netwo
 
 ### <span style="color: orange;">What "Hardened" Actually Means at the Binary Level</span>
 
-When we say a binary is "hardened," we're talking about a specific set of compile-time and link-time mitigations that make exploitation meaningfully harder. Each one closes a specific attack primitive:
+When I say a binary is "hardened," I'm talking about a specific set of compile-time and link-time mitigations that make exploitation meaningfully harder. Each one closes a specific attack primitive:
 
 #### NX (No-Execute Stack)
 
@@ -338,7 +338,7 @@ Each component has a version. Each version may have known CVEs. But without a **
 
 When Log4Shell (CVE-2021-44228) was disclosed, organizations scrambled to answer a simple question: "Where are we using Log4j?" Many couldn't answer for weeks.
 
-Now apply that to firmware. When the next OpenSSL vulnerability drops (and it will), can you answer: "Which of our firmware images contain the affected version?" Without an SBOM - no.
+Now apply that to firmware. When the next OpenSSL vulnerability drops (and it will), can you answer: "Which of my firmware images contain the affected version?" Without an SBOM - no.
 
 #### What a Firmware SBOM Must Contain
 

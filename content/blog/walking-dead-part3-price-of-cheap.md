@@ -5,7 +5,7 @@ description: "The $15 camera is a $15 attack vector. The supply chain that produ
 tags: ["IoT security", "supply chain", "economics", "SCADA", "critical infrastructure", "botnet", "IOTSRG"]
 ---
 
-*The $15 camera is a $15 attack vector. The supply chain that produced it has 14 layers of abstraction between a security vulnerability and anyone who can fix it. We are wiring critical infrastructure with components whose provenance we cannot verify and whose security we cannot audit.*
+*The $15 camera is a $15 attack vector. The supply chain that produced it has 14 layers of abstraction between a security vulnerability and anyone who can fix it. The industry is wiring critical infrastructure with components whose provenance cannot be verified and whose security cannot be audited.*
 
 ---
 
@@ -188,7 +188,7 @@ This is not a theoretical attack chain. It has been documented in incident repor
 
 ### <span style="color: orange;">The Lifecycle Math: How Long Until This Fixes Itself?</span>
 
-Let's be rigorous about the timeline if we rely purely on natural device retirement.
+Let me be rigorous about the timeline if I rely purely on natural device retirement.
 
 #### Installed Base Retirement Projections
 
@@ -203,7 +203,7 @@ Average IoT device MTTF (Mean Time to Failure):
 
 Weighted average across the installed base: approximately **12 years**.
 
-If we stopped deploying insecure devices today - which we have not - the legacy problem would still be with us until approximately **2038**.
+If the industry stopped deploying insecure devices today — which it has not - the legacy problem would persist until approximately **2038**.
 
 New device deployment in 2025: approximately 3.5 billion new IoT devices shipped, of which (by industry estimates) approximately 60% still lack basic security hygiene (no automatic updates, default credentials, unnecessary open ports).
 
