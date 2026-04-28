@@ -62,7 +62,7 @@ For learning purposes, I try to minimize investment in hardware due to the risk 
 
 <h3 style="color: green;">Recommendations to start IoT Pentesting for beginners </h3>
 
-Routers are not generally not consider as IoT devices until it is smart.
+Routers are generally not considered IoT devices unless they run a smart firmware stack with app-based management.
 
 Attack Vectors As Follows:
 
