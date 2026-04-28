@@ -10,10 +10,9 @@ This is a hands-on walkthrough of extracting firmware from a **Binatone DT 850W*
 
 A budget ADSL router that ships to millions of homes. Like most consumer devices, its firmware lives in an external SPI flash chip soldered onto the main PCB — fully readable without any special lab equipment.
 
-<p align="center">
-  <img src="/blog/spi-dumping/spi-connection-setup.jpg" alt="Binatone DT 850W router" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>The target device — an unmodified retail unit straight off the shelf.</i></p>
+![Binatone DT 850W router](/blog/spi-dumping/spi-connection-setup.jpg)
+
+*The target device — an unmodified retail unit straight off the shelf.*
 
 ## Required Hardware
 
@@ -21,28 +20,25 @@ A budget ADSL router that ships to millions of homes. Like most consumer devices
 - **SOIC8 clip** — attaches directly to the flash chip without desoldering
 - **Rainbow ribbon cable** — connects the clip to the Bus Pirate header
 
-<p align="center">
-  <img src="/blog/spi-dumping/buspirate-and-tools.png" alt="Bus Pirate and SOIC8 clip" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>The two tools you need: Bus Pirate on the left, SOIC8 IC clip on the right.</i></p>
+![Bus Pirate and SOIC8 clip](/blog/spi-dumping/buspirate-and-tools.png)
+
+*The two tools you need: Bus Pirate on the left, SOIC8 IC clip on the right.*
 
 ## Step 1: Open the Router and Map the PCB
 
 Remove the screws and expose the main board. Three components matter here:
 
-<p align="center">
-  <img src="/blog/spi-dumping/spi-target-chip.jpg" alt="Router PCB with chips labeled" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>Red boxes mark the EEPROM (top left), Realtek SoC (center), and the SPI flash (bottom center). The 8-pin SOIC package near the CPU is the target.</i></p>
+![Router PCB with chips labeled](/blog/spi-dumping/spi-target-chip.jpg)
+
+*Red boxes mark the EEPROM (top left), Realtek SoC (center), and the SPI flash (bottom center). The 8-pin SOIC package near the CPU is the target.*
 
 ## Step 2: Identify the Flash Chip
 
 On this board the chip is a **Winbond W25Q16.V** — 16Mbit (2MB) SPI NOR flash. Look up the datasheet to confirm its pinout before wiring anything:
 
-<p align="center">
-  <img src="/blog/spi-dumping/terminal-config.png" alt="Winbond W25Q16BV SOIC8 pinout" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>SOIC8 pin assignments from the Winbond datasheet. Pin 1 (/CS) has the dot marker; pins go counter-clockwise.</i></p>
+![Winbond W25Q16BV SOIC8 pinout](/blog/spi-dumping/terminal-config.png)
+
+*SOIC8 pin assignments from the Winbond datasheet. Pin 1 (/CS) has the dot marker; pins go counter-clockwise.*
 
 Key connections:
 
@@ -60,44 +56,39 @@ Key connections:
 
 The v3.6 ribbon cable uses a fixed colour scheme. Match each wire to its function before connecting:
 
-<p align="center">
-  <img src="/blog/spi-dumping/chip-identification.png" alt="Bus Pirate pin colour chart" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>Pin colour reference (left) alongside the Bus Pirate with rainbow cable seated in the header (right).</i></p>
+![Bus Pirate pin colour chart](/blog/spi-dumping/chip-identification.png)
+
+*Pin colour reference (left) alongside the Bus Pirate with rainbow cable seated in the header (right).*
 
 ## Step 4: Wiring
 
 Connect Bus Pirate to flash chip using the diagram below:
 
-<p align="center">
-  <img src="/blog/spi-dumping/bus-pirate-spi-mode.png" alt="Bus Pirate to SPI flash wiring" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>Exact mapping — GND→pin 4, 3V3→pin 8, CLK→pin 6, MOSI→pin 5, CS→pin 1, MISO→pin 2.</i></p>
+![Bus Pirate to SPI flash wiring](/blog/spi-dumping/bus-pirate-spi-mode.png)
+
+*Exact mapping — GND→pin 4, 3V3→pin 8, CLK→pin 6, MOSI→pin 5, CS→pin 1, MISO→pin 2.*
 
 ## Step 5: Attach the SOIC8 Clip
 
 Use the breakout adapter to get stable connections to each pin:
 
-<p align="center">
-  <img src="/blog/spi-dumping/flash-chip-closeup.png" alt="SOIC8 breakout adapter" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>The adapter converts the tight SOIC8 footprint to through-hole pads — much easier to clip onto.</i></p>
+![SOIC8 breakout adapter](/blog/spi-dumping/flash-chip-closeup.png)
+
+*The adapter converts the tight SOIC8 footprint to through-hole pads — much easier to clip onto.*
 
 Then attach a hook clip to each pad:
 
-<p align="center">
-  <img src="/blog/spi-dumping/spi-probe-connection.jpg" alt="Hook clips on adapter pads" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>One clip per line — orange, green, yellow for data; white and black for power and ground.</i></p>
+![Hook clips on adapter pads](/blog/spi-dumping/spi-probe-connection.jpg)
+
+*One clip per line — orange, green, yellow for data; white and black for power and ground.*
 
 ## Step 6: Full Setup
 
 Clip onto the flash chip and plug the Bus Pirate into USB. The router stays **powered off** throughout — the Bus Pirate feeds 3.3V directly to the chip:
 
-<p align="center">
-  <img src="/blog/spi-dumping/dump-in-progress.jpg" alt="Complete hardware setup" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>Router opened flat, SOIC8 clip on flash chip, Bus Pirate connected via USB. PWR LED confirms the supply rail is active.</i></p>
+![Complete hardware setup](/blog/spi-dumping/dump-in-progress.jpg)
+
+*Router opened flat, SOIC8 clip on flash chip, Bus Pirate connected via USB. PWR LED confirms the supply rail is active.*
 
 ## Step 7: Detect the Chip
 
@@ -108,10 +99,9 @@ sudo apt install flashrom
 sudo flashrom -p buspirate_spi:dev=/dev/ttyUSB0
 ```
 
-<p align="center">
-  <img src="/blog/spi-dumping/read-data-output.png" alt="Flashrom chip detection" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>Flashrom identifies the W25Q16.V (2048 kB). The speed warning is expected on firmware 6.1 — upgrade to 6.2 to remove the 2 MHz cap.</i></p>
+![Flashrom chip detection](/blog/spi-dumping/read-data-output.png)
+
+*Flashrom identifies the W25Q16.V (2048 kB). The speed warning is expected on firmware 6.1 — upgrade to 6.2 to remove the 2 MHz cap.*
 
 Expected output:
 ```
@@ -128,10 +118,9 @@ sudo flashrom -p buspirate_spi:dev=/dev/ttyUSB0,spispeed=1M \
   -r W25Q16.V.eeprom
 ```
 
-<p align="center">
-  <img src="/blog/spi-dumping/dumped-firmware-file.png" alt="Flashrom read complete" style="border-radius: 8px;"/>
-</p>
-<p align="center"><i>"Reading flash... done." — full 2MB image saved to disk. At 1MHz this takes 2–3 minutes.</i></p>
+![Flashrom read complete](/blog/spi-dumping/dumped-firmware-file.png)
+
+*"Reading flash... done." — full 2MB image saved to disk. At 1MHz this takes 2–3 minutes.*
 
 ## Step 9: Verify and Analyse
 
