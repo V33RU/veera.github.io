@@ -36,11 +36,17 @@ Once enabled, Android logs every HCI packet at the boundary between the Bluetoot
 
 > **HCI** (Host Controller Interface) sits between the Android Bluetooth stack and the radio chip. Every command, event, ATT read and write passes through here and Android logs all of it verbatim.
 
-I used the official app (`com.godrejcp.aermatic`) for a normal session, then pulled the log:
+I used the official app (`com.godrejcp.aermatic`) for a normal session, then captured the log via `adb bugreport`. On a non-root phone, the bugreport zip is the cleanest way to get at `/data/log/bt/`:
 
 ```bash
-adb pull /data/log/bt/btsnoop_hci.log .
+adb bugreport bugreport.zip
+unzip bugreport.zip -d dumpstate
+cd dumpstate/dumpstate-2026-01-14-00-35-13/FS/data/log/bt
+ls
+# btsnoop_hci.log  btsnoop_hci.log.last
 ```
+
+`btsnoop_hci.log` is the active log; `btsnoop_hci.log.last` is the previous rotation. Both are real BTSnoop v1 captures - copy them out and analyse with Wireshark / tshark.
 
 The file: **1.1 MB**, **BTSnoop v1 format**, **HCI UART H4** datalink type.
 
@@ -114,7 +120,7 @@ The Smart Matic fails at **every single layer** above the physical radio.
 flowchart TB
     A(["Smart Device<br/>A4:C1:38:B5:6C:5C"]) <-->|BLE Radio| B(["Android Phone<br/>Official App"])
     B -->|HCI UART H4<br/>every packet logged| C["btsnoop_hci.log<br/>1.1 MB · 29,370 pkts"]
-    C -->|adb pull| D[Analyst PC]
+    C -->|adb bugreport<br/>FS/data/log/bt/| D[Analyst PC]
     D -->|Wireshark<br/>tshark| E[Packet Analysis]
     D -->|Python<br/>ble_pentest.py| F[Live Pentest]
     E --> G[["11 Vulnerabilities<br/>Found"]]
