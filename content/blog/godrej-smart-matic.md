@@ -94,11 +94,6 @@ graph TB
 
     G[SMP - Security Manager Protocol] --> C
     H[GAP - Generic Access Profile] --> C
-
-    style A fill:#27ae60,color:#fff
-    style B fill:#2980b9,color:#fff
-    style G fill:#e74c3c,color:#fff
-    style D fill:#7f8c8d,color:#fff
 ```
 
 | Layer | What it does | Where vulnerabilities live |
@@ -116,18 +111,14 @@ The Smart Matic fails at **every single layer** above the physical radio.
 ## How the Capture Pipeline Works
 
 ```mermaid
-flowchart LR
-    A([Smart Device\nA4:C1:38:B5:6C:5C]) <-->|BLE Radio| B([Android Phone\nOfficial App])
-    B -->|HCI UART H4\nevery packet logged| C[btsnoop_hci.log\n1.1 MB · 29,370 pkts]
+flowchart TB
+    A(["Smart Device<br/>A4:C1:38:B5:6C:5C"]) <-->|BLE Radio| B(["Android Phone<br/>Official App"])
+    B -->|HCI UART H4<br/>every packet logged| C["btsnoop_hci.log<br/>1.1 MB · 29,370 pkts"]
     C -->|adb pull| D[Analyst PC]
-    D -->|Wireshark\ntshark| E[Packet Analysis]
-    D -->|Python\nble_pentest.py| F[Live Pentest]
-    E --> G[[11 Vulnerabilities\nFound]]
+    D -->|Wireshark<br/>tshark| E[Packet Analysis]
+    D -->|Python<br/>ble_pentest.py| F[Live Pentest]
+    E --> G[["11 Vulnerabilities<br/>Found"]]
     F --> G
-
-    style A fill:#e74c3c,color:#fff
-    style G fill:#c0392b,color:#fff
-    style C fill:#2980b9,color:#fff
 ```
 
 ---
@@ -180,16 +171,12 @@ Handle  UUID                                  Properties
 **Handle 0x0002** is a Telink OTA characteristic with `write-without-response` and no authentication gate - confirmed by live pentest. More on this under OTA-01.
 
 ```mermaid
-graph LR
-    S1[Service\n0x0001\nUnknown] --> C1[0x0002\nTelink OTA\nRead + Write WnR\nNO AUTH]
-    S2[Service\n0x0005\nNordic UART] --> C2[0x0007\n6e400001\nNotify · Read\nACK SOURCE]
-    S2 --> C3[0x0009\n6e400002\nNUS TX\nNotify + Write + CCCD]
-    S2 --> C4[0x000c\n6e400003\nNUS RX · CMD IN\nWrite commands here]
-    S2 --> C5[0x000f\nUnknown\nNotify + Write]
-
-    style C1 fill:#c0392b,color:#fff
-    style C2 fill:#27ae60,color:#fff
-    style C4 fill:#e67e22,color:#fff
+graph TB
+    S1["Service<br/>0x0001<br/>Unknown"] --> C1["0x0002<br/>Telink OTA<br/>Read + Write WnR<br/>NO AUTH"]
+    S2["Service<br/>0x0005<br/>Nordic UART"] --> C2["0x0007<br/>6e400001<br/>Notify · Read<br/>ACK SOURCE"]
+    S2 --> C3["0x0009<br/>6e400002<br/>NUS TX<br/>Notify + Write + CCCD"]
+    S2 --> C4["0x000c<br/>6e400003<br/>NUS RX · CMD IN<br/>Write commands here"]
+    S2 --> C5["0x000f<br/>Unknown<br/>Notify + Write"]
 ```
 
 The tshark command that produced this map:
@@ -360,25 +347,25 @@ Leaked: Firmware version, build number, serial, sensor readings
 
 ```mermaid
 mindmap
-  root((Smart Matic\nVulnerabilities))
+  root((Smart Matic Vulnerabilities))
     Critical
-      VULN-01\nNo BLE Encryption
-      VULN-02\nNo Pairing or Auth
-      VULN-03\nReplay Attack
-      VULN-04\nGATT Spray DoS
-      VULN-05\nUnauth Control CMD
-      OTA-01\nUnsigned Firmware
-      OTP-01\nOTP Bypass
+      VULN-01 No BLE Encryption
+      VULN-02 No Pairing or Auth
+      VULN-03 Replay Attack
+      VULN-04 GATT Spray DoS
+      VULN-05 Unauth Control CMD
+      OTA-01 Unsigned Firmware
+      OTP-01 OTP Bypass
     High
-      VULN-06\nDevice Info Exposed
-      VULN-07\nWrite Flood
-      VULN-08\nTiming Oracle
-      SES-01\nNo Session Binding
+      VULN-06 Device Info Exposed
+      VULN-07 Write Flood
+      VULN-08 Timing Oracle
+      SES-01 No Session Binding
     Medium
-      VULN-09\nStatic MAC
-      VULN-10\nVendor Commands
-      VULN-11\nCBOR Parser Fuzz
-      ADV-01\nAdv Data Leak
+      VULN-09 Static MAC
+      VULN-10 Vendor Commands
+      VULN-11 CBOR Parser Fuzz
+      ADV-01 Adv Data Leak
 ```
 
 ---
@@ -704,32 +691,22 @@ overflow_req = bytes([
 
 ## Step 9 - The Connection Spray Patterns
 
-```mermaid
-gantt
-    title ATT Session Timeline Reconstructed from btsnoop
-    dateFormat  X
-    axisFormat  %ss
+**ATT Session Timeline (reconstructed from btsnoop)**
 
-    section Connection spray (pre-capture)
-    5541 HCI connect events    :crit, 0, 11907
-
-    section Session 1 - app init
-    Connect + GATT discovery   :done, 11907, 11910
-    MTU Exchange → 185B        :done, 11909, 11910
-    TIME_SYNC → TIME_ACK       :crit, 11919, 11921
-    STATUS_REQ → UID_RESP      :crit, 11925, 11926
-    POLL → DEVICE_INFO         :crit, 11929, 11932
-
-    section Session 2 - control sequence
-    CONTROL rI=10 → ACK        :active, 11947, 11949
-    CONTROL rI=0 (×3 burst)    :active, 11960, 11969
-    CONTROL rI=20 → ACK        :active, 11969, 11973
-    CONTROL rI=40 → ACK        :active, 11970, 11973
-
-    section Session 3+
-    RELAY_RESET mT=0x69 rR=true :active, 12090, 12091
-    UNKNOWN_6C mT=0x6c         :active, 12078, 12079
-```
+| Phase | Event | Start (s) | End (s) | Duration |
+|---|---|---:|---:|---:|
+| Pre-capture spray | 5541 HCI connect events | 0 | 11907 | 11907 s |
+| Session 1 (app init) | Connect + GATT discovery | 11907 | 11910 | 3 s |
+| Session 1 | MTU Exchange to 185 B | 11909 | 11910 | 1 s |
+| Session 1 | TIME_SYNC to TIME_ACK | 11919 | 11921 | 2 s |
+| Session 1 | STATUS_REQ to UID_RESP | 11925 | 11926 | 1 s |
+| Session 1 | POLL to DEVICE_INFO | 11929 | 11932 | 3 s |
+| Session 2 (control) | CONTROL rI=10 to ACK | 11947 | 11949 | 2 s |
+| Session 2 | CONTROL rI=0 (3-command burst) | 11960 | 11969 | 9 s |
+| Session 2 | CONTROL rI=20 to ACK | 11969 | 11973 | 4 s |
+| Session 2 | CONTROL rI=40 to ACK | 11970 | 11973 | 3 s |
+| Session 3+ | UNKNOWN_6C mT=0x6c | 12078 | 12079 | 1 s |
+| Session 3+ | RELAY_RESET mT=0x69 rR=true | 12090 | 12091 | 1 s |
 
 The burst at 11960-11969s is significant: three `rI=0` (manual spray) commands sent 2.25 seconds apart, followed immediately by `rI=20` and `rI=40`. This is the official app testing spray levels - all accepted with ACK 200, with no rate limiting.
 
@@ -739,34 +716,29 @@ The burst at 11960-11969s is significant: three `rI=0` (manual spray) commands s
 
 ```mermaid
 flowchart TD
-    A[Attacker\nBLE adapter or phone] --> B{Attack type}
+    A["Attacker<br/>BLE adapter or phone"] --> B{Attack type}
 
     B --> C[Passive Sniff]
     B --> D[Active Control]
     B --> E[DoS]
     B --> F[Firmware Implant]
 
-    C --> C1[nRF52840 dongle\n+ Wireshark sniffer]
-    C1 --> C2[Capture all CBOR traffic\nin plaintext]
-    C2 --> C3[Extract: firmware ver\nUID · serial · commands]
+    C --> C1["nRF52840 dongle<br/>+ Wireshark sniffer"]
+    C1 --> C2["Capture all CBOR traffic<br/>in plaintext"]
+    C2 --> C3["Extract: firmware ver<br/>UID · serial · commands"]
 
     D --> D1[Connect - no pairing]
     D1 --> D2[TIME_SYNC → init]
     D2 --> D3[CONTROL rI=0 → spray]
-    D3 --> D4[Physical effect\n< 3 seconds]
+    D3 --> D4["Physical effect<br/>< 3 seconds"]
 
-    E --> E1[Connect / disconnect loop\n13.7/min]
-    E1 --> E2[Each: 20 ATT ops\n= 274 ATT req/min]
-    E2 --> E3[Device unresponsive\nLegitimate user locked out]
+    E --> E1["Connect / disconnect loop<br/>13.7/min"]
+    E1 --> E2["Each: 20 ATT ops<br/>= 274 ATT req/min"]
+    E2 --> E3["Device unresponsive<br/>Legitimate user locked out"]
 
-    F --> F1[Connect → handle 0x0002\nTelink OTA no-auth]
-    F1 --> F2[Write TLSR8xxx binary\nmalicious firmware]
-    F2 --> F3[Permanent compromise\nno hardware recovery]
-
-    style C3 fill:#e67e22,color:#fff
-    style D4 fill:#c0392b,color:#fff
-    style E3 fill:#e74c3c,color:#fff
-    style F3 fill:#c0392b,color:#fff
+    F --> F1["Connect → handle 0x0002<br/>Telink OTA no-auth"]
+    F1 --> F2["Write TLSR8xxx binary<br/>malicious firmware"]
+    F2 --> F3["Permanent compromise<br/>no hardware recovery"]
 ```
 
 ### Scenario A - Unauthorized Physical Control (Under 3 Seconds)
@@ -899,18 +871,18 @@ sudo python3 ble_vuln_scan.py --test sweyntooth-ltk
 ## Step 12 - Remediation
 
 ```mermaid
-graph LR
-    P1[P1 Immediate] --> A1[LE Secure Connections\nSMP + AES-CCM encryption]
-    P1 --> A2[HMAC-SHA256 + nonce\non every CONTROL_CMD]
-    P1 --> A3[Auth-gate OTA writes\nhandle 0x0002]
-    P1 --> A4[Signed firmware only\nverify before flash]
-    P2[P2 Short-term] --> B1[Rate-limit connections\n3 per minute per MAC]
-    P2 --> B2[Session token\nafter pairing]
-    P2 --> B3[Require bonding\nbefore DEVICE_INFO]
-    P3[P3 Long-term] --> C1[BLE Privacy Mode\nRPA rotation]
-    P3 --> C2[Disable HCI vendor cmds\nin production build]
-    P3 --> C3[Constant-time ATT\nno timing oracle]
-    P3 --> C4[CBOR input validation\nbounds checks]
+graph TB
+    P1[P1 Immediate] --> A1["LE Secure Connections<br/>SMP + AES-CCM encryption"]
+    P1 --> A2["HMAC-SHA256 + nonce<br/>on every CONTROL_CMD"]
+    P1 --> A3["Auth-gate OTA writes<br/>handle 0x0002"]
+    P1 --> A4["Signed firmware only<br/>verify before flash"]
+    P2[P2 Short-term] --> B1["Rate-limit connections<br/>3 per minute per MAC"]
+    P2 --> B2["Session token<br/>after pairing"]
+    P2 --> B3["Require bonding<br/>before DEVICE_INFO"]
+    P3[P3 Long-term] --> C1["BLE Privacy Mode<br/>RPA rotation"]
+    P3 --> C2["Disable HCI vendor cmds<br/>in production build"]
+    P3 --> C3["Constant-time ATT<br/>no timing oracle"]
+    P3 --> C4["CBOR input validation<br/>bounds checks"]
 ```
 
 | Priority | Action | Fixes |
@@ -943,7 +915,7 @@ sequenceDiagram
     App->>Dev: DHKey Check
     Dev-->>App: DHKey Check
     Note over App,Dev: AES-CCM link layer encryption enabled
-    App->>Dev: CONTROL_CMD encrypted\n+ HMAC + nonce
+    App->>Dev: CONTROL_CMD encrypted<br/>+ HMAC + nonce
     Dev-->>App: Verify HMAC · check nonce · execute
     Dev-->>App: ACK encrypted
 ```
