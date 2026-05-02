@@ -272,11 +272,22 @@ cbor2.loads(bytes.fromhex("bf626d541866626d4e18986265501b0000000069ea3a8c62745a3
 ### CBOR Wire Format Annotated
 
 ```
-bf  62 6d 54  18 68  62 6d 4e  18 9a  62 72 49  00  ff
-↑   ↑─────↑  ↑──↑   ↑─────↑  ↑──↑   ↑─────↑  ↑   ↑
-│   key "mT" val 104 key "mN" val 154 key "rI" 0  end
-│
-└─ 0xBF = begin indefinite map
+Raw bytes:  bf  62 6d 54  18 68  62 6d 4e  18 9a  62 72 49  00  ff
+            └┬┘ └───┬──┘  └─┬─┘  └───┬──┘  └─┬─┘  └───┬──┘  └┬┘  └┬┘
+             1      2       3        4       5        6      7    8
+
+Field-by-field breakdown:
+
+  #   hex bytes    cbor type    role    value    meaning
+  ────────────────────────────────────────────────────────────────────
+  1   bf           map(*)       -       -        begin indefinite map
+  2   62 6d 54     text(2)      key     "mT"     -
+  3   18 68        uint8        val     104      message type (CONTROL_CMD)
+  4   62 6d 4e     text(2)      key     "mN"     -
+  5   18 9a        uint8        val     154      sequence number
+  6   62 72 49     text(2)      key     "rI"     -
+  7   00           uint8        val     0        relay index
+  8   ff           break        -       -        end of map
 ```
 
 ```mermaid
