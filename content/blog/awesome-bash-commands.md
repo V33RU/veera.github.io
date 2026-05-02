@@ -420,7 +420,7 @@ coninfo                      # Console device info
 
 #### Get root shell via init override
 ```bash
-# In U-Boot prompt — append to existing bootargs:
+# In U-Boot prompt - append to existing bootargs:
 setenv bootargs "${bootargs} init=/bin/sh"
 boot
 
@@ -473,7 +473,7 @@ sf write 0x82000000 0x200000 ${filesize}
 ```bash
 # Hit any key during "Hit any key to stop autoboot: 3" countdown
 # Common interrupt strings: Space, Enter, Ctrl+C, s, any key
-# Some devices use a specific key — check "Stop autoboot keyed" in printenv
+# Some devices use a specific key - check "Stop autoboot keyed" in printenv
 
 # If autoboot can't be interrupted, short the boot pins or glitch
 ```

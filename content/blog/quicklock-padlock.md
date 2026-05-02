@@ -5,7 +5,7 @@ description: "A comprehensive security analysis of a Bluetooth Low Energy smart 
 tags: ["ble", "bluetooth", "smart-lock", "iot-security", "reverse-engineering", "vulnerability-research"]
 ---
 
-> **Note:** This lock has been pentested by many researchers before me. I'm not claiming new vulnerability discovery here — this writeup exists for detailed protocol-level analysis that goes beyond just "it's vulnerable." If you want to understand *why* it breaks, *how* the GATT profile works, and *how to build* an assessment framework around it, this is for you.
+> **Note:** This lock has been pentested by many researchers before me. I'm not claiming new vulnerability discovery here - this writeup exists for detailed protocol-level analysis that goes beyond just "it's vulnerable." If you want to understand *why* it breaks, *how* the GATT profile works, and *how to build* an assessment framework around it, this is for you.
 
 ---
 
@@ -30,7 +30,7 @@ Smart locks have become increasingly popular in IoT ecosystems, offering conveni
 
 ### Why This Target?
 
-I deliberately chose this older, simpler smart lock as my research target. This isn't about finding vulnerabilities in cutting-edge devices — it's about building a solid foundation for understanding BLE security research methodology.
+I deliberately chose this older, simpler smart lock as my research target. This isn't about finding vulnerabilities in cutting-edge devices - it's about building a solid foundation for understanding BLE security research methodology.
 
 Think of this as **"BLE Security 101":**
 
@@ -61,7 +61,7 @@ Modern smart locks have additional security layers (encryption, certificate pinn
 <p align="center">
   <img src="/blog/quicklock-padlock/quicklock-device.jpg" alt="Quicklock BLE padlock" style="border-radius: 8px; max-width: 380px;"/>
 </p>
-<p align="center"><i>The target device — Quicklock BLE padlock. BLE sensor behind the small black dot below the "Q" logo.</i></p>
+<p align="center"><i>The target device - Quicklock BLE padlock. BLE sensor behind the small black dot below the "Q" logo.</i></p>
 
 ---
 
@@ -106,7 +106,7 @@ Before even looking at Wireshark, the companion app revealed the password direct
 <p align="center">
   <img src="/blog/quicklock-padlock/app-device-settings.png" alt="App device settings showing password 12345678" style="border-radius: 8px;"/>
 </p>
-<p align="center"><i>App settings page — username "veera", auto-lock 3s, Password: <strong>12345678</strong>, firmware 0542. No masking, fully visible to anyone with phone access.</i></p>
+<p align="center"><i>App settings page - username "veera", auto-lock 3s, Password: <strong>12345678</strong>, firmware 0542. No masking, fully visible to anyone with phone access.</i></p>
 
 <p align="center">
   <img src="/blog/quicklock-padlock/app-password-exposed.png" alt="App password popup" style="border-radius: 8px;"/>
@@ -124,7 +124,7 @@ bluetooth.addr == 20:C3:8F:D9:3C:7C
 <p align="center">
   <img src="/blog/quicklock-padlock/ws-filtered-session.png" alt="Wireshark filtered to lock MAC 20:C3:8F:D9:3C:7C" style="border-radius: 8px;"/>
 </p>
-<p align="center"><i>Filter: <code>bluetooth.addr == 20:C3:8F:D9:3C:7C</code> — look at the <strong>Source/Destination columns</strong>: TexasInstrum_d9:3c:7c (the lock) ↔ SamsungElect_e8:e6:42 (Galaxy M02s). The highlighted blue row in the packet list is a Write Request — the start of the unlock sequence.</i></p>
+<p align="center"><i>Filter: <code>bluetooth.addr == 20:C3:8F:D9:3C:7C</code> - look at the <strong>Source/Destination columns</strong>: TexasInstrum_d9:3c:7c (the lock) ↔ SamsungElect_e8:e6:42 (Galaxy M02s). The highlighted blue row in the packet list is a Write Request - the start of the unlock sequence.</i></p>
 
 ### Password Discovery
 
@@ -133,12 +133,12 @@ Searching the string `12345678` inside Wireshark immediately highlighted the aut
 <p align="center">
   <img src="/blog/quicklock-padlock/ws-ffd6-password-write.png" alt="Wireshark password write to FFD6 handle 0x002d" style="border-radius: 8px;"/>
 </p>
-<p align="center"><i>Search: string <code>12345678</code> — look at the <strong>bottom pane</strong>: Handle <strong>0x002d</strong>, Service UUID <strong>0xFFD0</strong>, UUID <strong>0xFFD6</strong>, Value <strong>001234567800000000</strong>. This is the password being written to the lock in cleartext. No encryption layer present.</i></p>
+<p align="center"><i>Search: string <code>12345678</code> - look at the <strong>bottom pane</strong>: Handle <strong>0x002d</strong>, Service UUID <strong>0xFFD0</strong>, UUID <strong>0xFFD6</strong>, Value <strong>001234567800000000</strong>. This is the password being written to the lock in cleartext. No encryption layer present.</i></p>
 
 <p align="center">
   <img src="/blog/quicklock-padlock/ws-ffd6-full-detail.png" alt="Full packet detail FFD6 password write" style="border-radius: 8px;"/>
 </p>
-<p align="center"><i>Same packet fully expanded — check <strong>Source BD_ADDR: SamsungElect_e8:e6:42 (18:ab:1d:e8:e6:42)</strong> and <strong>Destination BD_ADDR: Padlock! (20:c3:8f:d9:3c:7c)</strong>. ATT Opcode 0x12 = Write Request. Value row at the bottom confirms <strong>001234567800000000</strong> sent with no auth signature.</i></p>
+<p align="center"><i>Same packet fully expanded - check <strong>Source BD_ADDR: SamsungElect_e8:e6:42 (18:ab:1d:e8:e6:42)</strong> and <strong>Destination BD_ADDR: Padlock! (20:c3:8f:d9:3c:7c)</strong>. ATT Opcode 0x12 = Write Request. Value row at the bottom confirms <strong>001234567800000000</strong> sent with no auth signature.</i></p>
 
 ### Password Structure Analysis
 
@@ -148,13 +148,13 @@ The 9-byte password has a clear internal structure:
 [00] [12 34 56 78] [00 00 00 00]
  |        |               |
  |        |               +-- Padding (4 bytes)
- |        +-- Password bytes (sequential — weak)
+ |        +-- Password bytes (sequential - weak)
  +-- Header/version byte
 ```
 
 - **Byte 0:** Version or protocol identifier
-- **Bytes 1–4:** Actual password (sequential pattern = default/weak)
-- **Bytes 5–8:** Padding
+- **Bytes 1-4:** Actual password (sequential pattern = default/weak)
+- **Bytes 5-8:** Padding
 
 ---
 
@@ -195,7 +195,7 @@ Using nRF Connect and reading the `0x2901` (Characteristic User Description) des
 <p align="center">
   <img src="/blog/quicklock-padlock/ws-password-search-result.png" alt="Wireshark search result showing password packet" style="border-radius: 8px;"/>
 </p>
-<p align="center"><i>String search <code>12345678</code> highlights the exact packet in the list — look at the <strong>Info column</strong>: "Sent Write Request" and in the packet detail pane look for <strong>UUID 0xFFD6</strong> and <strong>Value: 001234567800000000</strong>. This proves the password travels over BLE in plaintext.</i></p>
+<p align="center"><i>String search <code>12345678</code> highlights the exact packet in the list - look at the <strong>Info column</strong>: "Sent Write Request" and in the packet detail pane look for <strong>UUID 0xFFD6</strong> and <strong>Value: 001234567800000000</strong>. This proves the password travels over BLE in plaintext.</i></p>
 
 <p align="center">
   <img src="/blog/quicklock-padlock/nrf-connect-ffd6-ffd8.png" alt="nRF Connect FFD6 Password, FFD7 Password Result, FFD8 Open Time" style="border-radius: 8px;"/>
@@ -205,7 +205,7 @@ Using nRF Connect and reading the `0x2901` (Characteristic User Description) des
 <p align="center">
   <img src="/blog/quicklock-padlock/nrf-connect-ffd9-ffda.png" alt="nRF Connect FFD9 Lock Control, FFDA Notifications" style="border-radius: 8px;"/>
 </p>
-<p align="center"><i>FFD9 = "Lock Control!" (WRITE, value 0x01 = unlock), FFDA = "Notifications" (NOTIFY READ). The descriptor names make the entire protocol self-documenting — no firmware reverse engineering needed.</i></p>
+<p align="center"><i>FFD9 = "Lock Control!" (WRITE, value 0x01 = unlock), FFDA = "Notifications" (NOTIFY READ). The descriptor names make the entire protocol self-documenting - no firmware reverse engineering needed.</i></p>
 
 **Breakthrough:** The descriptor names spelled out the entire protocol:
 
@@ -298,7 +298,7 @@ asyncio.run(unlock())
 
 ## Phase 5: Vulnerability Analysis
 
-### Authentication Bypass — CRITICAL
+### Authentication Bypass - CRITICAL
 
 Skipping FFD6 (the password step) entirely:
 
@@ -311,7 +311,7 @@ await client.write_gatt_char(CHAR_CONTROL,   bytes([0x01]))
 
 **Impact:** An attacker can unlock the device without knowing the password at all.
 
-### Replay Attack — HIGH
+### Replay Attack - HIGH
 
 Since the password is static and there is no challenge-response mechanism, any captured credential works indefinitely:
 
@@ -319,10 +319,10 @@ Since the password is static and there is no challenge-response mechanism, any c
 1. Attacker passively sniffs BLE during a legitimate unlock
 2. Captures: 00 12 34 56 78 00 00 00 00
 3. Replays the same three writes at any future time
-4. Lock opens — owner receives no notification
+4. Lock opens - owner receives no notification
 ```
 
-### No BLE Pairing Required — CRITICAL
+### No BLE Pairing Required - CRITICAL
 
 The device accepts GATT write operations without any BLE pairing. Best practice requires:
 - LE Secure Connections pairing
@@ -335,7 +335,7 @@ This device enforces none of these.
 
 ## 8. Root Cause Analysis
 
-### Root Cause #1 — No BLE Pairing Required
+### Root Cause #1 - No BLE Pairing Required
 
 **Design flaw:** Pre-pairing GATT access is permitted.
 
@@ -346,7 +346,7 @@ This device enforces none of these.
 
 **Fix:** Implement LE Secure Connections with encryption-required characteristics.
 
-### Root Cause #2 — Static Password Authentication
+### Root Cause #2 - Static Password Authentication
 
 **Design flaw:** No dynamic elements in authentication.
 
@@ -357,7 +357,7 @@ This device enforces none of these.
 
 **Fix:** Implement TOTP-based authentication or cryptographic challenge-response.
 
-### Root Cause #3 — Inadequate State Machine
+### Root Cause #3 - Inadequate State Machine
 
 **Design flaw:** Authentication state not validated before unlock.
 
@@ -366,9 +366,9 @@ This device enforces none of these.
 - No session timeout
 - Authenticated state persists indefinitely
 
-**Fix:** Enforce strict sequential state machine with authentication flag validation and 30–60 second session timeout.
+**Fix:** Enforce strict sequential state machine with authentication flag validation and 30-60 second session timeout.
 
-### Root Cause #4 — Weak Protocol Design
+### Root Cause #4 - Weak Protocol Design
 
 **Design flaw:** Low-entropy password with predictable structure.
 
@@ -401,7 +401,7 @@ class SmartLockExploit:
         self.password = bytes.fromhex("001234567800000000")
 
     async def exploit_auth_bypass(self):
-        """Exploit state machine — unlock without any password"""
+        """Exploit state machine - unlock without any password"""
         print("[*] Attempting authentication bypass...")
         async with BleakClient(self.target) as client:
             await client.write_gatt_char(
@@ -433,21 +433,21 @@ asyncio.run(exploit.exploit_auth_bypass())
 
 ### For Manufacturers
 
-**Priority 1 — Critical (Implement Immediately):**
+**Priority 1 - Critical (Implement Immediately):**
 
-1. **Require BLE Pairing** — LE Secure Connections, Passkey Entry or Numeric Comparison, encryption on all sensitive characteristics
-2. **Fix State Machine** — validate auth state before unlock, strict sequential enforcement, 30–60 second session timeout
-3. **Challenge-Response** — replace static password with TOTP, use cryptographic nonces, proper key derivation (PBKDF2, Argon2)
+1. **Require BLE Pairing** - LE Secure Connections, Passkey Entry or Numeric Comparison, encryption on all sensitive characteristics
+2. **Fix State Machine** - validate auth state before unlock, strict sequential enforcement, 30-60 second session timeout
+3. **Challenge-Response** - replace static password with TOTP, use cryptographic nonces, proper key derivation (PBKDF2, Argon2)
 
-**Priority 2 — High (Within 1 Month):**
+**Priority 2 - High (Within 1 Month):**
 
-4. **Rate Limiting** — 3 attempts per minute, exponential backoff, lockout after 10 failures
-5. **Password Entropy** — cryptographically random, full 9 bytes random, no predictable patterns
-6. **Logging** — log all auth attempts, alert on suspicious patterns, timestamp all operations
+4. **Rate Limiting** - 3 attempts per minute, exponential backoff, lockout after 10 failures
+5. **Password Entropy** - cryptographically random, full 9 bytes random, no predictable patterns
+6. **Logging** - log all auth attempts, alert on suspicious patterns, timestamp all operations
 
-**Priority 3 — Medium (Within 3 Months):**
+**Priority 3 - Medium (Within 3 Months):**
 
-7. **Defence in Depth** — RSSI proximity checking, tamper detection, time-based access windows, multi-factor authentication
+7. **Defence in Depth** - RSSI proximity checking, tamper detection, time-based access windows, multi-factor authentication
 
 ### For Users
 
@@ -460,15 +460,15 @@ asyncio.run(exploit.exploit_auth_bypass())
 
 ## Conclusion
 
-This research demonstrates critical vulnerabilities in a BLE smart lock implementation, revealing fundamental flaws in authentication, encryption, and state management. The ability to unlock without authentication — combined with replay attack vulnerabilities and no BLE pairing requirement — presents a severe security risk.
+This research demonstrates critical vulnerabilities in a BLE smart lock implementation, revealing fundamental flaws in authentication, encryption, and state management. The ability to unlock without authentication - combined with replay attack vulnerabilities and no BLE pairing requirement - presents a severe security risk.
 
 ### Key Takeaways
 
-- **BLE security is often overlooked** — manufacturers prioritise convenience over security
-- **State machines require careful design** — authentication state must be validated at every step
-- **Static credentials are insufficient** — dynamic authentication is essential
-- **Encryption alone is not enough** — proper pairing and authentication are both required
-- **Defence in depth matters** — multiple security layers prevent single points of failure
+- **BLE security is often overlooked** - manufacturers prioritise convenience over security
+- **State machines require careful design** - authentication state must be validated at every step
+- **Static credentials are insufficient** - dynamic authentication is essential
+- **Encryption alone is not enough** - proper pairing and authentication are both required
+- **Defence in depth matters** - multiple security layers prevent single points of failure
 
 ### Research Impact
 

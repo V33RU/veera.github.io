@@ -8,17 +8,17 @@ This is a hands-on walkthrough of extracting firmware from a **Binatone DT 850W*
 
 ## Target Device: Binatone DT 850W
 
-A budget ADSL router that ships to millions of homes. Like most consumer devices, its firmware lives in an external SPI flash chip soldered onto the main PCB — fully readable without any special lab equipment.
+A budget ADSL router that ships to millions of homes. Like most consumer devices, its firmware lives in an external SPI flash chip soldered onto the main PCB - fully readable without any special lab equipment.
 
 ![Binatone DT 850W router](/blog/spi-dumping/spi-connection-setup.jpg)
 
-*The target device — an unmodified retail unit straight off the shelf.*
+*The target device - an unmodified retail unit straight off the shelf.*
 
 ## Required Hardware
 
-- **Bus Pirate v3.6** — SPI interface to your computer over USB
-- **SOIC8 clip** — attaches directly to the flash chip without desoldering
-- **Rainbow ribbon cable** — connects the clip to the Bus Pirate header
+- **Bus Pirate v3.6** - SPI interface to your computer over USB
+- **SOIC8 clip** - attaches directly to the flash chip without desoldering
+- **Rainbow ribbon cable** - connects the clip to the Bus Pirate header
 
 ![Bus Pirate and SOIC8 clip](/blog/spi-dumping/buspirate-and-tools.png)
 
@@ -34,7 +34,7 @@ Remove the screws and expose the main board. Three components matter here:
 
 ## Step 2: Identify the Flash Chip
 
-On this board the chip is a **Winbond W25Q16.V** — 16Mbit (2MB) SPI NOR flash. Look up the datasheet to confirm its pinout before wiring anything:
+On this board the chip is a **Winbond W25Q16.V** - 16Mbit (2MB) SPI NOR flash. Look up the datasheet to confirm its pinout before wiring anything:
 
 ![Winbond W25Q16BV SOIC8 pinout](/blog/spi-dumping/terminal-config.png)
 
@@ -66,7 +66,7 @@ Connect Bus Pirate to flash chip using the diagram below:
 
 ![Bus Pirate to SPI flash wiring](/blog/spi-dumping/bus-pirate-spi-mode.png)
 
-*Exact mapping — GND→pin 4, 3V3→pin 8, CLK→pin 6, MOSI→pin 5, CS→pin 1, MISO→pin 2.*
+*Exact mapping - GND→pin 4, 3V3→pin 8, CLK→pin 6, MOSI→pin 5, CS→pin 1, MISO→pin 2.*
 
 ## Step 5: Attach the SOIC8 Clip
 
@@ -74,17 +74,17 @@ Use the breakout adapter to get stable connections to each pin:
 
 ![SOIC8 breakout adapter](/blog/spi-dumping/flash-chip-closeup.png)
 
-*The adapter converts the tight SOIC8 footprint to through-hole pads — much easier to clip onto.*
+*The adapter converts the tight SOIC8 footprint to through-hole pads - much easier to clip onto.*
 
 Then attach a hook clip to each pad:
 
 ![Hook clips on adapter pads](/blog/spi-dumping/spi-probe-connection.jpg)
 
-*One clip per line — orange, green, yellow for data; white and black for power and ground.*
+*One clip per line - orange, green, yellow for data; white and black for power and ground.*
 
 ## Step 6: Full Setup
 
-Clip onto the flash chip and plug the Bus Pirate into USB. The router stays **powered off** throughout — the Bus Pirate feeds 3.3V directly to the chip:
+Clip onto the flash chip and plug the Bus Pirate into USB. The router stays **powered off** throughout - the Bus Pirate feeds 3.3V directly to the chip:
 
 ![Complete hardware setup](/blog/spi-dumping/dump-in-progress.jpg)
 
@@ -101,7 +101,7 @@ sudo flashrom -p buspirate_spi:dev=/dev/ttyUSB0
 
 ![Flashrom chip detection](/blog/spi-dumping/read-data-output.png)
 
-*Flashrom identifies the W25Q16.V (2048 kB). The speed warning is expected on firmware 6.1 — upgrade to 6.2 to remove the 2 MHz cap.*
+*Flashrom identifies the W25Q16.V (2048 kB). The speed warning is expected on firmware 6.1 - upgrade to 6.2 to remove the 2 MHz cap.*
 
 Expected output:
 ```
@@ -120,7 +120,7 @@ sudo flashrom -p buspirate_spi:dev=/dev/ttyUSB0,spispeed=1M \
 
 ![Flashrom read complete](/blog/spi-dumping/dumped-firmware-file.png)
 
-*"Reading flash... done." — full 2MB image saved to disk. At 1MHz this takes 2–3 minutes.*
+*"Reading flash... done." - full 2MB image saved to disk. At 1MHz this takes 2-3 minutes.*
 
 ## Step 9: Verify and Analyse
 
@@ -152,12 +152,12 @@ Typical contents of a router firmware image:
 - Drop speed to `spispeed=256k` and retry
 
 **Dump differs between runs**
-- The clip is not seated firmly — press it down and retry
+- The clip is not seated firmly - press it down and retry
 - Ensure the router is fully powered off (no bus contention)
 - Compare hashes: `sha256sum W25Q16.V.eeprom`
 
 **Speed warning from flashrom**
-- Normal on Bus Pirate firmware 6.1 — update to 6.2 or accept 2 MHz
+- Normal on Bus Pirate firmware 6.1 - update to 6.2 or accept 2 MHz
 
 ---
 

@@ -203,7 +203,7 @@ Average IoT device MTTF (Mean Time to Failure):
 
 Weighted average across the installed base: approximately **12 years**.
 
-If the industry stopped deploying insecure devices today — which it has not - the legacy problem would persist until approximately **2038**.
+If the industry stopped deploying insecure devices today - which it has not - the legacy problem would persist until approximately **2038**.
 
 New device deployment in 2025: approximately 3.5 billion new IoT devices shipped, of which (by industry estimates) approximately 60% still lack basic security hygiene (no automatic updates, default credentials, unnecessary open ports).
 
