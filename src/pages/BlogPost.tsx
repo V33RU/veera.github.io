@@ -97,6 +97,18 @@ const BlogPostPage = () => {
         </div>
       </motion.header>
 
+      {/* Mobile TOC dropdown */}
+      {toc.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="lg:hidden mb-8 p-3 border border-border rounded bg-secondary/20"
+        >
+          <TableOfContents items={toc} defaultOpen={false} />
+        </motion.div>
+      )}
+
       <div className="flex gap-10">
         {/* Main content */}
         <motion.article
