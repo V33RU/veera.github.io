@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown, List } from "lucide-react";
 import GithubSlugger from "github-slugger";
 import {
@@ -60,6 +60,37 @@ const TableOfContents = ({
   className,
 }: TableOfContentsProps) => {
   const [open, setOpen] = useState(defaultOpen);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const visibleRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (items.length === 0) return;
+    const ids = items.map((i) => i.id);
+    const elements = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (elements.length === 0) return;
+
+    visibleRef.current = new Set();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = entry.target.id;
+          if (entry.isIntersecting) visibleRef.current.add(id);
+          else visibleRef.current.delete(id);
+        }
+        // Pick the first heading (in document order) that is currently visible.
+        const firstVisible = ids.find((id) => visibleRef.current.has(id));
+        if (firstVisible) setActiveId(firstVisible);
+      },
+      { rootMargin: "-80px 0px -70% 0px", threshold: 0 }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [items]);
 
   if (items.length === 0) return null;
 
@@ -70,6 +101,7 @@ const TableOfContents = ({
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       history.replaceState(null, "", `#${id}`);
+      setActiveId(id);
     }
   };
 
@@ -97,19 +129,37 @@ const TableOfContents = ({
         </CollapsibleTrigger>
         <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
           <ul className="space-y-1.5 border-l border-border pl-3 mt-3 max-h-[70vh] overflow-y-auto">
-            {items.map((item, i) => (
-              <li
-                key={`${item.id}-${i}`}
-                style={{ paddingLeft: `${(item.level - minLevel) * 12}px` }}
-              >
-                <button
-                  onClick={() => handleClick(item.id)}
-                  className="text-xs text-muted-foreground hover:text-primary transition-colors block py-0.5 leading-snug text-left w-full"
+            {items.map((item, i) => {
+              const isActive = item.id === activeId;
+              return (
+                <li
+                  key={`${item.id}-${i}`}
+                  style={{ paddingLeft: `${(item.level - minLevel) * 12}px` }}
+                  className="relative"
                 >
-                  {item.text}
-                </button>
-              </li>
-            ))}
+                  {isActive && (
+                    <span
+                      aria-hidden
+                      className="absolute -left-[13px] top-1/2 -translate-y-1/2 w-[2px] h-4 bg-primary phosphor-glow-subtle"
+                    />
+                  )}
+                  <button
+                    onClick={() => handleClick(item.id)}
+                    className={cn(
+                      "text-xs transition-colors block py-0.5 leading-snug text-left w-full",
+                      isActive
+                        ? "text-primary font-medium phosphor-glow-subtle"
+                        : "text-muted-foreground hover:text-primary"
+                    )}
+                  >
+                    {isActive && (
+                      <span className="text-primary/60 mr-1">&gt;</span>
+                    )}
+                    {item.text}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </CollapsibleContent>
       </Collapsible>
