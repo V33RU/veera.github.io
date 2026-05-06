@@ -21,6 +21,7 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import TableOfContents, { extractToc } from "@/components/TableOfContents";
 import MarkdownCodeBlock from "@/components/MarkdownCodeBlock";
 import SilkscreenLabel from "@/components/SilkscreenLabel";
+import ReadingProgress from "@/components/ReadingProgress";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 
@@ -46,6 +47,8 @@ const BlogPostPage = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
+      <ReadingProgress targetSelector="article.markdown-content" />
+
       {/* Breadcrumb */}
       <motion.div
         initial={{ opacity: 0, x: -10 }}
