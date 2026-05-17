@@ -11,7 +11,7 @@ tags: ["hardware hacking", "EMFI", "electromagnetic fault injection", "UART", "s
 
 ---
 
-### <span style="color: orange;">Why EMFI When Voltage Glitching Exists</span>
+### <span class="accent-orange">Why EMFI When Voltage Glitching Exists</span>
 
 Voltage glitching affects the entire die. Every flip-flop sees the droop. That is why it has high collateral damage: crashes, resets, memory corruption. Modern SoCs include supply-noise detectors that halt the CPU on detected VCC transients, which neutralizes voltage glitching entirely.
 
@@ -24,7 +24,7 @@ The cost: harder to set up, harder to characterize, harder to reproduce. But aga
 
 ---
 
-### <span style="color: orange;">The Physics, Compressed</span>
+### <span class="accent-orange">The Physics, Compressed</span>
 
 A capacitor charged to V discharges through a small air-core coil. `V = L * di/dt`. For a 10 uH coil discharging 400 V, `di/dt` is on the order of 40 A/us. The resulting magnetic field at the coil face is given by `B ≈ μ0 * N * I / (2 * r)`, reaching 0.5 to 2 Tesla at the surface of a well-designed FI coil for the few nanoseconds the pulse lasts.
 
@@ -34,7 +34,7 @@ The "if timing is aligned" is everything. You must fire the pulse at the clock e
 
 ---
 
-### <span style="color: orange;">Coil Design You Can Actually Build</span>
+### <span class="accent-orange">Coil Design You Can Actually Build</span>
 
 The canonical EMFI coil for IC-level work:
 
@@ -60,7 +60,7 @@ DIY is viable but dangerous: 400 V rails, fast edges, and RF emissions. Build it
 
 ---
 
-### <span style="color: orange;">Locating The Target Region On The Die</span>
+### <span class="accent-orange">Locating The Target Region On The Die</span>
 
 EMFI needs you above the correct square millimeter of die. On a BGA package with no heatspreader you can usually aim through the substrate from the top, though field strength drops with distance. On a QFN or QFP you aim at the top surface. On packages with a metal lid you must decap (chemical or mechanical).
 
@@ -76,7 +76,7 @@ A 10 mm x 10 mm scan at 0.2 mm step with 100 attempts per position = 250,000 att
 
 ---
 
-### <span style="color: orange;">The ROM Window: Where UART Lock Is Decided</span>
+### <span class="accent-orange">The ROM Window: Where UART Lock Is Decided</span>
 
 The crucial timing fact for UART bypass: the decision "should this UART peripheral be enabled" is usually made during mask-ROM execution, within the first few hundred microseconds of reset. The relevant sequence:
 
@@ -100,7 +100,7 @@ For an ESP32-S3 class chip, published ROM analyses put the relevant check around
 
 ---
 
-### <span style="color: orange;">Pulse Shaping: What Actually Flips A Flop</span>
+### <span class="accent-orange">Pulse Shaping: What Actually Flips A Flop</span>
 
 Not every pulse produces a usable fault. Shape parameters that matter:
 
@@ -122,7 +122,7 @@ Every target needs its own numbers. Do not copy these and expect them to work on
 
 ---
 
-### <span style="color: orange;">Chaining EMFI With UART Wake-Up</span>
+### <span class="accent-orange">Chaining EMFI With UART Wake-Up</span>
 
 The attack sequence for a locked UART:
 
@@ -139,7 +139,7 @@ Combined with Part 4's voltage glitching: use voltage glitching to fail one chec
 
 ---
 
-### <span style="color: orange;">What The Vendor Cannot Fix With Firmware Alone</span>
+### <span class="accent-orange">What The Vendor Cannot Fix With Firmware Alone</span>
 
 Mitigations for EMFI that are actually effective:
 
@@ -154,7 +154,7 @@ Firmware alone cannot stop EMFI. Anyone selling "EMFI mitigation firmware patch"
 
 ---
 
-### <span style="color: orange;">Ethics, Authorization, Reality</span>
+### <span class="accent-orange">Ethics, Authorization, Reality</span>
 
 I will not publish end-to-end EMFI bypass parameters for any specific currently-shipping consumer device. Not because they do not exist in my notes but because publishing them directly enables harm against devices deployed in hospitals and utilities. The techniques are already known to the security research community. The parameters shift per chip revision anyway.
 
@@ -174,7 +174,7 @@ If you want to do this work: pick a vendor, contact their PSIRT, sign an NDA, ge
 
 ---
 
-### <span style="color: orange;">Closing The Series</span>
+### <span class="accent-orange">Closing The Series</span>
 
 Five parts. One attack surface. Every layer a little harder than the last.
 

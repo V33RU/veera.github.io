@@ -5,18 +5,18 @@ description: "This blog contains information like , how to setup flipperzero for
 tags: ["flipperzero", "hardware hacking", "security tools"]
 ---
 
-### <span style="color: orange;">Introduction</span>
+### <span class="accent-orange">Introduction</span>
 
 Previous blog expalins about what is flipperzero and supported hardware modules,firmwares. In this blog mostly covers practical scenarios.
 
-### <span style="color: orange;">Setup</span>
+### <span class="accent-orange">Setup</span>
 
 
 When loading custom firmware on your Flipper Zero, it's essential to use qFlipper or a compatible browser for a smooth process. Make sure to select firmware that meets your specific needs, as firmware can vary widely in features and stability.
 
 Personally, I prefer Momentum firmware due to its strong support and reliable updates. Compared to other options, Momentum firmware stands out for its stability, which ensures a more seamless experience.
 
-#### <span style="color: orange;">Flipper Zero Firmware Comparison:</span>
+#### <span class="accent-orange">Flipper Zero Firmware Comparison:</span>
 
 | Feature | Official Firmware (OFW) | Unleashed | RogueMaster | Xtreme | Momentum |
 |---------|-------------------------|-----------|-------------|--------|----------|
@@ -35,7 +35,7 @@ Personally, I prefer Momentum firmware due to its strong support and reliable up
 | **Asset Packs**                             | -   | +         | +           | +      | +        |
 
 
-#### <span style="color: orange;">Requirements:</span>
+#### <span class="accent-orange">Requirements:</span>
 
 As i am linux user my requirements as follows
 For setting up Flipper Zero on Linux, here's a checklist tailored to your needs:
@@ -69,9 +69,9 @@ Easy peasy process without any hassle , simply download qFlipper and download fi
 - (Desktop) Click Install and wait for the update to complete
 ![](/blog/flipper-zero/part-2/update.png)
 
-### <span style="color: orange;">I have additional hardware information of what i use</span>
+### <span class="accent-orange">I have additional hardware information of what i use</span>
 
-#### <span style="color: orange;">WiFi Devboard for Flipper Zero</span>
+#### <span class="accent-orange">WiFi Devboard for Flipper Zero</span>
 
 The developer board with Wi-Fi connectivity made specially for Flipper Zero. Based on the ESP32-S2 module, this devboard allows:
 
@@ -83,7 +83,7 @@ As a bonus, ESP32-S2 allows Wi-Fi penetration testing (PMKID capturing, deauth, 
 
 ![](/blog/flipper-zero/part-2/fpr-wifiboard.jpg)
 
-#### <span style="color: orange;">Video Game Module for Flipper Zero</span>
+#### <span class="accent-orange">Video Game Module for Flipper Zero</span>
 
 The Video Game Module (Powered by Raspberry Pi) brings new entertainment and development opportunities to your Flipper Zero:
 
@@ -98,7 +98,7 @@ The Video Game Module (Powered by Raspberry Pi) brings new entertainment and dev
 
 ![](/blog/flipper-zero/part-2/vgm.webp)
 
-#### <span style="color: orange;">Prototyping Boards for Flipper Zero</span>
+#### <span class="accent-orange">Prototyping Boards for Flipper Zero</span>
 
 
 Bare prototyping boards for making your own DIY modules, specially made for Flipper Zero GPIO header.

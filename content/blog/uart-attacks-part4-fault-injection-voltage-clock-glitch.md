@@ -11,7 +11,7 @@ tags: ["hardware hacking", "fault injection", "voltage glitching", "clock glitch
 
 ---
 
-### <span style="color: orange;">The Instruction You Want To Skip</span>
+### <span class="accent-orange">The Instruction You Want To Skip</span>
 
 Every UART lock in firmware collapses to one conditional branch somewhere. Disassemble long enough and you will find it. Examples from real chips:
 
@@ -42,7 +42,7 @@ That `bne` is a single-bit conditional whose resolution depends on the Z flag se
 
 ---
 
-### <span style="color: orange;">Physical Mechanisms, Without The Hand-Waving</span>
+### <span class="accent-orange">Physical Mechanisms, Without The Hand-Waving</span>
 
 Four mainstream mechanisms. Each exploits a different analog property.
 
@@ -58,7 +58,7 @@ This post covers the first two. Part 5 handles EMFI. Optical is mentioned at the
 
 ---
 
-### <span style="color: orange;">Characterizing The Glitch Window</span>
+### <span class="accent-orange">Characterizing The Glitch Window</span>
 
 You cannot glitch randomly. The window is measured in nanoseconds and you need to land in it repeatedly. Characterization has three phases.
 
@@ -85,7 +85,7 @@ On a well-characterized campaign the success rate lands between 0.01% and 3%. At
 
 ---
 
-### <span style="color: orange;">Real ChipWhisperer Parameters That Have Worked For Me</span>
+### <span class="accent-orange">Real ChipWhisperer Parameters That Have Worked For Me</span>
 
 I am listing these so you have a starting range, not because they port across targets. Every target needs its own characterization.
 
@@ -122,7 +122,7 @@ I cannot publish numbers for ESP32-S3 Secure Boot v2 bypass via voltage glitchin
 
 ---
 
-### <span style="color: orange;">Clock Glitching In Detail</span>
+### <span class="accent-orange">Clock Glitching In Detail</span>
 
 Clock glitching needs the target CPU clocked from an external oscillator you control, or through a clock input pin. Modern SoCs use PLLs from internal RC oscillators after initial boot, so the window is tight: the very first few microseconds after reset, when the CPU is running from the raw crystal.
 
@@ -150,7 +150,7 @@ Success rate on a cooperative target: above 10%. Clock glitching is very effecti
 
 ---
 
-### <span style="color: orange;">Body Biasing: The Side Channel Most Guides Skip</span>
+### <span class="accent-orange">Body Biasing: The Side Channel Most Guides Skip</span>
 
 Body biasing injects current into the substrate of the chip through the body contact (typically a pin tied to VSS or a dedicated bias pin on older processes). By pulsing a voltage between the body and source of the MOSFETs, threshold voltages shift momentarily. This disproportionately affects high-fan-out combinational paths.
 
@@ -162,7 +162,7 @@ I know of two published academic papers on this class, neither applied it to UAR
 
 ---
 
-### <span style="color: orange;">FI Against crypt() In A Login Binary</span>
+### <span class="accent-orange">FI Against crypt() In A Login Binary</span>
 
 A different target class: not the bootloader, but a userland `crypt()` compare. If you cannot crack the password, glitch the compare.
 
@@ -183,7 +183,7 @@ Useful corner: on busybox statically linked, the `crypt()` implementation is at 
 
 ---
 
-### <span style="color: orange;">Failure Modes That Nobody Warns You About</span>
+### <span class="accent-orange">Failure Modes That Nobody Warns You About</span>
 
 - **Self-heating drift.** After 20 minutes of glitching, the target warms up, its timing shifts, and your characterized delay stops working. Mount the DUT on a peltier with a thermocouple and hold it at 25C.
 - **Power supply recovery.** Cheap bench PSUs take 10 to 100 us to recover from a crowbar pulse. If your inter-attempt delay is shorter than that, you get cumulative droop. Use a linear regulator or a dedicated FI power supply.
@@ -193,7 +193,7 @@ Useful corner: on busybox statically linked, the `crypt()` implementation is at 
 
 ---
 
-### <span style="color: orange;">Mitigations That Actually Make FI Expensive</span>
+### <span class="accent-orange">Mitigations That Actually Make FI Expensive</span>
 
 Not "impossible", because nothing makes FI impossible with enough budget. Mitigations that raise cost by orders of magnitude:
 
@@ -208,7 +208,7 @@ The combination of redundant checks + randomized delays + sensors is what takes 
 
 ---
 
-### <span style="color: orange;">The Honest Part</span>
+### <span class="accent-orange">The Honest Part</span>
 
 Fault injection is real. It works. It is also harder than the YouTube videos make it look. The first campaign on a new target family takes weeks of characterization. Every silicon revision invalidates some of your parameters. Every firmware update can shift the target instruction.
 

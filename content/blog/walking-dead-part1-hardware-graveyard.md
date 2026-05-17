@@ -9,7 +9,7 @@ tags: ["IoT security", "firmware", "hardware", "botnet", "Mirai", "HiSilicon", "
 
 ---
 
-### <span style="color: orange;">The Lie You Were Sold</span>
+### <span class="accent-orange">The Lie You Were Sold</span>
 
 When you bought that ₹999 IP camera or that $12 smart plug, the box said "Smart Home Ready." What it didn't say:
 
@@ -23,7 +23,7 @@ That device is not a smart device. It is an **open relay** waiting to be conscri
 
 ---
 
-### <span style="color: orange;">The Silicon Problem Nobody Talks About</span>
+### <span class="accent-orange">The Silicon Problem Nobody Talks About</span>
 
 The root cause of the IoT security crisis is not software. It is **the chip**.
 
@@ -67,7 +67,7 @@ The result: **hundreds of millions of devices running a DNS stack with a known-e
 
 ---
 
-### <span style="color: orange;">EOL Is Not a Date - It Is a Business Event</span>
+### <span class="accent-orange">EOL Is Not a Date - It Is a Business Event</span>
 
 The industry uses "End of Life" (EOL) as if it is a natural death. It is not. It is a **calculated financial event**.
 
@@ -106,7 +106,7 @@ The market has since fragmented across alternatives - Fullhan, Ingenic, Novatek 
 
 ---
 
-### <span style="color: orange;">The Credentials That Cannot Be Changed</span>
+### <span class="accent-orange">The Credentials That Cannot Be Changed</span>
 
 Let us be specific about what "hardcoded credentials" means at a technical level, because the phrase has been sanitized by years of security journalism into something that sounds manageable.
 
@@ -138,7 +138,7 @@ This is not a bug in a single product. It is an architecture pattern across an e
 
 ---
 
-### <span style="color: orange;">The Scale: What "Billions of Devices" Actually Means</span>
+### <span class="accent-orange">The Scale: What "Billions of Devices" Actually Means</span>
 
 Shodan currently indexes:
 - 4.2 million devices with Telnet port 23 open
@@ -154,7 +154,7 @@ A single lab scan of three Indian /24 subnets - 768 IPs - returned **847 Telnet-
 
 ---
 
-### <span style="color: orange;">What EOL Actually Costs (And Who Pays It)</span>
+### <span class="accent-orange">What EOL Actually Costs (And Who Pays It)</span>
 
 The OEM sells a camera for $15. They make $2 in margin. The camera runs for 8 years on a network, unpatched, contributing to botnets that generate $50,000/hour in DDoS-for-hire revenue for threat actors.
 

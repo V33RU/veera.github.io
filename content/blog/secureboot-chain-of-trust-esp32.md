@@ -9,7 +9,7 @@ tags: ["secure boot", "chain of trust", "ESP32", "firmware security", "IoT secur
 
 *A lot of IoT vendors put "secure boot supported" on the datasheet and stop there. This post is about what that line actually means, what it does for you, what it does not do for you, and how to reason about it at the level of the silicon. I am using ESP32 Secure Boot v2 as the concrete example because it is the most accessible, best documented, and most widely shipped secure boot implementation in the consumer IoT world.*
 
-### <span style="color: orange;">What Secure Boot Actually Is</span>
+### <span class="accent-orange">What Secure Boot Actually Is</span>
 
 Secure boot is a cryptographic verification chain that runs every time the device powers on, and its only job is to answer one question.
 
@@ -19,7 +19,7 @@ If the answer is yes, the chip runs the code. If the answer is no, the chip halt
 
 The word "chain" is the important part. Secure boot is not one check. It is a sequence of checks, where each stage verifies the next stage before handing execution over. If any link in the chain breaks, the whole chain is broken. The hero image for this post is the right metaphor. A chain is exactly as strong as its weakest link, and the lock at the bottom does nothing if the chain above it is already cut.
 
-### <span style="color: orange;">The Chain of Trust, as a Mindmap</span>
+### <span class="accent-orange">The Chain of Trust, as a Mindmap</span>
 
 Here is the full picture of what is involved, laid out as a mindmap. Save this and come back to it while reading the rest of the post.
 
@@ -70,7 +70,7 @@ mindmap
 
 The mindmap splits into six branches. Root of trust, keys, boot stages, crypto, protections, and attacker model. A real secure boot implementation has to have something defensible in all six branches. Missing any one of them breaks the chain.
 
-### <span style="color: orange;">The Root of Trust, and Why It Has to Be Hardware</span>
+### <span class="accent-orange">The Root of Trust, and Why It Has to Be Hardware</span>
 
 Every secure boot scheme begins with a thing that cannot be modified by software. Usually this is mask ROM, ich is code literally etched into the silicon at fabrication time, and a small region of one-time-programmable fuses that store the public key hash.
 
@@ -84,7 +84,7 @@ One, that the mask ROM is correct. If there is a bug in the ROM code, no amount 
 
 Two, that the eFuse bits cannot be tampered with in a way the attacker can benefit from. Modern parts include glitching countermeasures and fuse readback checks specifically because this assumption has been attacked for years.
 
-### <span style="color: orange;">How the Chain Executes, Step by Step</span>
+### <span class="accent-orange">How the Chain Executes, Step by Step</span>
 
 Here is what actually happens between pressing power and your application running, on a chip with secure boot enabled.
 
@@ -101,7 +101,7 @@ Here is what actually happens between pressing power and your application runnin
 
 The important property is that execution only flows down the chain. A stage can only run code that was verified by the stage above it. There is no path by which an unsigned image gets executed, as long as every link holds.
 
-### <span style="color: orange;">Why ESP32 Is the Right Chip to Learn This On</span>
+### <span class="accent-orange">Why ESP32 Is the Right Chip to Learn This On</span>
 
 A few honest reasons.
 
@@ -115,7 +115,7 @@ Finally, the toolchain is open. ESP-IDF is on GitHub. The secure boot signing to
 
 For this post I will use ESP32-S3 Secure Boot v2 as the concrete target, because S3 is the current sweet spot for price, availability, and security posture.
 
-### <span style="color: orange;">The Code, End to End</span>
+### <span class="accent-orange">The Code, End to End</span>
 
 Let me walk through the actual commands and the shape of the signed image.
 
@@ -229,7 +229,7 @@ The loop over multiple blocks is the revocation mechanism. You ship with key 0. 
 
 The RSA-PSS verification itself uses the hardware crypto accelerator on modern ESP chips, which matters for boot speed but also for side-channel resistance compared to a pure-software implementation.
 
-### <span style="color: orange;">What Secure Boot Actually Protects You From</span>
+### <span class="accent-orange">What Secure Boot Actually Protects You From</span>
 
 Here is the honest list. Secure boot, correctly implemented and correctly configured, prevents the following.
 
@@ -243,7 +243,7 @@ Here is the honest list. Secure boot, correctly implemented and correctly config
 
 **Development-image injection.** An attacker cannot replace a release image with a debug-enabled development image that exposes JTAG, because the debug image would need to be signed with the same key, and if the attacker had that key they would not need the debug image.
 
-### <span style="color: orange;">What Secure Boot Does Not Protect You From</span>
+### <span class="accent-orange">What Secure Boot Does Not Protect You From</span>
 
 This part is where most vendor datasheets go quiet. Secure boot is not a perimeter. It is one specific control. The following attacks are not addressed by secure boot at all, and you need other controls for them.
 
@@ -261,7 +261,7 @@ This part is where most vendor datasheets go quiet. Secure boot is not a perimet
 
 **Bad ROM bugs.** If the mask ROM has a flaw in its verification logic, the chain is broken at the root and there is nothing any downstream code can do about it. ESP32 classic CVE-2019-15894 is the canonical example.
 
-### <span style="color: orange;">A Short Verification Checklist</span>
+### <span class="accent-orange">A Short Verification Checklist</span>
 
 If you are about to ship a device with secure boot, these are the things I would check before the ship date.
 
@@ -281,7 +281,7 @@ Do you have a documented response plan for the day the signing key leaks.
 
 If any of those answers is "we did not think about it," fix it before you ship, not after.
 
-### <span style="color: orange;">Closing</span>
+### <span class="accent-orange">Closing</span>
 
 Secure boot is one of the few hardware security features that actually does what it says on the tin, provided you configure it correctly and you understand what it does and does not cover. It is not a silver bullet. It is one solid link in a chain of defences, and by itself it is not enough, but without it almost nothing else you do at the firmware level survives an attacker who can write to your flash.
 

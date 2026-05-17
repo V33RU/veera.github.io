@@ -9,7 +9,7 @@ tags: ["IoT security", "supply chain", "economics", "SCADA", "critical infrastru
 
 ---
 
-### <span style="color: orange;">The Real Bill of Materials</span>
+### <span class="accent-orange">The Real Bill of Materials</span>
 
 Let's build a $15 IP camera. Not metaphorically - let's trace the actual economics.
 
@@ -75,7 +75,7 @@ This is not an accident. This is a **liability diffusion architecture**, and it 
 
 ---
 
-### <span style="color: orange;">The Chip Supply Chain and National Security</span>
+### <span class="accent-orange">The Chip Supply Chain and National Security</span>
 
 #### The Backdoor You Cannot Rule Out
 
@@ -100,7 +100,7 @@ The geopolitical risk to IoT security is not theoretical. The HiSilicon cutoff i
 
 ---
 
-### <span style="color: orange;">The Race to the Bottom: How Markets Create Insecurity</span>
+### <span class="accent-orange">The Race to the Bottom: How Markets Create Insecurity</span>
 
 #### Why Better Security Cannot Win on Price
 
@@ -145,7 +145,7 @@ IoT equivalent: US Cyber Trust Mark (2024) - voluntary, opt-in, no minimum techn
 
 ---
 
-### <span style="color: orange;">Legacy Infrastructure: The Devices That Are Literally Running Power Grids</span>
+### <span class="accent-orange">Legacy Infrastructure: The Devices That Are Literally Running Power Grids</span>
 
 The consumer camera problem is annoying. The industrial IoT problem is existential.
 
@@ -186,7 +186,7 @@ This is not a theoretical attack chain. It has been documented in incident repor
 
 ---
 
-### <span style="color: orange;">The Lifecycle Math: How Long Until This Fixes Itself?</span>
+### <span class="accent-orange">The Lifecycle Math: How Long Until This Fixes Itself?</span>
 
 Let me be rigorous about the timeline if I rely purely on natural device retirement.
 
@@ -211,7 +211,7 @@ New device deployment in 2025: approximately 3.5 billion new IoT devices shipped
 
 ---
 
-### <span style="color: orange;">The Disclosure Gap: What Responsible Disclosure Cannot Fix</span>
+### <span class="accent-orange">The Disclosure Gap: What Responsible Disclosure Cannot Fix</span>
 
 The research behind this presentation involved discovering 62 exploits targeting devices across 15 vendors in a single malware sample. The responsible disclosure process:
 
@@ -233,7 +233,7 @@ In those cases, responsible disclosure is a **bookkeeping exercise**. The CVE is
 
 ---
 
-### <span style="color: orange;">What Actually Works: The Short List</span>
+### <span class="accent-orange">What Actually Works: The Short List</span>
 
 Given everything above, what actually reduces the attack surface?
 
@@ -276,7 +276,7 @@ Require that any IoT device sold in-country pass a machine-automated security ba
 
 ---
 
-### <span style="color: orange;">The Honest Conclusion</span>
+### <span class="accent-orange">The Honest Conclusion</span>
 
 We have built the nervous system of the physical world out of components that:
 

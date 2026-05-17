@@ -25,7 +25,7 @@ This blog walks through the architecture, detection logic, rule engine, and scan
 
 ---
 
-### <span style="color: orange;">The Problem: Why SSIDs Are a Dangerous Attack Surface</span>
+### <span class="accent-orange">The Problem: Why SSIDs Are a Dangerous Attack Surface</span>
 
 Modern IoT devices - routers, cameras, smart home hubs, industrial sensors - all perform WiFi scanning. During a scan, the device receives beacon frames from nearby access points. Each beacon contains the SSID - a raw, attacker-controlled string up to 32 bytes long.
 
@@ -60,7 +60,7 @@ SiDEWiNDER is built to detect the code patterns that lead to these vulnerabiliti
 
 ---
 
-### <span style="color: orange;">Architecture Overview</span>
+### <span class="accent-orange">Architecture Overview</span>
 
 ```
 sidewinder/
@@ -86,7 +86,7 @@ python3 cli.py full /path/to/target
 
 ---
 
-### <span style="color: orange;">The Rule Engine</span>
+### <span class="accent-orange">The Rule Engine</span>
 
 Every vulnerability class in SiDEWiNDER is defined by a JSON rule file under `config/rules/`. Rules are self-contained and the scanner auto-loads all files matching `wifi_*.json` at startup - no hardcoded class list.
 
@@ -154,7 +154,7 @@ Each rule defines:
 
 ---
 
-### <span style="color: orange;">Source Code Scanner</span>
+### <span class="accent-orange">Source Code Scanner</span>
 
 The `SourceScanner` class (`core/source_scanner.py`) is the heart of SiDEWiNDER for source code targets.
 
@@ -306,7 +306,7 @@ The same line cannot generate two findings for the same vulnerability class, eve
 
 ---
 
-### <span style="color: orange;">Binary Analyzer</span>
+### <span class="accent-orange">Binary Analyzer</span>
 
 The `BinaryAnalyzer` class (`core/binary_analyzer.py`) handles compiled ELF binaries - the actual executables found inside IoT firmware.
 
@@ -368,7 +368,7 @@ Binary confidence is based on the number of SSID context string hits:
 
 ---
 
-### <span style="color: orange;">Firmware Extractor</span>
+### <span class="accent-orange">Firmware Extractor</span>
 
 The `FirmwareExtractor` class (`core/firmware_extractor.py`) handles raw firmware images - the `.bin` files downloaded from vendor websites or extracted from physical devices.
 
@@ -418,7 +418,7 @@ This ensures the most likely vulnerable binaries are analyzed first.
 
 ---
 
-### <span style="color: orange;">Dependency Checker</span>
+### <span class="accent-orange">Dependency Checker</span>
 
 The `DependencyChecker` (`core/dependency_checker.py`) looks for known-vulnerable libraries in both binary files and package manifests.
 
@@ -464,7 +464,7 @@ The `manifest_only` flag prevents npm packages like `systeminformation` from gen
 
 ---
 
-### <span style="color: orange;">Usage Examples</span>
+### <span class="accent-orange">Usage Examples</span>
 
 Scan source code:
 
@@ -498,7 +498,7 @@ python3 cli.py full /path/to/target
 
 ---
 
-### <span style="color: orange;">What SiDEWiNDER Detects</span>
+### <span class="accent-orange">What SiDEWiNDER Detects</span>
 
 **Command Injection (C)**
 
@@ -555,7 +555,7 @@ os.system(f"nmcli con add ssid {shlex.quote(ssid)}")  # safe_pattern match - SKI
 
 ---
 
-### <span style="color: orange;">Adding Custom Rules</span>
+### <span class="accent-orange">Adding Custom Rules</span>
 
 To add a new vulnerability class, create a new JSON file in `config/rules/`:
 
@@ -584,7 +584,7 @@ SiDEWiNDER automatically loads the file at startup. No code changes required.
 
 ---
 
-### <span style="color: orange;">Limitations and Known Gaps</span>
+### <span class="accent-orange">Limitations and Known Gaps</span>
 
 | Area | Limitation |
 |---|---|
@@ -596,7 +596,7 @@ SiDEWiNDER automatically loads the file at startup. No code changes required.
 
 ---
 
-### <span style="color: orange;">Installation</span>
+### <span class="accent-orange">Installation</span>
 
 ```bash
 git clone https://github.com/YourUsername/sidewinder.git
@@ -622,7 +622,7 @@ pip install unblob
 
 ---
 
-### <span style="color: orange;">Conclusion</span>
+### <span class="accent-orange">Conclusion</span>
 
 SiDEWiNDER treats the WiFi SSID as what it actually is: untrusted attacker-controlled input that flows through complex IoT codebases. By combining:
 
@@ -636,7 +636,7 @@ SiDEWiNDER provides IoT security researchers and firmware developers a purpose-b
 
 ---
 
-### <span style="color: orange;">References</span>
+### <span class="accent-orange">References</span>
 
 - [CommandInWiFi-Zeroclick Research](https://github.com/Veerababu-Penugonda/CommandInWiFi-Zeroclick)
 - [CVE-2024-20017 - MediaTek wappd Zero-Click OOB Write](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-20017)

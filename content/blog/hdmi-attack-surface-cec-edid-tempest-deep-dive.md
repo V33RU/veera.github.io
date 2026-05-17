@@ -9,7 +9,7 @@ tags: ["HDMI", "CEC", "EDID", "DDC", "HDCP", "TEMPEST", "side channel", "hardwar
 
 ---
 
-### <span style="color: orange;">Why This Cable Deserves a Threat Model</span>
+### <span class="accent-orange">Why This Cable Deserves a Threat Model</span>
 
 The HDMI specification bundles five protocols into one connector:
 
@@ -23,7 +23,7 @@ Every one of these has been attacked publicly. Every one of these has at least o
 
 ---
 
-### <span style="color: orange;">The Pinout, Because You Cannot Attack What You Cannot See</span>
+### <span class="accent-orange">The Pinout, Because You Cannot Attack What You Cannot See</span>
 
 Standard HDMI Type A connector, 19 pins:
 
@@ -46,7 +46,7 @@ You can probe CEC and DDC with a Bus Pirate, an FT232H in I2C mode, a Raspberry 
 
 ---
 
-### <span style="color: orange;">Layer 1: CEC, the Control Bus Nobody Audited</span>
+### <span class="accent-orange">Layer 1: CEC, the Control Bus Nobody Audited</span>
 
 CEC (Consumer Electronics Control) is a 9600 baud one-wire AC'97-derived bus. Every HDMI device on the chain gets a logical address (0-15) and a physical address tied to the port topology (e.g., 1.0.0.0 means "first port on the root TV").
 
@@ -87,7 +87,7 @@ The exploitation primitive is the same as any embedded parser bug: send a frame 
 
 ---
 
-### <span style="color: orange;">Layer 2: EDID and DDC, the I2C Bus You Forgot About</span>
+### <span class="accent-orange">Layer 2: EDID and DDC, the I2C Bus You Forgot About</span>
 
 When a sink (monitor) is plugged into a source (GPU), the source reads a 128-byte EDID block from I2C address `0x50` on the DDC bus. Newer monitors extend this with E-EDID and DisplayID, going up to 32 KB across multiple addresses.
 
@@ -125,7 +125,7 @@ DDC also carries HDCP key exchange writes. Which brings us to the next layer.
 
 ---
 
-### <span style="color: orange;">Layer 3: HDCP, the DRM Layer That Was Never Real Security</span>
+### <span class="accent-orange">Layer 3: HDCP, the DRM Layer That Was Never Real Security</span>
 
 HDCP 1.x is fundamentally broken. The master key was published in 2010 (the famous 40x40 matrix leak). Anyone can derive valid device keys from any device's KSV. HDCP 1.x strippers and content key recovery have been off-the-shelf for over a decade.
 
@@ -141,7 +141,7 @@ For an attacker, HDCP is mostly relevant in two scenarios:
 
 ---
 
-### <span style="color: orange;">Layer 4: TEMPEST and Deep-TEMPEST</span>
+### <span class="accent-orange">Layer 4: TEMPEST and Deep-TEMPEST</span>
 
 The TMDS lanes carry video as differential pairs at gigabit rates. Differential signaling is supposed to cancel emissions. In practice, every cable, connector, and PCB trace has imbalances that turn into common-mode currents, which radiate.
 
@@ -167,7 +167,7 @@ This is not TEMPEST. This is conducted-emission analysis on the power return pat
 
 ---
 
-### <span style="color: orange;">Layer 5: HDMI as a Pivot</span>
+### <span class="accent-orange">Layer 5: HDMI as a Pivot</span>
 
 Smart TVs run Linux or Android. Set-top boxes run Linux. AV receivers run real-time OSes with TCP/IP stacks. Most of them have:
 
@@ -182,7 +182,7 @@ This is not theoretical for high-value targets. Casinos, conference centers, and
 
 ---
 
-### <span style="color: orange;">Consolidated Attack Class Table</span>
+### <span class="accent-orange">Consolidated Attack Class Table</span>
 
 | Class | Vector | Primitive | Real CVEs / Cases | Required Access |
 |---|---|---|---|---|
@@ -205,7 +205,7 @@ This is not theoretical for high-value targets. Casinos, conference centers, and
 
 ---
 
-### <span style="color: orange;">Building a CEC Attack Tool, the Short Version</span>
+### <span class="accent-orange">Building a CEC Attack Tool, the Short Version</span>
 
 You need a Pulse-Eight USB-CEC adapter (or a Raspberry Pi with `cec-utils`). On Linux:
 
@@ -230,7 +230,7 @@ That writes "Hello" to the TV's OSD with display-control byte `0x00` (default). 
 
 ---
 
-### <span style="color: orange;">Building an EDID Attack Dongle, the Short Version</span>
+### <span class="accent-orange">Building an EDID Attack Dongle, the Short Version</span>
 
 Cheapest option: a Raspberry Pi 4 with the official "HDMI-as-input" hat, or a CYP CDPS-31SQ EDID emulator. Cleanest option: a custom board with an STM32G0 driving the DDC pins as I2C-slave, holding a 256-byte EDID in flash, and pulsing pin 19 to force re-read.
 
@@ -243,7 +243,7 @@ Most kernel parsers will at minimum log a stack trace. A subset will panic. A sm
 
 ---
 
-### <span style="color: orange;">Defensive Reality Check</span>
+### <span class="accent-orange">Defensive Reality Check</span>
 
 The defenses that actually work:
 
@@ -262,7 +262,7 @@ The defenses that look good but do not work:
 
 ---
 
-### <span style="color: orange;">Closing</span>
+### <span class="accent-orange">Closing</span>
 
 HDMI is the most-deployed unauthenticated bus in modern computing. There is one in every laptop, every TV, every projector, every AV receiver, every conference room. The protocols on it were designed in an era where the threat model was "the cable is short and the room is friendly". Neither assumption holds.
 
@@ -272,7 +272,7 @@ The attack surface is huge. The mitigations are simple. The audit work is mostly
 
 ---
 
-### <span style="color: orange;">References</span>
+### <span class="accent-orange">References</span>
 
 - Puche Rondon, Saltaformaggio et al. "HDMI-Walk: Attacking HDMI Distribution Networks via Consumer Electronic Control Protocol". 2019.
 - NCC Group, "HDMI: Hacking Displays Made Interesting". Troopers '19.

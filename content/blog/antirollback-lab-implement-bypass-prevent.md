@@ -11,7 +11,7 @@ tags: ["firmware security", "anti-rollback", "secure boot", "ESP32-S3", "lab", "
 
 ---
 
-### <span style="color: orange;">Why Anti-Rollback Is a Real Attack, Not a Paper One</span>
+### <span class="accent-orange">Why Anti-Rollback Is a Real Attack, Not a Paper One</span>
 
 The workflow an attacker uses on a device with Secure Boot enabled but no rollback protection:
 
@@ -27,7 +27,7 @@ Anti-rollback is the policy layer that says: I will only boot firmware with a se
 
 ---
 
-### <span style="color: orange;">Lab Setup</span>
+### <span class="accent-orange">Lab Setup</span>
 
 Hardware and tools for this lab:
 
@@ -54,7 +54,7 @@ We will ship three firmware builds in this lab:
 
 ---
 
-### <span style="color: orange;">Where the Version Number Actually Lives</span>
+### <span class="accent-orange">Where the Version Number Actually Lives</span>
 
 Anti-rollback on ESP32-S3 is enforced with an eFuse counter and an application descriptor field. Both sides have to line up.
 
@@ -72,7 +72,7 @@ The eFuse field on ESP32-S3 used for app rollback is `SECURE_VERSION` (16 bits, 
 
 ---
 
-### <span style="color: orange;">Implement It: sdkconfig, Descriptor, OTA</span>
+### <span class="accent-orange">Implement It: sdkconfig, Descriptor, OTA</span>
 
 Enable the features in `menuconfig` (or directly in `sdkconfig`):
 
@@ -134,7 +134,7 @@ espefuse.py --chip esp32s3 summary | grep -i secure_version
 
 ---
 
-### <span style="color: orange;">Now Break It: Realistic Bypass Attempts</span>
+### <span class="accent-orange">Now Break It: Realistic Bypass Attempts</span>
 
 With the lab built, these are the bypasses an attacker would actually try, in order of effort. I ran each against the lab board.
 
@@ -165,7 +165,7 @@ Result: server-side downgrade is not a bypass of anti-rollback, but it is a way 
 
 ---
 
-### <span style="color: orange;">The Mitigations That Actually Close the Gaps</span>
+### <span class="accent-orange">The Mitigations That Actually Close the Gaps</span>
 
 Mapping each bypass above to the fix that kills it.
 
@@ -208,7 +208,7 @@ Enable flash encryption in release mode so the descriptor and signature block ar
 
 ---
 
-### <span style="color: orange;">The Pre-Ship Checklist for Anti-Rollback</span>
+### <span class="accent-orange">The Pre-Ship Checklist for Anti-Rollback</span>
 
 - [ ] Secure Boot v2 enabled and eFuse burned
 - [ ] Flash Encryption in RELEASE mode
@@ -226,7 +226,7 @@ If any of those are unchecked, the device is rollback-vulnerable in practice eve
 
 ---
 
-### <span style="color: orange;">The Honest Summary</span>
+### <span class="accent-orange">The Honest Summary</span>
 
 Anti-rollback on ESP32-S3 is solid when it is configured end-to-end and paired with a disciplined OTA client. The feature does what it says. What breaks in the field is almost never the eFuse compare itself. It is the three assumptions around it:
 

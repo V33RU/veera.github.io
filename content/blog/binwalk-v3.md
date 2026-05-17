@@ -11,11 +11,11 @@ The major change in Binwalk v3 is that it has been re-written in Rust, marking a
 
 
 
-### <span style="color: orange;">What is Binwalk?</span>
+### <span class="accent-orange">What is Binwalk?</span>
 
 Binwalk is a firmware analysis tool that allows users to identify, extract, and reverse engineer embedded files and executable code within firmware images. It is an essential tool for cybersecurity professionals, enabling them to dig into the inner workings of various hardware devices.
 
-### <span style="color: orange;">Differences between versions</span>
+### <span class="accent-orange">Differences between versions</span>
 
 | Feature/Version         | Binwalk 1.0.0                 | Binwalk 2.3.3                  | Binwalk 3.0 (Rust Version)       |
 |-------------------------|--------------------------------|---------------------------------|-----------------------------------|
@@ -27,7 +27,7 @@ Binwalk is a firmware analysis tool that allows users to identify, extract, and 
 | **Entropy Analysis**     | Not available                  | Basic entropy analysis          | Enhanced entropy graphs            |
 | **Extraction Capability**| Basic extraction              | Improved extraction for file systems | Advanced extraction methods        |
 
-### <span style="color: orange;">Choose binwalk-v2 from OSPG repo</span>
+### <span class="accent-orange">Choose binwalk-v2 from OSPG repo</span>
 
 
 To install the updated and stable binwalk maintained by OSPG, ensure you have the correct dependencies and follow the installation instructions provided in the repository. After cloning the repository, check that all required libraries and utilities are installed properly. It’s essential to verify each step to avoid issues during execution.
@@ -35,7 +35,7 @@ To install the updated and stable binwalk maintained by OSPG, ensure you have th
 OSPG Binwalk Github Repo : [binwalk](https://github.com/OSPG/binwalk)
 
 
-### <span style="color: orange;">Key Features of Binwalk v3</span>
+### <span class="accent-orange">Key Features of Binwalk v3</span>
 
 1. **Improved Extraction Capabilities**
 2. **Enhanced Scanning Options**
@@ -44,26 +44,26 @@ OSPG Binwalk Github Repo : [binwalk](https://github.com/OSPG/binwalk)
 5. **Active Community and Continuous Updates**
 
 
-### <span style="color: orange;">Getting Started with Binwalk v3</span>
+### <span class="accent-orange">Getting Started with Binwalk v3</span>
 
 To get started with Binwalk v3, you can clone the repository and install it using the following commands:
 
 Follow the binwalk wiki : https://github.com/ReFirmLabs/binwalk/wiki#usage
 
-##### <span style="color: orange;">Step 1: </span>install rustup (as i am ubuntu user i installed from snap package)
+##### <span class="accent-orange">Step 1: </span>install rustup (as i am ubuntu user i installed from snap package)
 
 ```bash
 sudo snap install rustup
 ```
 
-##### <span style="color: orange;">Step 2: </span>install dependencies , copy and save as bash script and
+##### <span class="accent-orange">Step 2: </span>install dependencies , copy and save as bash script and
   run it (do it on your own risk.. haha)
 
 ```bash
 sudo ./binwalk/dependencies/ubuntu.sh
 ```
 
-##### <span style="color: orange;">Step 3 </span>: clone the repository and install 
+##### <span class="accent-orange">Step 3 </span>: clone the repository and install 
 
 ```bash
 sudo apt install git
@@ -73,7 +73,7 @@ cargo build --release
 ./target/release/binwalk --help
 ```
 
-##### <span style="color: orange;">Step 4 </span>: copy binwalk from target/release/binwalk to preferred location , in my case /usr/local/bin/
+##### <span class="accent-orange">Step 4 </span>: copy binwalk from target/release/binwalk to preferred location , in my case /usr/local/bin/
 
 ```bash
 sudo cp -r target/release/binwalk /usr/local/bin/
@@ -83,7 +83,7 @@ Tada... Task completed
 
 ![](/blog/binwalkv3/Tada.gif)
 
-### <span style="color: orange;">Usage guide</span>
+### <span class="accent-orange">Usage guide</span>
 
 List all signatures and required extraction utilities:
 
@@ -205,6 +205,6 @@ Save signature or entropy analysis results to a JSON file:
 binwalk --log=results.json file_name.bin
 ```
 
-##### <span style="color: orange;">Conclusion: </span>
+##### <span class="accent-orange">Conclusion: </span>
 
 Binwalk is an impressive and powerful tool for firmware analysis, widely used by hackers and researchers. The upcoming v3.0, though currently experimental, promises significant improvements in speed and accuracy, thanks to its Rust rewrite. It’s exciting to anticipate how future updates will enhance its capabilities, offering even more valuable features for security researchers.

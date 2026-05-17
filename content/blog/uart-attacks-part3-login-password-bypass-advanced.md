@@ -11,7 +11,7 @@ tags: ["hardware hacking", "UART", "login bypass", "embedded security", "series"
 
 ---
 
-### <span style="color: orange;">The Target Shape</span>
+### <span class="accent-orange">The Target Shape</span>
 
 The device in this post has:
 
@@ -25,7 +25,7 @@ This is a realistic shape for hardened industrial gateways, some Ubiquiti gear, 
 
 ---
 
-### <span style="color: orange;">Technique 1: PAM Environment Poisoning Through The Banner</span>
+### <span class="accent-orange">Technique 1: PAM Environment Poisoning Through The Banner</span>
 
 Before the prompt prints, most login stacks print `/etc/issue`, `/etc/motd`, or a vendor banner. If the banner text is sourced from a file that is updated at runtime (NTP status, uptime, last-login info), it is a format-string sink in several busybox versions prior to 1.32.
 
@@ -37,7 +37,7 @@ Countermeasure: compile login with FORTIFY_SOURCE and `-Wformat-security`. Check
 
 ---
 
-### <span style="color: orange;">Technique 2: The Timing Oracle In Password Compare</span>
+### <span class="accent-orange">Technique 2: The Timing Oracle In Password Compare</span>
 
 Busybox `login` through 1.35 uses `strcmp` against the hashed result. The hash compare is constant-time because `crypt()` produces the hash first, and the compare runs over fixed-length strings. Fine.
 
@@ -86,7 +86,7 @@ Writeups on this: Bernstein's cache-timing work is the canonical reference. I ha
 
 ---
 
-### <span style="color: orange;">Technique 3: RX Overflow Into The Login State Machine</span>
+### <span class="accent-orange">Technique 3: RX Overflow Into The Login State Machine</span>
 
 The UART peripheral has a small hardware FIFO (8 to 128 bytes on common SoCs). The kernel driver has a larger ring buffer. The tty layer has another one. If you blast bytes into RX faster than the login process can read, under specific conditions the FIFO overflow clears a pending IRQ on some Allwinner and older HiSilicon parts without delivering the overflow data to userspace.
 
@@ -104,7 +104,7 @@ This is not a reliable exploit. It is a timing-dependent race. But I have seen i
 
 ---
 
-### <span style="color: orange;">Technique 4: The Rescue Prompt That Vendors Forgot</span>
+### <span class="accent-orange">Technique 4: The Rescue Prompt That Vendors Forgot</span>
 
 Many vendor-custom init scripts have a **fallback shell** for when mounting rootfs fails. The logic:
 
@@ -126,7 +126,7 @@ Vendors rarely fuzz their own rescue code because it "can't reach production". C
 
 ---
 
-### <span style="color: orange;">Technique 5: Kernel Parameter Leak Via /proc/cmdline</span>
+### <span class="accent-orange">Technique 5: Kernel Parameter Leak Via /proc/cmdline</span>
 
 If the device drops you at a restricted shell (a menu of commands, not a real shell), the first probe is almost always `cat /proc/cmdline`. Many builds leak:
 
@@ -141,7 +141,7 @@ The advanced move is chaining this with Technique 2. If the restricted shell off
 
 ---
 
-### <span style="color: orange;">Technique 6: The Getty Respawn Race</span>
+### <span class="accent-orange">Technique 6: The Getty Respawn Race</span>
 
 `getty` is typically respawned by init whenever it exits. If you can crash `getty` in a way that returns a specific exit code, some custom init scripts interpret that code as "debug mode requested" and respawn `getty -l /bin/sh` on the next iteration.
 
@@ -153,7 +153,7 @@ This is a specific vendor quirk that I have found on exactly three device famili
 
 ---
 
-### <span style="color: orange;">Technique 7: Abusing The Password-Retry Lockout</span>
+### <span class="accent-orange">Technique 7: Abusing The Password-Retry Lockout</span>
 
 Modern login binaries lock accounts after N failed attempts. The lockout is usually tracked in `/var/log/faillog` or a vendor-specific file.
 
@@ -165,7 +165,7 @@ Better variant: if the lockout is tracked in flash and the flash is JFFS2 (commo
 
 ---
 
-### <span style="color: orange;">Technique 8: The printf Format Bug In The Banner You Typed</span>
+### <span class="accent-orange">Technique 8: The printf Format Bug In The Banner You Typed</span>
 
 Some custom login binaries echo the failed username back as part of "Login incorrect: user X not found". If X is user-controlled and echoed through `printf`, a format-string primitive falls out.
 
@@ -175,7 +175,7 @@ I know of exactly one production router where this was exploitable end to end (T
 
 ---
 
-### <span style="color: orange;">Putting It Together: A Real Session</span>
+### <span class="accent-orange">Putting It Together: A Real Session</span>
 
 A session I ran on a $180 fanless industrial gateway (vendor omitted) with the exact stack above:
 
@@ -192,7 +192,7 @@ None of those 8 techniques required Secure Boot to be broken. None required the 
 
 ---
 
-### <span style="color: orange;">Mitigations That Actually Work</span>
+### <span class="accent-orange">Mitigations That Actually Work</span>
 
 - Compile login with `-D_FORTIFY_SOURCE=2 -Wformat-security -fstack-protector-strong` and PIE.
 - No user input ever passed to `printf` format. Always `printf("%s", user)`.

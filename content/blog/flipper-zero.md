@@ -5,13 +5,13 @@ description: "The Definitive Guide to Understanding and Setup for Flipper Zero c
 tags: ["flipperzero", "hardware hacking", "security tools"]
 ---
 
-### <span style="color: orange;">Introduction</span>
+### <span class="accent-orange">Introduction</span>
 
 Same content for Flipper Zero that is already available in google is not included here, and it does not exist anywhere else, as it comes under different parts.
 
 Flipper Zero is a compact and versatile device that integrates seamlessly with a variety of digital and RF systems, making it an indispensable tool for hackers and security researchers. Known for its open-source platform and community-driven support, Flipper Zero allows for extensive customization and functionality expansion through its multiple GitHub repositories.
 
-### <span style="color: orange;">Flipper Zero Technical Capabilities</span>
+### <span class="accent-orange">Flipper Zero Technical Capabilities</span>
 
 
 | **Category**                | **Description**                                                                                  | **Supported Features/Protocols**                                                            |
@@ -42,10 +42,10 @@ Flipper Zero is a compact and versatile device that integrates seamlessly with a
 | **Pentesting/Red Team Tools**| Flipper Zero can be used in security research and pentesting environments.                      | - BadUSB attacks, signal sniffing, NFC cloning, BLE manipulation                            |
 | **Debugging & Development**  | Supports debugging and hardware interfacing for developers and hardware hackers.                | - UART/SPI/I2C debugging through GPIO pins                                                  |
 
-### <span style="color: orange;">Additional Modules</span>
+### <span class="accent-orange">Additional Modules</span>
 The Flipper Zero supports additional modules and hardware extensions that expand its capabilities beyond the built-in features. Here are some notable additional modules and hardware extensions that can be connected to Flipper Zero:
 
-### <span style="color: orange;">Summary of Module Add-ons</span>
+### <span class="accent-orange">Summary of Module Add-ons</span>
 
 | **Module**                   | **Purpose**                                 | **Use Cases**                                       | **Connection**            |
 |------------------------------|---------------------------------------------|----------------------------------------------------|---------------------------|
@@ -62,16 +62,16 @@ The Flipper Zero supports additional modules and hardware extensions that expand
 | **Display Modules**           | Adds external display                       | Enhanced UI and data visualization                 | GPIO                       |
 | **Debugging Modules (JTAG)**  | Debugging external microcontrollers         | Firmware debugging, hardware analysis              | GPIO/SWD                   |
 
-### <span style="color: orange;">Some of Source Links to Buy:</span>
+### <span class="accent-orange">Some of Source Links to Buy:</span>
 
 ###### tindie : https://www.tindie.com/search/?q=flipper+zero
 
-### <span style="color: orange;">Resources:</span>
+### <span class="accent-orange">Resources:</span>
 
 https://github.com/djsime1/awesome-flipperzero?tab=readme-ov-file#databases--dumps
 
 
-### <span style="color: orange;">Why Use Custom Firmware for Flipper Zero?</span>
+### <span class="accent-orange">Why Use Custom Firmware for Flipper Zero?</span>
 
 The Flipper Zero is a versatile tool for hacking and experimentation, but the official firmware has limitations due to regulatory restrictions. To unlock more features and expand capabilities, many users turn to custom firmware, which enables advanced functions not available in the stock version.
 
@@ -86,7 +86,7 @@ The Flipper Zero is a versatile tool for hacking and experimentation, but the of
 **Access to Experimental Features:** Many custom firmwares provide experimental features that may not be officially supported but offer an edge for advanced users. These can be highly useful for RF manipulation, Bluetooth hacking, and other cutting-edge techniques.
 
 
-### <span style="color: orange;">Flipper Zero Custom Firmwares List:</span>
+### <span class="accent-orange">Flipper Zero Custom Firmwares List:</span>
 
 | **#** | **Firmware Name**       | **Description**                                                                 | **Key Features**                                                                                           | **URL**                                                                                  |
 |-------|-------------------------|---------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|

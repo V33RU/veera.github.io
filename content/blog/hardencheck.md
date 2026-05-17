@@ -9,7 +9,7 @@ tags: ["firmware", "binary hardening", "IoT security", "ASLR", "memory corruptio
 
 ---
 
-### <span style="color: orange;">We Stopped Hardening Where It Matters Most</span>
+### <span class="accent-orange">We Stopped Hardening Where It Matters Most</span>
 
 Desktop operating systems have spent two decades layering security mitigations - DEP, ASLR, CFI, sandboxing. Modern browsers isolate every tab in its own process with restricted syscall filters. Mobile operating systems enforce code signing, mandatory access control, and hardware-backed key storage.
 
@@ -23,7 +23,7 @@ The binaries running on the device that controls your home network have fewer pr
 
 ---
 
-### <span style="color: orange;">Memory Corruption Is Not a Solved Problem</span>
+### <span class="accent-orange">Memory Corruption Is Not a Solved Problem</span>
 
 There's a persistent myth that memory corruption vulnerabilities are a relic of the past - that modern tooling, languages, and practices have made buffer overflows irrelevant. The CVE database disagrees.
 
@@ -39,7 +39,7 @@ These aren't obscure embedded devices in a lab. These are enterprise-grade netwo
 
 ---
 
-### <span style="color: orange;">What "Hardened" Actually Means at the Binary Level</span>
+### <span class="accent-orange">What "Hardened" Actually Means at the Binary Level</span>
 
 When I say a binary is "hardened," I'm talking about a specific set of compile-time and link-time mitigations that make exploitation meaningfully harder. Each one closes a specific attack primitive:
 
@@ -101,7 +101,7 @@ Remove any single protection and the chain becomes dramatically easier. Remove t
 
 ---
 
-### <span style="color: orange;">The ASLR Entropy Problem Nobody Talks About</span>
+### <span class="accent-orange">The ASLR Entropy Problem Nobody Talks About</span>
 
 Address Space Layout Randomization is the single most important runtime mitigation against memory corruption exploitation. And on most embedded devices, it provides almost no protection.
 
@@ -141,7 +141,7 @@ Even on 64-bit platforms, several ELF properties degrade ASLR effectiveness:
 
 ---
 
-### <span style="color: orange;">The Banned Function Epidemic</span>
+### <span class="accent-orange">The Banned Function Epidemic</span>
 
 The C standard library contains functions that are **impossible to use safely**. Not "difficult" - impossible. There is no correct way to call `gets()`. There is no safe usage of `strcpy()` on untrusted input. These functions have been banned by Microsoft's SDL since 2007, by CERT-C since 2008, and by every serious secure coding standard since.
 
@@ -178,7 +178,7 @@ Each one is a potential entry point. Each one maps to a CWE. Each one is a findi
 
 ---
 
-### <span style="color: orange;">Network Daemons: Your Actual Attack Surface</span>
+### <span class="accent-orange">Network Daemons: Your Actual Attack Surface</span>
 
 A hardened binary that never accepts network input is safe. An unhardened binary listening on port 80 is your worst nightmare. **The attack surface of a firmware image is defined by its network-exposed services.**
 
@@ -216,7 +216,7 @@ Mirai's most devastating capability wasn't the DDoS - it was the lateral movemen
 
 ---
 
-### <span style="color: orange;">Secrets Hiding in Plain Sight</span>
+### <span class="accent-orange">Secrets Hiding in Plain Sight</span>
 
 When a firmware image is extracted (using tools like `binwalk`, `jefferson`, or `unsquashfs`), every file becomes readable. There is no encryption, no access control, no protection. If a secret is in the filesystem, it's exposed.
 
@@ -263,7 +263,7 @@ The consequence: [Shodan](https://www.shodan.io) and similar search engines inde
 
 ---
 
-### <span style="color: orange;">Post-Quantum Cryptography: The 10-Year Problem</span>
+### <span class="accent-orange">Post-Quantum Cryptography: The 10-Year Problem</span>
 
 NIST finalized its first post-quantum cryptography standards in 2024:
 - **ML-KEM** (formerly Kyber) - Key encapsulation mechanism
@@ -293,7 +293,7 @@ Most firmware today sits at "Not Ready." The migration path is long, and it star
 
 ---
 
-### <span style="color: orange;">Kernel Hardening: The Foundation Under Everything</span>
+### <span class="accent-orange">Kernel Hardening: The Foundation Under Everything</span>
 
 Userspace binary hardening is meaningless if the kernel itself is misconfigured. A kernel without KASLR has a known, fixed base address - kernel exploits can use hardcoded offsets. A kernel without SMEP allows a userspace exploit to redirect kernel execution to attacker-controlled userspace code.
 
@@ -323,7 +323,7 @@ The result: the kernel running on your smart home hub probably has fewer securit
 
 ---
 
-### <span style="color: orange;">The Supply Chain Blind Spot</span>
+### <span class="accent-orange">The Supply Chain Blind Spot</span>
 
 Every firmware image is a supply chain artifact. It contains:
 - A kernel (from kernel.org, with vendor patches)
@@ -354,7 +354,7 @@ Standard formats like **CycloneDX 1.5** and **SPDX 2.3** provide the schema. The
 
 ---
 
-### <span style="color: orange;">Real-World Attacks: The Cost of Not Hardening</span>
+### <span class="accent-orange">Real-World Attacks: The Cost of Not Hardening</span>
 
 #### Mirai (2016-present)
 
@@ -387,7 +387,7 @@ These are not exotic attack techniques. They are the basics - and the basics are
 
 ---
 
-### <span style="color: orange;">The Scoring Problem: How Do You Quantify Firmware Security?</span>
+### <span class="accent-orange">The Scoring Problem: How Do You Quantify Firmware Security?</span>
 
 Saying firmware is "insecure" isn't actionable. Product teams need a number - a metric they can track, set thresholds for, and improve over release cycles.
 
@@ -428,7 +428,7 @@ The firmware grade is the weighted average across all binaries. This means a fir
 
 ---
 
-### <span style="color: orange;">Where HardenCheck Fits In</span>
+### <span class="accent-orange">Where HardenCheck Fits In</span>
 
 Everything described in this post - binary hardening analysis, ASLR entropy measurement, banned function detection, daemon enumeration, credential scanning, kernel hardening checks, PQC readiness assessment, SBOM generation - these are the exact analyses that **[HardenCheck](https://github.com/v33ru/hardencheck)** performs automatically.
 
@@ -452,7 +452,7 @@ The tool doesn't fix your firmware. It tells you - precisely, quantifiably, repr
 
 ---
 
-### <span style="color: orange;">Closing Thoughts</span>
+### <span class="accent-orange">Closing Thoughts</span>
 
 Firmware security is not a niche concern. It's not an academic exercise. It is the literal foundation of billions of connected devices that control physical systems - locks, cameras, medical equipment, industrial processes, vehicles, power infrastructure.
 
