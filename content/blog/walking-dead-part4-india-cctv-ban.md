@@ -9,7 +9,7 @@ tags: ["IoT security", "policy", "India", "Hikvision", "Dahua", "supply chain", 
 
 ---
 
-### <span style="color: orange;">What Actually Happened</span>
+### <span class="accent-orange">What Actually Happened</span>
 
 On April 1, 2026, a two-year regulatory clock ran out.
 
@@ -25,7 +25,7 @@ This is not a recall. Devices already deployed can continue operating. Nobody is
 
 ---
 
-### <span style="color: orange;">Why Now? The Trigger Nobody Talks About Enough</span>
+### <span class="accent-orange">Why Now? The Trigger Nobody Talks About Enough</span>
 
 The timing is not a coincidence.
 
@@ -37,7 +37,7 @@ This is how surveillance policy actually changes. Not through white papers. Thro
 
 ---
 
-### <span style="color: orange;">The Numbers Behind the Decision</span>
+### <span class="accent-orange">The Numbers Behind the Decision</span>
 
 Indian players already control **over 80% of the CCTV market** as of February 2026. Chinese brands had previously commanded roughly one-third of total national sales. That means the shift has been happening for years - the ban is the legal formalization of a market trend that was already underway.
 
@@ -47,7 +47,7 @@ Over 500 CCTV models are already certified under the new regime. That is not a b
 
 ---
 
-### <span style="color: orange;">The Security Argument - Is It Real?</span>
+### <span class="accent-orange">The Security Argument - Is It Real?</span>
 
 Let me be precise here, because this matters.
 
@@ -69,7 +69,7 @@ The security argument for the ban is legitimate. The question is whether the mec
 
 ---
 
-### <span style="color: orange;">What the Ban Does Not Fix</span>
+### <span class="accent-orange">What the Ban Does Not Fix</span>
 
 Here is the uncomfortable part.
 
@@ -83,7 +83,7 @@ Here is the uncomfortable part.
 
 ---
 
-### <span style="color: orange;">What the Ban Does Fix</span>
+### <span class="accent-orange">What the Ban Does Fix</span>
 
 Despite the above, I do not think this is purely a market play dressed up as security policy. Some things are genuinely better after this decision.
 
@@ -97,7 +97,7 @@ Despite the above, I do not think this is purely a market play dressed up as sec
 
 ---
 
-### <span style="color: orange;">The Harder Question: Is This About Security or Competition?</span>
+### <span class="accent-orange">The Harder Question: Is This About Security or Competition?</span>
 
 Both. And that is fine.
 
@@ -107,7 +107,7 @@ The honest framing: **India chose to use security certification as a market acce
 
 ---
 
-### <span style="color: orange;">What IOTSRG Thinks Should Happen Next</span>
+### <span class="accent-orange">What IOTSRG Thinks Should Happen Next</span>
 
 The ban is a first step. Here is the rest of the staircase.
 
@@ -128,7 +128,7 @@ The CCTV ban affects one device class. Indian homes and businesses also run Chin
 
 ---
 
-### <span style="color: orange;">The Overnight Game Changer Framing Is Wrong</span>
+### <span class="accent-orange">The Overnight Game Changer Framing Is Wrong</span>
 
 The headline framing - "overnight game changer" - does not survive scrutiny. What actually happened:
 

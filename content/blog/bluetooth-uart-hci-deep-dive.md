@@ -9,7 +9,7 @@ tags: ["bluetooth", "UART", "HCI", "hardware hacking", "CVE", "embedded security
 
 ---
 
-### <span style="color: orange;">The Question People Keep Getting Wrong</span>
+### <span class="accent-orange">The Question People Keep Getting Wrong</span>
 
 "Is Bluetooth UART?" gets asked constantly in hardware hacking circles. The answer is: yes and no, and understanding exactly where the line sits will let you do things to a Bluetooth device that most people never think to try.
 
@@ -23,7 +23,7 @@ Each one has different attack surface. Each one has its own CVE history. We will
 
 ---
 
-### <span style="color: orange;">Layer 1: HCI UART - The Wire Nobody Talks About</span>
+### <span class="accent-orange">Layer 1: HCI UART - The Wire Nobody Talks About</span>
 
 Most commodity hardware separates the application processor from the Bluetooth radio. The gap between them is filled with HCI: Host Controller Interface.
 
@@ -55,7 +55,7 @@ The switch happens via `HCI_Reset` followed by a vendor-specific baud change com
 
 ---
 
-### <span style="color: orange;">HCI Packet Structure - What Travels on the Wire</span>
+### <span class="accent-orange">HCI Packet Structure - What Travels on the Wire</span>
 
 HCI defines four packet types. Each one starts with a single indicator byte:
 
@@ -123,7 +123,7 @@ The lower 12 bits of the handle field identify which ACL connection. The upper 4
 
 ---
 
-### <span style="color: orange;">What You Can Do With Physical HCI UART Access</span>
+### <span class="accent-orange">What You Can Do With Physical HCI UART Access</span>
 
 If you can tap or inject on the HCI UART line, you are operating below the Bluetooth security model. Pairing, authentication, and encryption happen at the controller level, but you are talking directly to the controller's HCI port.
 
@@ -172,7 +172,7 @@ The response will be an event containing every link key stored on the controller
 
 ---
 
-### <span style="color: orange;">Layer 2: RFCOMM and SPP - Serial Port Profile Over the Air</span>
+### <span class="accent-orange">Layer 2: RFCOMM and SPP - Serial Port Profile Over the Air</span>
 
 This is what most people mean when they say "Bluetooth UART." SPP uses RFCOMM, which uses L2CAP, which uses ACL, which uses HCI. The chain is:
 
@@ -252,7 +252,7 @@ SPP has zero application-layer authentication by default. If pairing mode is `Ju
 
 ---
 
-### <span style="color: orange;">Layer 3: Nordic UART Service (NUS) - BLE Serial</span>
+### <span class="accent-orange">Layer 3: Nordic UART Service (NUS) - BLE Serial</span>
 
 BLE does not have RFCOMM. Nordic Semiconductor invented a convention called NUS as a GATT service to fill the gap:
 
@@ -272,7 +272,7 @@ This is not a standard. It is a convention. Many Chinese BLE modules (HM-10, AT-
 
 ---
 
-### <span style="color: orange;">Configuration Packets - What the Firmware Sends Before Anything Works</span>
+### <span class="accent-orange">Configuration Packets - What the Firmware Sends Before Anything Works</span>
 
 This is the initialization sequence you will see on the HCI UART after a power-on reset, reconstructed from a typical Broadcom/Cypress chip (BCM43xx family):
 
@@ -301,7 +301,7 @@ Beken, Realtek, and Qualcomm all do variations of this. The specific VSC opcodes
 
 ---
 
-### <span style="color: orange;">Security Issues and Known CVEs</span>
+### <span class="accent-orange">Security Issues and Known CVEs</span>
 
 **BlueBorne (2017) - CVE-2017-0781, CVE-2017-0782, CVE-2017-0783, CVE-2017-0785**
 
@@ -369,7 +369,7 @@ The mechanism: Bluetooth HID uses L2CAP PSM 0x0011 (HID Control) and PSM 0x0013 
 
 ---
 
-### <span style="color: orange;">HCI UART Sniffing - What the Setup Looks Like</span>
+### <span class="accent-orange">HCI UART Sniffing - What the Setup Looks Like</span>
 
 If you want to tap the HCI UART line on a device you are testing:
 
@@ -436,7 +436,7 @@ send_hci_cmd(0x03, 0x00D, b'\x00\x00\x00\x00\x00\x00\x01')
 
 ---
 
-### <span style="color: orange;">Why Vendors Use UART for HCI</span>
+### <span class="accent-orange">Why Vendors Use UART for HCI</span>
 
 The answer is boring and correct: cost and universality.
 
@@ -450,7 +450,7 @@ This is why HCI UART pads on production boards are the first thing a hardware se
 
 ---
 
-### <span style="color: orange;">Practical Attack Chain: From UART Pad to Network Access</span>
+### <span class="accent-orange">Practical Attack Chain: From UART Pad to Network Access</span>
 
 This is a real attack path that has worked on production consumer devices:
 
@@ -471,7 +471,7 @@ Steps 9 and 10 are the BIAS attack in practice. You do not crack the link key. Y
 
 ---
 
-### <span style="color: orange;">Mitigations That Actually Work</span>
+### <span class="accent-orange">Mitigations That Actually Work</span>
 
 **For device manufacturers:**
 

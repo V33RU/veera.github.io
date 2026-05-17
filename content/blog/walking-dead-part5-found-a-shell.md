@@ -9,7 +9,7 @@ tags: ["IoT security", "vulnerability research", "responsible disclosure", "IOTS
 
 ---
 
-### <span style="color: orange;">Found a Shell. Posted on LinkedIn. Fixed Nothing.</span>
+### <span class="accent-orange">Found a Shell. Posted on LinkedIn. Fixed Nothing.</span>
 
 Let's talk about the thing nobody wants to say out loud in the IoT security community.
 
@@ -47,7 +47,7 @@ The problem is not the hardware research. The problem is what happens after the 
 
 ---
 
-### <span style="color: orange;">CVE-2014-8361: Still Trending After 12 Years</span>
+### <span class="accent-orange">CVE-2014-8361: Still Trending After 12 Years</span>
 
 CVE-2014-8361. Realtek UPnP SDK. SOAP injection. Root shell. Affects an estimated 200 million devices.
 
@@ -61,7 +61,7 @@ Every year, someone "discovers" that a 2015 IP camera from a brand that no longe
 
 ---
 
-### <span style="color: orange;">The Responsible Disclosure Ceremony</span>
+### <span class="accent-orange">The Responsible Disclosure Ceremony</span>
 
 Here is how responsible disclosure actually plays out on EOL devices in 2026:
 
@@ -82,7 +82,7 @@ I am not saying stop filing CVEs. I am saying: be honest about what it accomplis
 
 ---
 
-### <span style="color: orange;">The Clout Economy vs. The Fix Economy</span>
+### <span class="accent-orange">The Clout Economy vs. The Fix Economy</span>
 
 IoT security has a fundamental misalignment between what generates attention and what generates improvement.
 
@@ -105,7 +105,7 @@ A camera with CVE-2021-36260 (Hikvision, CVSS 9.8, unauthenticated RCE, tens of 
 
 ---
 
-### <span style="color: orange;">What This Series Was Actually About</span>
+### <span class="accent-orange">What This Series Was Actually About</span>
 
 Four parts. Let me compress them.
 
@@ -123,7 +123,7 @@ A better antivirus does not fix this. A SIEM rule does not fix this. A LinkedIn 
 
 ---
 
-### <span style="color: orange;">What Would Actually Fix It (The Short, Honest List)</span>
+### <span class="accent-orange">What Would Actually Fix It (The Short, Honest List)</span>
 
 I have said versions of this across four posts. Here is the final, compressed version.
 
@@ -139,7 +139,7 @@ I have said versions of this across four posts. Here is the final, compressed ve
 
 ---
 
-### <span style="color: orange;">The Honest Ending</span>
+### <span class="accent-orange">The Honest Ending</span>
 
 The devices are still walking. The 283KB binary that started this research - XOR-encrypted credentials, 62 exploit functions, 12 DDoS methods, watchdog subversion, credential table with `root:xc3511` and `supervisor:supervisor` - is not sophisticated. It does not need to be. The attack surface is so large, so static, and so permanently unmaintained that sophistication is unnecessary.
 

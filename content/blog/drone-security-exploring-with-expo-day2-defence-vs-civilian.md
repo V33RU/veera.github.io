@@ -11,7 +11,7 @@ tags: ["drones", "defence", "surveillance", "kamikaze", "counter-drone", "expo",
 
 ---
 
-### <span style="color: orange;">The One Domain Where Drones Actually Changed The Math</span>
+### <span class="accent-orange">The One Domain Where Drones Actually Changed The Math</span>
 
 Defence. Not "drones for cinematic shots". Not "drones for delivery of $15 sandwiches". Defence.
 
@@ -23,7 +23,7 @@ Consumer drones are a toy version of defence drones whose hardware happened to g
 
 ---
 
-### <span style="color: orange;">Surveillance Drones: The Unglamorous Workhorse</span>
+### <span class="accent-orange">Surveillance Drones: The Unglamorous Workhorse</span>
 
 Most of what defence actually does with drones is watch. Not strike. Watch.
 
@@ -45,7 +45,7 @@ The defence exhibitor I spent most time with was showing a 12 kg tactical ISR dr
 
 ---
 
-### <span style="color: orange;">Precision Strike: The Part Nobody Wants To Talk About Publicly</span>
+### <span class="accent-orange">Precision Strike: The Part Nobody Wants To Talk About Publicly</span>
 
 Missile-launching drones and weaponised UAVs were on the floor. Not everyone had signs over them saying so. You could tell.
 
@@ -64,7 +64,7 @@ The market consequence: every country now has or is developing a domestic drone-
 
 ---
 
-### <span style="color: orange;">Kamikaze Loitering Munitions: The New Category</span>
+### <span class="accent-orange">Kamikaze Loitering Munitions: The New Category</span>
 
 This is the one that has actually changed warfare since 2022. Loitering munitions, also called kamikaze drones, are a hybrid of a cruise missile and an ISR drone. They are cheap, they fly for an hour, they carry a warhead, and at the end of their mission they fly into the target.
 
@@ -86,7 +86,7 @@ This is why Turkey, Israel, China, Iran, Russia, Ukraine, USA, and increasingly 
 
 ---
 
-### <span style="color: orange;">Drone-On-Drone War: The Second-Order Effect</span>
+### <span class="accent-orange">Drone-On-Drone War: The Second-Order Effect</span>
 
 When both sides have drones, the battlefield becomes a drone-vs-drone problem. This is what I saw the most interesting products solving. Not attack drones. Counter-drones.
 
@@ -106,7 +106,7 @@ I spent 40 minutes with one vendor whose counter-drone system uses passive RF de
 
 ---
 
-### <span style="color: orange;">The Accuracy Gap Is The Whole Story</span>
+### <span class="accent-orange">The Accuracy Gap Is The Whole Story</span>
 
 The number that keeps coming up when I compare drone warfare to its predecessors is accuracy, and it deserves its own section because it is the root cause of everything else.
 
@@ -124,7 +124,7 @@ Drones compressed this curve dramatically. The "who can afford precision" questi
 
 ---
 
-### <span style="color: orange;">The Civilian Side Is Honestly Just YouTubers And Hobbyists</span>
+### <span class="accent-orange">The Civilian Side Is Honestly Just YouTubers And Hobbyists</span>
 
 I said this on day 1. After day 2, I am more confident in saying it.
 
@@ -145,7 +145,7 @@ The serious drone industry is defence, and everything adjacent to defence (count
 
 ---
 
-### <span style="color: orange;">What Saves Soldier Lives Actually Saves Soldier Lives</span>
+### <span class="accent-orange">What Saves Soldier Lives Actually Saves Soldier Lives</span>
 
 The framing that keeps coming up in defence conversations at the expo: "before drones, we sent a squad to find out what was behind that ridge. Now we send a drone. Both options tell us what is behind the ridge. Only one option has funerals attached."
 
@@ -164,7 +164,7 @@ A consequence people do not talk about much: this also makes war politically eas
 
 ---
 
-### <span style="color: orange;">The Technical Depth Under Defence Drones</span>
+### <span class="accent-orange">The Technical Depth Under Defence Drones</span>
 
 The civilian stalls mostly showed marketing brochures. The defence stalls showed actual engineering. Some of the depth I saw:
 
@@ -182,7 +182,7 @@ The engineering gap between a $2000 civilian quadcopter and a $200,000 military 
 
 ---
 
-### <span style="color: orange;">What I Took Home From Day 2</span>
+### <span class="accent-orange">What I Took Home From Day 2</span>
 
 Three observations that I did not have walking in:
 
@@ -196,7 +196,7 @@ If I were starting a drone company in India in 2026 and I wanted something defen
 
 ---
 
-### <span style="color: orange;">Closing Thought for Day 2</span>
+### <span class="accent-orange">Closing Thought for Day 2</span>
 
 Drones proved what a human soldier can do, they did it faster, more accurately, for longer, and without anyone dying when something goes wrong. That is a complete sentence and it is the reason defence budgets have drones at the top of their procurement lists globally.
 

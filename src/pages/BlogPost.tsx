@@ -11,7 +11,10 @@ const sanitizeSchema = {
   ...defaultSchema,
   attributes: {
     ...defaultSchema.attributes,
-    span: [...(defaultSchema.attributes?.span || []), "style"],
+    span: [
+      ...(defaultSchema.attributes?.span || []),
+      ["className", "accent-orange"],
+    ],
     img: [...(defaultSchema.attributes?.img || []), "src", "alt", "loading"],
   },
   tagNames: [...(defaultSchema.tagNames || []), "span", "figure", "figcaption"],

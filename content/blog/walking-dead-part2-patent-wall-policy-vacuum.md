@@ -9,7 +9,7 @@ tags: ["IoT security", "policy", "regulation", "DMCA", "ETSI", "CRA", "vulnerabi
 
 ---
 
-### <span style="color: orange;">The Research You Are Not Allowed to Do</span>
+### <span class="accent-orange">The Research You Are Not Allowed to Do</span>
 
 Before I talk about policy, understand the legal landscape that security researchers operate in.
 
@@ -75,7 +75,7 @@ Nobody does this. The legal cost exceeds the security benefit at any single comp
 
 ---
 
-### <span style="color: orange;">The Standards Graveyard</span>
+### <span class="accent-orange">The Standards Graveyard</span>
 
 #### The Regulation Timeline vs. The Deployment Timeline
 
@@ -99,7 +99,7 @@ The devices that Mirai.B targets - GPON routers (CVE-2018-10561), Huawei HG532 (
 
 ---
 
-### <span style="color: orange;">ETSI EN 303 645: The Good Standard That Exempts Everything Dangerous</span>
+### <span class="accent-orange">ETSI EN 303 645: The Good Standard That Exempts Everything Dangerous</span>
 
 ETSI EN 303 645 is genuinely one of the better IoT security standards. Its 13 baseline provisions include:
 
@@ -144,7 +144,7 @@ The HiSilicon camera sitting in a UK home, bought in 2019 from Amazon, is not co
 
 ---
 
-### <span style="color: orange;">The Vendor Liability Vacuum</span>
+### <span class="accent-orange">The Vendor Liability Vacuum</span>
 
 #### Software Is Not a Product
 
@@ -182,7 +182,7 @@ The 90-day standard - designed to create patch pressure - has no mechanism to wo
 
 ---
 
-### <span style="color: orange;">The Insurance Angle: How Risk Pricing Could Fix What Regulation Cannot</span>
+### <span class="accent-orange">The Insurance Angle: How Risk Pricing Could Fix What Regulation Cannot</span>
 
 There is one market mechanism that has historically forced security improvements: **cyber insurance pricing**.
 
@@ -204,7 +204,7 @@ The insurance signal is absent. The economic incentive is absent. The graveyard 
 
 ---
 
-### <span style="color: orange;">The India-Specific Problem</span>
+### <span class="accent-orange">The India-Specific Problem</span>
 
 India has approximately 900 million IoT endpoints - the second largest deployment globally after China. The regulatory framework:
 

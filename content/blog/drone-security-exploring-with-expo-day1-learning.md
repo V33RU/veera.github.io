@@ -7,7 +7,7 @@ tags: ["drone", "UAV", "drone security", "hardware", "expo", "BIEC", "agricultur
 
 *Before I start, a bias disclosure. I walked into this expo thinking drones are another overhyped category. I walked out mostly still thinking that, with a few exceptions that genuinely surprised me. This is Day 1. I will post the rest of what I saw in follow-up parts.*
 
-### <span style="color: orange;">Why I Went in the First Place</span>
+### <span class="accent-orange">Why I Went in the First Place</span>
 
 I keep hearing the same three things in every drone conversation for the last two years.
 
@@ -21,7 +21,7 @@ So I went to BIEC to see it. Expos are the fastest way to compress a year of mar
 
 Here is the map after Day 1.
 
-### <span style="color: orange;">The Honest Take on Most of the Drones</span>
+### <span class="accent-orange">The Honest Take on Most of the Drones</span>
 
 I looked at a lot of airframes today. Quad, hexa, octa, fixed wing, tethered, VTOL. Big ones, small ones, ones with payload arms, ones with spray tanks, ones with thermal cameras bolted on.
 
@@ -33,7 +33,7 @@ What changes between vendors is the frame design, the paint, the marketing story
 
 That is not a criticism. That is just what the market looks like in 2026. Most of the "drone companies" in India are integrators, not hardware designers. They buy the parts, assemble the frame, write some mission software on top of ArduPilot or PX4, and sell a solution. Which is a valid business. It is just not the deep-tech story the press releases suggest.
 
-### <span style="color: orange;">Where the Real Competition Is Missing</span>
+### <span class="accent-orange">Where the Real Competition Is Missing</span>
 
 Two categories had almost no real competition on the floor.
 
@@ -45,7 +45,7 @@ That said, I did see a handful of platforms quoting 50 to 80 km operational rang
 
 If you wanted to enter this market with a real product, those are the two gaps. Lift and endurance. Everything else is crowded.
 
-### <span style="color: orange;">The Drones That Actually Impressed Me</span>
+### <span class="accent-orange">The Drones That Actually Impressed Me</span>
 
 There were a few products on the floor that were genuinely advanced. I am not going to name them, and I am not going to describe them in detail, because the people showing them were candid about what they do and I am not going to turn that candor into a public writeup.
 
@@ -53,7 +53,7 @@ What I will say is this. In every crowded market, there is a thin layer of vendo
 
 This is the actual reason to attend expos. Not the headline vendors. The quiet ones.
 
-### <span style="color: orange;">What I Actually Catalogued on Day 1</span>
+### <span class="accent-orange">What I Actually Catalogued on Day 1</span>
 
 Here is a breakdown of the categories I saw on the floor today, in rough order of how common they were.
 
@@ -71,7 +71,7 @@ On the offensive side of the same category, I also saw kamikaze loitering muniti
 
 **6. Kid-level R&D and student projects.** One of my favourite moments today. A very young person, looked like school or early college, was showing a motor and ESC experiment he had built himself. It was not a polished product. It was a clearly hand-wound motor, a driver board he had put together, and a writeup of the tests he had run. It was also the most intellectually honest stall I visited. He knew exactly what worked, what did not, and what he wanted to try next. If I had to bet on who in the hall would be doing something genuinely novel in five years, it would be him, not the vendors with the biggest banners.
 
-### <span style="color: orange;">The China Chip Line, and Why I Am Not Sure It Means Much</span>
+### <span class="accent-orange">The China Chip Line, and Why I Am Not Sure It Means Much</span>
 
 One phrase I heard at multiple stalls, almost word for word, was "we do not use any China chips, ours are from Taiwan." It was said the way a hotel says "complimentary breakfast." As if that single sentence closed the entire supply chain conversation.
 
@@ -93,7 +93,7 @@ I walked into today honestly confused, and I walked out still confused. Not abou
 
 The actual answer is a signed firmware chain, a documented SBOM, a disclosed update cadence, and a third party willing to verify any of it. None of the stalls I visited today had any of those. Most had the Taiwan line.
 
-### <span style="color: orange;">The Security Angle Nobody Is Talking About</span>
+### <span class="accent-orange">The Security Angle Nobody Is Talking About</span>
 
 I came at this from the security side, because that is my bias, and the security picture on the floor was about what I expected.
 
@@ -117,7 +117,7 @@ This is not a drone industry problem. This is an IoT industry problem that has n
 
 It will be a differentiator the first time a hostile actor does something visible with a compromised fleet. Which is a when, not an if.
 
-### <span style="color: orange;">What I Am Looking At On Day 2</span>
+### <span class="accent-orange">What I Am Looking At On Day 2</span>
 
 A few specific things I want to cover tomorrow.
 
@@ -131,7 +131,7 @@ The student and hobbyist stalls. The motor kid was the best signal on the floor 
 
 I will write Day 2 up the same way I wrote Day 1. No vendor names on the things that are actually interesting. No hype on the things that are not. Just an honest map of what the drone market in India looks like when you walk the floor in 2026.
 
-### <span style="color: orange;">If You Actually Want to Build a Business in This Space</span>
+### <span class="accent-orange">If You Actually Want to Build a Business in This Space</span>
 
 A few honest notes for anyone walking a floor like this thinking about entering the market.
 
@@ -145,7 +145,7 @@ A few honest notes for anyone walking a floor like this thinking about entering 
 
 **Revolution is not easy, but it is not impossible here either.** Bringing a real shift in any hardware domain is not a weekend project. It takes patient capital, deep engineering, and usually a few failed products before the one that works. India makes this harder because the ecosystem for deep-tech hardware is still thin. It also makes it possible, because the ecosystem is thin. If you build something genuinely unique, you are not fighting ten equivalents, you are alone in that lane for a while. And if you already have something unique, the work is to keep it unique. That means keep iterating, keep filing, keep guarding, and do not show the interesting parts at the expo booth. The people who are actually ahead know this. It is why the most advanced products I saw today were also the least publicly described.
 
-### <span style="color: orange;">Closing Thought for Day 1</span>
+### <span class="accent-orange">Closing Thought for Day 1</span>
 
 Most of what is called the "drone revolution" is a re-skinning exercise on a mature parts catalogue. That is fine. That is how most hardware markets grow.
 

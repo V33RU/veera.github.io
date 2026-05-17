@@ -9,7 +9,7 @@ tags: ["HDMI", "CEC", "EDID", "hardware hacking", "fuzzing", "lab", "tutorial"]
 
 ---
 
-### <span style="color: orange;">Lab Hardware Bill of Materials</span>
+### <span class="accent-orange">Lab Hardware Bill of Materials</span>
 
 You can run all three labs with the same kit:
 
@@ -29,7 +29,7 @@ A note on permission: only run these labs on hardware you own. CEC traffic propa
 
 ---
 
-### <span style="color: orange;">Lab 0: One-Time Pi Setup</span>
+### <span class="accent-orange">Lab 0: One-Time Pi Setup</span>
 
 Flash a current Raspberry Pi OS Lite. SSH in. Then:
 
@@ -61,7 +61,7 @@ The HDMI-side DDC bus on a Pi 4 is exposed as `/dev/i2c-2` once `dtparam=i2c_vc=
 
 ---
 
-### <span style="color: orange;">Lab 1: CEC Recon and OSD Injection on a Real TV</span>
+### <span class="accent-orange">Lab 1: CEC Recon and OSD Injection on a Real TV</span>
 
 **Goal:** plug into a TV, enumerate every device on the HDMI chain, fingerprint the vendor, then make the TV display attacker-controlled text on its on-screen display.
 
@@ -145,7 +145,7 @@ If the TV has a YouTube or browser app pre-installed, a sequence of `<User Contr
 
 ---
 
-### <span style="color: orange;">Lab 2: Malicious EDID Delivery from a Raspberry Pi</span>
+### <span class="accent-orange">Lab 2: Malicious EDID Delivery from a Raspberry Pi</span>
 
 **Goal:** present a crafted EDID to a host computer's GPU and observe how its driver and compositor handle malformed data. This is where you find real parser bugs.
 
@@ -250,7 +250,7 @@ For Xorg specifically, oversized DTD pixel-clock values combined with malformed 
 
 ---
 
-### <span style="color: orange;">Lab 3: A CEC Opcode Fuzzer That Actually Finds Hangs</span>
+### <span class="accent-orange">Lab 3: A CEC Opcode Fuzzer That Actually Finds Hangs</span>
 
 **Goal:** write a small fuzzer that walks every legal and many illegal opcode/operand combinations against a target TV and logs which ones cause hangs, reboots, or unexpected behavior. This has found parser bugs in shipping firmware in the past.
 
@@ -354,7 +354,7 @@ If you find a real bug:
 
 ---
 
-### <span style="color: orange;">A Note on the Logic Analyzer</span>
+### <span class="accent-orange">A Note on the Logic Analyzer</span>
 
 For all three labs, having a cheap 8-channel logic analyzer with sigrok and PulseView open in the background is invaluable. Tap CEC (pin 13) and the DDC pair (pins 15-16) on a sacrificial cable. Then:
 
@@ -366,7 +366,7 @@ In PulseView, add a CEC protocol decoder (it is built in). You will see frames d
 
 ---
 
-### <span style="color: orange;">What to Try Next</span>
+### <span class="accent-orange">What to Try Next</span>
 
 Once you have these three labs working, the natural next steps are:
 
@@ -378,7 +378,7 @@ The point of this post is that none of this requires expensive equipment or rare
 
 ---
 
-### <span style="color: orange;">Reference Repository List</span>
+### <span class="accent-orange">Reference Repository List</span>
 
 - [Pulse-Eight/libcec](https://github.com/Pulse-Eight/libcec)
 - [trainman419/python-cec](https://github.com/trainman419/python-cec)

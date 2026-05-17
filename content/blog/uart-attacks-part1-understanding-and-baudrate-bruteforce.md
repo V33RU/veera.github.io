@@ -9,7 +9,7 @@ tags: ["hardware hacking", "UART", "embedded security", "bruteforce", "series"]
 
 ---
 
-### <span style="color: orange;">What UART Actually Is</span>
+### <span class="accent-orange">What UART Actually Is</span>
 
 UART is not a bus. There is no clock line. There is no addressing. Two endpoints agree on a bit rate in advance and then fire voltages at each other.
 
@@ -30,7 +30,7 @@ That intolerance is the first thing an attacker exploits. Pick the right baud an
 
 ---
 
-### <span style="color: orange;">Deep Dive: What A Bit Actually Looks Like On The Wire</span>
+### <span class="accent-orange">Deep Dive: What A Bit Actually Looks Like On The Wire</span>
 
 The transmitter is a push-pull totem-pole output. It drives the line to VCC for a logical 1 and to GND for a logical 0. That is it. There is no differential, no encoding, no clock recovery.
 
@@ -57,7 +57,7 @@ Key consequences:
 
 ---
 
-### <span style="color: orange;">Pull-Up and Pull-Down Resistors: Why They Matter For UART</span>
+### <span class="accent-orange">Pull-Up and Pull-Down Resistors: Why They Matter For UART</span>
 
 The single biggest cause of "I have the right baud but I see garbage or nothing" on unknown hardware is wrong resistor biasing on the line. Here is why.
 
@@ -102,7 +102,7 @@ For high-speed UART (> 1 Mbaud) over long cables, the RC time constant matters. 
 
 ---
 
-### <span style="color: orange;">Parity Bits: The 1-Bit Error Detector Nobody Talks About Carefully</span>
+### <span class="accent-orange">Parity Bits: The 1-Bit Error Detector Nobody Talks About Carefully</span>
 
 ![Parity bits fully explained: modes, worked example, receiver logic, what it catches, what it misses, and the attacker angle](/blog/uart/parity-bits-explained.svg)
 
@@ -147,7 +147,7 @@ Parity is the oldest error-detection scheme on serial lines, and it still ships 
 
 ---
 
-### <span style="color: orange;">Voltage Levels, Rise Time, And Why Your Cheap Dongle Works (Or Does Not)</span>
+### <span class="accent-orange">Voltage Levels, Rise Time, And Why Your Cheap Dongle Works (Or Does Not)</span>
 
 The receiver samples in the middle of each bit time. For that sample to be correct, the line must have reached a valid logic level by the sample point. A "valid 1" on 3.3V CMOS is typically VCC * 0.7 = 2.31 V and above. A "valid 0" is VCC * 0.3 = 0.99 V and below. Between those is undefined.
 
@@ -164,7 +164,7 @@ This is why level shifters, properly buffered UART adapters, and short wires mat
 
 ---
 
-### <span style="color: orange;">The Receiver's State Machine, In Enough Detail To Debug</span>
+### <span class="accent-orange">The Receiver's State Machine, In Enough Detail To Debug</span>
 
 When the receiver's input goes low after an idle period, the receiver starts a state machine:
 
@@ -184,7 +184,7 @@ The oversampling rate on modern UART peripherals is 8x or 16x per bit, with majo
 
 ---
 
-### <span style="color: orange;">Finding TX, RX, GND on an Unknown Board</span>
+### <span class="accent-orange">Finding TX, RX, GND on an Unknown Board</span>
 
 Typical targets: IP cameras, home routers, smart plugs, industrial gateways. The pads are almost always there. Manufacturers use them in the factory and never disable them.
 
@@ -213,7 +213,7 @@ If you do not own a scope, a cheap logic analyzer clone (Saleae-compatible, 24 M
 
 ---
 
-### <span style="color: orange;">Baud Rate: The Math That Matters</span>
+### <span class="accent-orange">Baud Rate: The Math That Matters</span>
 
 The common baud rates you will meet: 9600, 19200, 38400, 57600, 74880 (ESP8266 ROM), 115200, 230400, 460800, 921600, 1500000.
 
@@ -234,7 +234,7 @@ Two useful observations:
 
 ---
 
-### <span style="color: orange;">Brute Force, The Right Way</span>
+### <span class="accent-orange">Brute Force, The Right Way</span>
 
 The lazy way is to try bauds one by one in a terminal and eyeball the output. That works, and it is fine for a first pass. The better way measures the actual bit time on the wire and calculates the baud from that.
 
@@ -290,7 +290,7 @@ Linux's serial driver can report line idle time. Open at a very high oversample 
 
 ---
 
-### <span style="color: orange;">Bit-Level Gotchas That Burn Hours</span>
+### <span class="accent-orange">Bit-Level Gotchas That Burn Hours</span>
 
 - **8N1 vs 8E1 vs 7E1**: default is 8 data, no parity, 1 stop. A few industrial devices use 8E1 or 7E1. If your baud is right but every second character is wrong, try changing parity.
 - **Inverted logic**: some serial-over-RS232 gear is inverted (idle low instead of idle high). The FTDI driver has an invert flag.
@@ -300,7 +300,7 @@ Linux's serial driver can report line idle time. Open at a very high oversample 
 
 ---
 
-### <span style="color: orange;">What You Get When You Get It Right</span>
+### <span class="accent-orange">What You Get When You Get It Right</span>
 
 First successful connection on an unknown device usually looks like this:
 

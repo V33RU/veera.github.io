@@ -9,7 +9,7 @@ tags: ["firmware", "hardening", "CRA", "tools", "embedded security", "SBOM", "re
 
 ---
 
-### <span style="color: orange;">Why I Am Writing This</span>
+### <span class="accent-orange">Why I Am Writing This</span>
 
 A friend sent me a tool-comparison dashboard last week. Fourteen tools, sortable columns, CRA relevance tags, GitHub star counts. It was clean. It was also missing the part where you tell someone what to actually do with the tools.
 
@@ -19,7 +19,7 @@ So this is not a tool comparison. This is what I actually do when a firmware ima
 
 ---
 
-### <span style="color: orange;">The Complete Toolchain at a Glance</span>
+### <span class="accent-orange">The Complete Toolchain at a Glance</span>
 
 Before diving into each tool, here is the full list with where to get them and what you need to run them. Bookmark this section. You will come back to it.
 
@@ -53,7 +53,7 @@ If you are on a laptop and want the minimum, the lightweight tier plus HardenChe
 
 ---
 
-### <span style="color: orange;">The Uncomfortable Truth About Firmware Security</span>
+### <span class="accent-orange">The Uncomfortable Truth About Firmware Security</span>
 
 Before tools: vendors ship terrible firmware. The industry has not improved much in a decade. What has improved is that I am better at finding the same classes of bugs faster.
 
@@ -71,7 +71,7 @@ These are not individual bugs. They are patterns. The tools in this post exist b
 
 ---
 
-### <span style="color: orange;">How I Actually Open a Firmware</span>
+### <span class="accent-orange">How I Actually Open a Firmware</span>
 
 The first hour on any firmware looks the same. I am not running a pipeline. I am running specific tools in a specific order because each answer informs the next.
 
@@ -85,7 +85,7 @@ Let me walk through actually doing it.
 
 ---
 
-### <span style="color: orange;">binwalk: The Tool Nobody Replaces</span>
+### <span class="accent-orange">binwalk: The Tool Nobody Replaces</span>
 
 `binwalk -Me firmware.bin` and wait.
 
@@ -115,7 +115,7 @@ Either way, I move on to firmwalker before doing anything else.
 
 ---
 
-### <span style="color: orange;">Firmwalker: The Script That Finds Half the Bugs in Half a Minute</span>
+### <span class="accent-orange">Firmwalker: The Script That Finds Half the Bugs in Half a Minute</span>
 
 Firmwalker is a bash script. Look at its source. It is 200 lines of `grep` and `find` with a curated wordlist.
 
@@ -136,7 +136,7 @@ This is the class of finding that makes compliance people uncomfortable because 
 
 ---
 
-### <span style="color: orange;">checksec: The Hardening Table Is Your Evidence</span>
+### <span class="accent-orange">checksec: The Hardening Table Is Your Evidence</span>
 
 checksec walks over an ELF binary, reads the program headers, reads the `.dynamic` section, and reports on which compiler-level security features were enabled. It runs in microseconds per binary.
 
@@ -165,7 +165,7 @@ Now open `checksec.csv`, sort by the combination of `PIE=No`, `Canary=No`, `RELR
 
 ---
 
-### <span style="color: orange;">BinSkim and the Windows Binary Question</span>
+### <span class="accent-orange">BinSkim and the Windows Binary Question</span>
 
 Most firmware assessments are Linux-flavored. ELF, squashfs, busybox, dropbear. If your firmware has no Windows binaries, BinSkim is not for you.
 
@@ -177,7 +177,7 @@ For ELF-only assessments, stick with checksec. For mixed or Windows-heavy, use B
 
 ---
 
-### <span style="color: orange;">cwe_checker: Where the Real Static Analysis Happens</span>
+### <span class="accent-orange">cwe_checker: Where the Real Static Analysis Happens</span>
 
 This one is underused. It should not be.
 
@@ -217,7 +217,7 @@ A note on false positives. cwe_checker is static. It does not know if a `strcpy`
 
 ---
 
-### <span style="color: orange;">EMBA: The Firmware Analysis Tool I Donate To</span>
+### <span class="accent-orange">EMBA: The Firmware Analysis Tool I Donate To</span>
 
 ![EMBA sponsor](/blog/firmware-hardening/sponsor.png)
 
@@ -290,7 +290,7 @@ This is the kind of open-source project where donating or sponsoring is directly
 
 ---
 
-### <span style="color: orange;">FACT Core: When You Have More Than One Firmware</span>
+### <span class="accent-orange">FACT Core: When You Have More Than One Firmware</span>
 
 FACT Core (from Fraunhofer FKIE) is in the same job space as EMBA, different design. FACT is a containerized server with a web UI and a database. You upload firmwares, it analyzes them in parallel, and you can compare them.
 
@@ -306,7 +306,7 @@ For both: set up FACT, export the analysis to EMBA reports for one-off auditor r
 
 ---
 
-### <span style="color: orange;">HardenCheck: The Tool I Built Because Nothing Did Exactly What I Wanted</span>
+### <span class="accent-orange">HardenCheck: The Tool I Built Because Nothing Did Exactly What I Wanted</span>
 
 Full disclosure: this is mine. [github.com/V33RU/hardencheck](https://github.com/V33RU/hardencheck). I am not going to pretend I am neutral about it.
 
@@ -351,7 +351,7 @@ If you are going to look at one tool from this blog and evaluate whether it fits
 
 ---
 
-### <span style="color: orange;">Firmadyne and FAT: The Emulation Gamble</span>
+### <span class="accent-orange">Firmadyne and FAT: The Emulation Gamble</span>
 
 Firmware emulation is where everyone gets optimistic and then disappointed. Both Firmadyne and Firmware Analysis Toolkit (Attify's wrapper around Firmadyne) try to:
 
@@ -372,7 +372,7 @@ When it works, the speedup is enormous. When it fails, the sunk cost trap is rea
 
 ---
 
-### <span style="color: orange;">Ghidra vs radare2: This Is Not a Real Debate</span>
+### <span class="accent-orange">Ghidra vs radare2: This Is Not a Real Debate</span>
 
 Use both. Stop agonizing.
 
@@ -394,7 +394,7 @@ Ghidra's decompiler is the reason I use it. radare2's is not as readable. For ve
 
 ---
 
-### <span style="color: orange;">LIEF: The Library I Tell Everyone to Learn</span>
+### <span class="accent-orange">LIEF: The Library I Tell Everyone to Learn</span>
 
 LIEF is not a tool. It is a parser library for executable formats. You use it to write your own checks.
 
@@ -441,7 +441,7 @@ That is a check that is directly CRA-relevant (toolchain provenance) and that no
 
 ---
 
-### <span style="color: orange;">Binbloom and the Raw-Firmware Problem</span>
+### <span class="accent-orange">Binbloom and the Raw-Firmware Problem</span>
 
 Binbloom is for a specific scenario. You have a flash dump. There is no filesystem. It is a raw microcontroller firmware, or a bootloader blob, or the contents of an SPI NOR chip you read with a flashrom pomona clip.
 
@@ -453,7 +453,7 @@ Binbloom is a 10-minute tool that saves you two hours of manual memory layout gu
 
 ---
 
-### <span style="color: orange;">Trommel: The Archived Tool That Still Runs</span>
+### <span class="accent-orange">Trommel: The Archived Tool That Still Runs</span>
 
 Trommel is firmwalker with different heuristics. CERT/CC wrote it, archived it in 2020, and it still works. The wordlist overlaps with firmwalker but is not identical, so running both occasionally catches things that running one would miss.
 
@@ -463,7 +463,7 @@ Do not rely on it as primary. Use firmwalker first, run Trommel as a belt-and-su
 
 ---
 
-### <span style="color: orange;">The Hacker View: What I Care About</span>
+### <span class="accent-orange">The Hacker View: What I Care About</span>
 
 When I get a firmware for offensive assessment, the order of operations is ruthless:
 
@@ -485,7 +485,7 @@ Notice what is missing from this list: Ghidra and radare2. I reach for RE tools 
 
 ---
 
-### <span style="color: orange;">The Compliance View: What Auditors Actually Ask</span>
+### <span class="accent-orange">The Compliance View: What Auditors Actually Ask</span>
 
 Completely different set of priorities. The auditor is not trying to hack your device. They are trying to verify that you have a process. The questions are:
 
@@ -512,7 +512,7 @@ The word "tool" does not appear in the CRA. The word "documentation" appears con
 
 ---
 
-### <span style="color: orange;">Where Hacker and Compliance Views Disagree</span>
+### <span class="accent-orange">Where Hacker and Compliance Views Disagree</span>
 
 Most of the time they agree. The hacker wants to find bugs. The auditor wants evidence bugs were looked for. Finding bugs produces evidence of looking. Same tools, same outputs, different framing of the same activity.
 
@@ -528,7 +528,7 @@ Same tool, different use. The tool does not know the difference.
 
 ---
 
-### <span style="color: orange;">What I Wish Existed and Does Not</span>
+### <span class="accent-orange">What I Wish Existed and Does Not</span>
 
 A few gaps in the open-source firmware toolchain that bug me:
 
@@ -544,7 +544,7 @@ These are gaps I hit every assessment. Nobody has solved them yet. If you are lo
 
 ---
 
-### <span style="color: orange;">The Short Version</span>
+### <span class="accent-orange">The Short Version</span>
 
 If you only read one section, read this one.
 

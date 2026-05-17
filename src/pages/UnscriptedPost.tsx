@@ -34,6 +34,11 @@ const UnscriptedPostPage = () => {
             code: ({ className, children }) => (
               <MarkdownCodeBlock className={className}>{children}</MarkdownCodeBlock>
             ),
+            a: ({ href, children }) => (
+              <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 decoration-primary/30 hover:decoration-primary transition-colors">
+                {children}
+              </a>
+            ),
           }}
         >
           {post.content}

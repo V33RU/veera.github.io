@@ -11,7 +11,7 @@ tags: ["hardware hacking", "UART", "U-Boot", "bootloader", "series"]
 
 ---
 
-### <span style="color: orange;">What U-Boot Is Actually Doing</span>
+### <span class="accent-orange">What U-Boot Is Actually Doing</span>
 
 When the SoC de-asserts reset, the mask ROM runs, then loads the first-stage bootloader, then U-Boot (the second stage). U-Boot's job is to:
 
@@ -33,7 +33,7 @@ From here, you are a tiny OS with full flash access and the ability to rewrite t
 
 ---
 
-### <span style="color: orange;">The 3-Second Window, And How To Widen It</span>
+### <span class="accent-orange">The 3-Second Window, And How To Widen It</span>
 
 Vendors sometimes shorten the delay to near zero. Quick ways to still hit it:
 
@@ -48,7 +48,7 @@ If the U-Boot build has `CONFIG_AUTOBOOT_KEYED=y`, you need a specific magic str
 
 ---
 
-### <span style="color: orange;">Reading the Environment</span>
+### <span class="accent-orange">Reading the Environment</span>
 
 First command every time:
 
@@ -76,7 +76,7 @@ baudrate=115200
 
 ---
 
-### <span style="color: orange;">The Classic: init=/bin/sh</span>
+### <span class="accent-orange">The Classic: init=/bin/sh</span>
 
 The Linux kernel accepts an `init=` parameter on its command line. Whatever you put there runs as PID 1, as root, with no login, no rc scripts, no password check. Nothing except the rootfs mount.
 
@@ -113,7 +113,7 @@ First moves from this shell:
 
 ---
 
-### <span style="color: orange;">Variations When /bin/sh Is Missing Or Hardened</span>
+### <span class="accent-orange">Variations When /bin/sh Is Missing Or Hardened</span>
 
 Vendors who have read the first part of the playbook sometimes remove `/bin/sh`, stripping busybox down. Alternatives:
 
@@ -137,7 +137,7 @@ init=/bin/login
 
 ---
 
-### <span style="color: orange;">Editing Flash Directly From U-Boot</span>
+### <span class="accent-orange">Editing Flash Directly From U-Boot</span>
 
 If you cannot use `init=/bin/sh` for some reason (read-only rootfs with mandatory access control, or a custom init binary that ignores the kernel command line), U-Boot itself can modify flash.
 
@@ -163,7 +163,7 @@ Typical use: locate `/etc/shadow` inside a squashfs or jffs2 image, replace the 
 
 ---
 
-### <span style="color: orange;">The Extended Boot Args Researchers Actually Use</span>
+### <span class="accent-orange">The Extended Boot Args Researchers Actually Use</span>
 
 `init=/bin/sh` is the famous one. It is also the first thing vendors "harden" by stripping `/bin/sh` from the rootfs. The following args cover the actual breadth of what security researchers reach for when the trivial path is blocked. Each is a real-world primitive, and most have appeared in published disclosures or DEF CON talks.
 
@@ -383,7 +383,7 @@ When all four are in place, Part 3's login bypasses and Part 4/5's fault injecti
 
 ---
 
-### <span style="color: orange;">Loading Your Own Kernel Over TFTP</span>
+### <span class="accent-orange">Loading Your Own Kernel Over TFTP</span>
 
 If the deployed kernel is too stripped to be useful, load a full one:
 
@@ -400,7 +400,7 @@ Requirement: the U-Boot in flash must have Ethernet support compiled in (`CONFIG
 
 ---
 
-### <span style="color: orange;">The Countermeasures Vendors Use, Ranked By Effectiveness</span>
+### <span class="accent-orange">The Countermeasures Vendors Use, Ranked By Effectiveness</span>
 
 From least effective to most:
 
@@ -420,7 +420,7 @@ The industry average in 2026 on 15 USD devices: "shortening autoboot delay to 0"
 
 ---
 
-### <span style="color: orange;">What Part 2 Teaches</span>
+### <span class="accent-orange">What Part 2 Teaches</span>
 
 Once you are at the U-Boot prompt on a device without Secure Boot, you already won. The command line is user-controlled, and the kernel trusts the command line. There is no amount of rootfs hardening that survives `init=/bin/sh` being appended at the bootloader.
 
