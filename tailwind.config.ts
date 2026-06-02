@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         mono: ['"JetBrains Mono"', '"IBM Plex Mono"', 'monospace'],
+        saira: ['"Saira"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
