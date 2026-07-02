@@ -46,7 +46,7 @@ const MarkdownCodeBlock = ({ className, children }: CodeBlockProps) => {
       <div className="flex items-center justify-between px-3 py-1.5 bg-secondary/50 border-b border-border">
         <span className="text-xs text-primary/70 font-medium">{language}</span>
         <button
-          onClick={() => navigator.clipboard.writeText(code)}
+          onClick={() => navigator.clipboard.writeText(code).catch(() => {})}
           className="text-xs text-muted-foreground hover:text-primary transition-colors"
         >
           copy

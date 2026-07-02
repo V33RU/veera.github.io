@@ -8,7 +8,7 @@ export interface BlogPost {
 }
 
 function parseFrontmatter(raw: string): { meta: Record<string, any>; content: string } {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   if (!match) return { meta: {}, content: raw };
   
   const meta: Record<string, any> = {};

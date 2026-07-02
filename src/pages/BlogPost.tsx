@@ -163,11 +163,18 @@ const BlogPostPage = () => {
                   {children}
                 </blockquote>
               ),
-              a: ({ href, children }) => (
-                <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 decoration-primary/30 hover:decoration-primary transition-colors">
-                  {children}
-                </a>
-              ),
+              a: ({ href, children }) => {
+                const isExternal = !!href && (href.startsWith("http") || href.startsWith("//"));
+                return (
+                  <a
+                    href={href}
+                    {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="text-primary underline underline-offset-2 decoration-primary/30 hover:decoration-primary transition-colors"
+                  >
+                    {children}
+                  </a>
+                );
+              },
               input: ({ type, checked, ...props }) => {
                 if (type === "checkbox") {
                   return <input type="checkbox" checked={checked} readOnly className="mr-2 accent-primary" />;
