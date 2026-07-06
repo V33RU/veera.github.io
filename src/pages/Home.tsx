@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import TypingText from "@/components/TypingText";
 import SilkscreenLabel from "@/components/SilkscreenLabel";
-import { projects, domains, publications } from "@/data/projects";
+import { projects, domains, publications, cves } from "@/data/projects";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, GraduationCap, Ticket, Mail, Coffee } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -426,6 +426,54 @@ const Home = () => {
                 </div>
               </a>
             ))}
+          </div>
+        </motion.section>
+      )}
+
+      {/* CVEs */}
+      {showContent && (
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+          className="mb-16"
+        >
+          <SilkscreenLabel designator="D1" label="cve / advisories" />
+          <div className="circuit-border rounded overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border bg-secondary/30">
+                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">CVE</th>
+                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">YEAR</th>
+                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">DESCRIPTION</th>
+                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">SOURCE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cves.map((cve) => (
+                    <tr key={cve.id} className="border-b border-border/50 hover:bg-secondary/20 transition-colors">
+                      <td className="px-4 py-2.5">
+                        <a
+                          href={cve.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-mono font-bold text-xs tracking-wider text-primary hover:text-primary/80 inline-flex items-center gap-1.5"
+                        >
+                          {cve.id}
+                          <ExternalLink size={11} className="text-primary/50 shrink-0" />
+                        </a>
+                      </td>
+                      <td className="px-4 py-2.5 text-muted-foreground">{cve.year}</td>
+                      <td className="px-4 py-2.5 text-muted-foreground">{cve.description || <span className="text-muted-foreground/40 italic text-xs">—</span>}</td>
+                      <td className="px-4 py-2.5">
+                        <Badge variant="secondary" className="text-[10px]">{cve.issuer}</Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </motion.section>
       )}
