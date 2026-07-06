@@ -32,6 +32,45 @@ export const domains = [
   "WiFi Exploitation and Covert Channels",
 ];
 
+export interface CVEEntry {
+  id: string;
+  year: number;
+  issuer: string;
+  description: string;
+  url: string;
+}
+
+export const cves: CVEEntry[] = [
+  {
+    id: "CVE-2026-44634",
+    year: 2026,
+    issuer: "SimpleBLE",
+    description: "Stack buffer overflows in SimpleBLE (EVE-2026-001/002/003)",
+    url: "https://github.com/simpleble/simpleble/security/advisories/GHSA-8h89-q8m2-c8fp",
+  },
+  {
+    id: "CVE-2020-23512",
+    year: 2020,
+    issuer: "MITRE",
+    description: "Unauthenticated remote vulnerability",
+    url: "https://www.cve.org/CVERecord?id=CVE-2020-23512",
+  },
+  {
+    id: "CVE-2018-12255",
+    year: 2018,
+    issuer: "MITRE",
+    description: "",
+    url: "https://www.cve.org/CVERecord?id=CVE-2018-12255",
+  },
+  {
+    id: "CVE-2018-11339",
+    year: 2018,
+    issuer: "MITRE",
+    description: "",
+    url: "https://www.exploit-db.com/exploits/44691",
+  },
+];
+
 export interface Publication {
   title: string;
   year: number;
