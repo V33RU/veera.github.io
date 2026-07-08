@@ -89,12 +89,20 @@ const Home = () => {
 
             <div className="flex flex-col md:flex-row gap-8 items-start">
               {/* Net labels */}
-              <div className="space-y-1 flex-1">
+              <div className="grid grid-cols-2 gap-x-4 flex-1">
                 {([
-                  { label: "X", url: "https://x.com/v33riot", netColor: "hsl(0 70% 55%)" },
                   { label: "LINKEDIN", url: "https://www.linkedin.com/in/veeraiot", netColor: "hsl(220 70% 55%)" },
+                  { label: "X", url: "https://x.com/v33riot", netColor: "hsl(0 70% 55%)" },
                   { label: "GITHUB", url: "https://github.com/v33ru", netColor: "hsl(120 50% 45%)" },
                   { label: "MEDIUM", url: "https://medium.com/@veerababupenugonda", netColor: "hsl(45 90% 55%)" },
+                  { label: "HACKERONE", url: "https://hackerone.com/mr-iot", netColor: "hsl(15 70% 50%)" },
+                  { label: "BUGCROWD", url: "https://bugcrowd.com/h/V33RU_Mr-IoT", netColor: "hsl(25 85% 52%)" },
+                  { label: "BUGBOUNTY", url: "https://www.openbugbounty.org/researchers/Mr-IoT/", netColor: "hsl(80 60% 45%)" },
+                  { label: "NULL", url: "https://null.community/profile/3556-mr-iot", netColor: "hsl(330 60% 50%)" },
+                  { label: "SESSIONIZE", url: "https://sessionize.com/veerababu-penugonda/", netColor: "hsl(260 65% 55%)" },
+                  { label: "CFP", url: "https://cfp.directory/speakers/mr-iot", netColor: "hsl(195 70% 50%)" },
+                  { label: "SLIDES", url: "https://www.slideshare.net/VeerababuPenugonda", netColor: "hsl(50 90% 50%)" },
+                  { label: "ORCID", url: "https://orcid.org/0009-0007-9342-6957", netColor: "hsl(155 60% 45%)" },
                   { label: "COFFEE", onClick: () => setCoffeeOpen(true), netColor: "hsl(280 60% 55%)" },
                   { label: "MENTORSHIP", onClick: () => setMentorshipOpen(true), netColor: "hsl(170 70% 45%)" },
                   { label: "CONFERENCE", onClick: () => setSponsorshipOpen(true), netColor: "hsl(35 90% 55%)" },
@@ -107,8 +115,8 @@ const Home = () => {
                     rel={link.url ? "noopener noreferrer" : undefined}
                     initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 + i * 0.08 }}
-                    className="group flex items-center gap-0 py-[5px] cursor-pointer"
+                    transition={{ delay: 0.3 + i * 0.05 }}
+                    className="group flex items-center gap-0 py-[4px] cursor-pointer min-w-0"
                   >
                     {/* Net label arrow */}
                     <div className="flex items-center shrink-0">
@@ -141,7 +149,7 @@ const Home = () => {
                     </div>
 
                     {/* Trace line */}
-                    <div className="flex items-center flex-1 max-w-[160px] mx-2">
+                    <div className="flex items-center flex-1 max-w-[60px] mx-2">
                       <div
                         className="h-[1.5px] flex-1 transition-all duration-300 group-hover:h-[2.5px]"
                         style={{
