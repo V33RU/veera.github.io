@@ -91,11 +91,12 @@ const Home = () => {
               {/* Net labels */}
               <div className="grid grid-cols-2 gap-x-4 flex-1">
                 {([
-                  { label: "X", url: "https://x.com/v33riot", netColor: "hsl(0 70% 55%)" },
                   { label: "LINKEDIN", url: "https://www.linkedin.com/in/veeraiot", netColor: "hsl(220 70% 55%)" },
+                  { label: "X", url: "https://x.com/v33riot", netColor: "hsl(0 70% 55%)" },
                   { label: "GITHUB", url: "https://github.com/v33ru", netColor: "hsl(120 50% 45%)" },
                   { label: "MEDIUM", url: "https://medium.com/@veerababupenugonda", netColor: "hsl(45 90% 55%)" },
                   { label: "HACKERONE", url: "https://hackerone.com/mr-iot", netColor: "hsl(15 70% 50%)" },
+                  { label: "BUGCROWD", url: "https://bugcrowd.com/h/V33RU_Mr-IoT", netColor: "hsl(25 85% 52%)" },
                   { label: "BUGBOUNTY", url: "https://www.openbugbounty.org/researchers/Mr-IoT/", netColor: "hsl(80 60% 45%)" },
                   { label: "NULL", url: "https://null.community/profile/3556-mr-iot", netColor: "hsl(330 60% 50%)" },
                   { label: "SESSIONIZE", url: "https://sessionize.com/veerababu-penugonda/", netColor: "hsl(260 65% 55%)" },
