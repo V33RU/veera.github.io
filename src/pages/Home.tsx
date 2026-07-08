@@ -97,7 +97,7 @@ const Home = () => {
                   { label: "MEDIUM", url: "https://medium.com/@veerababupenugonda", netColor: "hsl(45 90% 55%)" },
                   { label: "HACKERONE", url: "https://hackerone.com/mr-iot", netColor: "hsl(15 70% 50%)" },
                   { label: "BUGCROWD", url: "https://bugcrowd.com/h/V33RU_Mr-IoT", netColor: "hsl(25 85% 52%)" },
-                  { label: "BUGBOUNTY", url: "https://www.openbugbounty.org/researchers/Mr-IoT/", netColor: "hsl(80 60% 45%)" },
+                  { label: "OPENBUGBOUNTY", url: "https://www.openbugbounty.org/researchers/Mr-IoT/", netColor: "hsl(80 60% 45%)" },
                   { label: "NULL", url: "https://null.community/profile/3556-mr-iot", netColor: "hsl(330 60% 50%)" },
                   { label: "SESSIONIZE", url: "https://sessionize.com/veerababu-penugonda/", netColor: "hsl(260 65% 55%)" },
                   { label: "CFP", url: "https://cfp.directory/speakers/mr-iot", netColor: "hsl(195 70% 50%)" },
