@@ -6,6 +6,11 @@ import remarkBreaks from "remark-breaks";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
+import { ArrowLeft, Clock, Calendar } from "lucide-react";
+import TableOfContents, { extractToc } from "@/components/TableOfContents";
+import MarkdownCodeBlock from "@/components/MarkdownCodeBlock";
+import ReadingProgress from "@/components/ReadingProgress";
+import { useMemo } from "react";
 
 const sanitizeSchema = {
   ...defaultSchema,
@@ -13,20 +18,12 @@ const sanitizeSchema = {
     ...defaultSchema.attributes,
     span: [
       ...(defaultSchema.attributes?.span || []),
-      ["className", "accent-orange"],
+      ["className", "accent-orange", "signature-accent"],
     ],
     img: [...(defaultSchema.attributes?.img || []), "src", "alt", "loading"],
   },
   tagNames: [...(defaultSchema.tagNames || []), "span", "figure", "figcaption"],
 };
-import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, Calendar } from "lucide-react";
-import TableOfContents, { extractToc } from "@/components/TableOfContents";
-import MarkdownCodeBlock from "@/components/MarkdownCodeBlock";
-import SilkscreenLabel from "@/components/SilkscreenLabel";
-import ReadingProgress from "@/components/ReadingProgress";
-import { useMemo } from "react";
-import { motion } from "framer-motion";
 
 function estimateReadTime(content: string): number {
   const words = content.trim().split(/\s+/).length;
@@ -36,93 +33,81 @@ function estimateReadTime(content: string): number {
 const BlogPostPage = () => {
   const { slug } = useParams();
   const post = getBlogPost(slug || "");
-  const toc = useMemo(() => post ? extractToc(post.content) : [], [post]);
-  const readTime = useMemo(() => post ? estimateReadTime(post.content) : 0, [post]);
+  const toc = useMemo(() => (post ? extractToc(post.content) : []), [post]);
+  const readTime = useMemo(() => (post ? estimateReadTime(post.content) : 0), [post]);
 
   if (!post) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-10 text-center">
-        <p className="text-destructive">Post not found.</p>
-        <Link to="/blog" className="text-primary text-sm mt-4 inline-block">← back to blog</Link>
+      <div className="mx-auto max-w-3xl px-5 py-16 text-center">
+        <p className="text-[hsl(var(--critical))] text-[15px]">Post not found.</p>
+        <Link
+          to="/blog"
+          className="inline-flex items-center gap-1 text-[hsl(var(--signature))] signature-underline text-[14px] mt-4"
+        >
+          <ArrowLeft size={14} /> back to writing
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
+    <div className="mx-auto max-w-4xl px-5 md:px-8 py-10 md:py-14">
       <ReadingProgress targetSelector="article.markdown-content" />
 
       {/* Breadcrumb */}
-      <motion.div
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.4 }}
+      <Link
+        to="/blog"
+        className="mono text-[11.5px] uppercase tracking-widest text-[hsl(var(--ink-muted))] hover:text-[hsl(var(--ink))] inline-flex items-center gap-2 mb-8 transition-colors"
       >
-        <Link to="/blog" className="text-muted-foreground text-sm hover:text-primary transition-colors inline-flex items-center gap-1.5 mb-8 group">
-          <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-primary/50">cd</span> ~/blog
-        </Link>
-      </motion.div>
+        <ArrowLeft size={12} />
+        Back to writing
+      </Link>
 
       {/* Post header */}
-      <motion.header
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="mb-10 pb-8 border-b border-border"
-      >
-        <SilkscreenLabel designator="U3" label="post" className="mb-4" />
-        <h1 className="text-2xl md:text-3xl font-bold text-primary phosphor-glow mb-4 leading-tight" style={{ lineHeight: '1.15' }}>
+      <header className="mb-10">
+        <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1 mb-5 mono text-[11px] uppercase tracking-widest text-[hsl(var(--ink-muted))]">
+          <span className="text-[hsl(var(--signature))]">Writing</span>
+          <span className="inline-flex items-center gap-1.5">
+            <Calendar size={11} /> {post.date}
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Clock size={11} /> {readTime} min read
+          </span>
+        </div>
+
+        <h1 className="text-[32px] md:text-[48px] leading-[1.05] tracking-[-0.024em] font-medium text-[hsl(var(--ink))] mb-5 text-balance">
           {post.title}
         </h1>
 
         {post.description && (
-          <p className="text-muted-foreground text-sm md:text-base mb-5 max-w-2xl leading-relaxed">
+          <p className="text-[19px] md:text-[21px] italic text-[hsl(var(--ink-muted))] leading-snug max-w-2xl mb-6">
             {post.description}
           </p>
         )}
 
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-4 text-muted-foreground text-xs">
-            <span className="inline-flex items-center gap-1.5">
-              <Calendar size={12} className="text-primary/50" />
-              {post.date}
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Clock size={12} className="text-primary/50" />
-              {readTime} min read
-            </span>
+        {post.tags.length > 0 && (
+          <div className="flex flex-wrap gap-x-4 gap-y-1 mono text-[10.5px] uppercase tracking-widest text-[hsl(var(--ink-muted))] pt-5 border-t border-[hsl(var(--rule))]">
+            {post.tags.map((t) => (
+              <span key={t}>{t}</span>
+            ))}
           </div>
-          {post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {post.tags.map(t => (
-                <Badge key={t} variant="secondary" className="text-[11px] px-2 py-0.5">{t}</Badge>
-              ))}
-            </div>
-          )}
-        </div>
-      </motion.header>
+        )}
+      </header>
 
-      {/* Mobile TOC dropdown */}
+      {/* Mobile TOC */}
       {toc.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          className="lg:hidden mb-8 p-3 border border-border rounded bg-secondary/20"
-        >
-          <TableOfContents items={toc} defaultOpen={false} />
-        </motion.div>
+        <details className="lg:hidden mb-8 px-4 py-3 bg-[hsl(var(--paper-2))] border border-[hsl(var(--rule))]">
+          <summary className="mono text-[11px] uppercase tracking-widest text-[hsl(var(--ink-muted))] cursor-pointer select-none">
+            Contents
+          </summary>
+          <div className="mt-3">
+            <TableOfContents items={toc} defaultOpen={true} />
+          </div>
+        </details>
       )}
 
       <div className="flex gap-10">
-        {/* Main content */}
-        <motion.article
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="markdown-content min-w-0 flex-1 max-w-4xl"
-        >
+        <article className="markdown-content min-w-0 flex-1 max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkBreaks]}
             rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema], rehypeSlug]}
@@ -130,54 +115,30 @@ const BlogPostPage = () => {
               code: ({ className, children }) => (
                 <MarkdownCodeBlock className={className}>{children}</MarkdownCodeBlock>
               ),
-              table: ({ children }) => (
-                <div className="overflow-x-auto my-6 circuit-border rounded">
-                  <table className="w-full text-sm border-collapse">{children}</table>
-                </div>
-              ),
-              th: ({ children }) => (
-                <th className="border-b border-border px-4 py-2.5 text-left text-primary text-xs font-medium bg-secondary/30">{children}</th>
-              ),
-              td: ({ children }) => (
-                <td className="border-b border-border/40 px-4 py-2 text-muted-foreground text-sm">{children}</td>
-              ),
-              img: ({ src, alt }) => (
-                <figure className="my-6 flex flex-col items-center">
-                  <img src={src} alt={alt || ""} className="rounded border border-border max-w-full" loading="lazy" />
-                  {alt && <figcaption className="text-xs text-muted-foreground/60 mt-2 text-center">{alt}</figcaption>}
-                </figure>
-              ),
-              hr: () => (
-                <div className="my-8 flex items-center gap-3">
-                  <div className="flex-1 h-[1px] bg-border" />
-                  <div className="flex gap-1.5">
-                    {[...Array(3)].map((_, i) => (
-                      <div key={i} className="w-1.5 h-1.5 rounded-full bg-primary/30" />
-                    ))}
-                  </div>
-                  <div className="flex-1 h-[1px] bg-border" />
-                </div>
-              ),
-              blockquote: ({ children }) => (
-                <blockquote className="border-l-2 border-primary/50 pl-4 my-4 text-muted-foreground italic">
-                  {children}
-                </blockquote>
-              ),
               a: ({ href, children }) => {
                 const isExternal = !!href && (href.startsWith("http") || href.startsWith("//"));
                 return (
                   <a
                     href={href}
                     {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="text-primary underline underline-offset-2 decoration-primary/30 hover:decoration-primary transition-colors"
                   >
                     {children}
                   </a>
                 );
               },
+              img: ({ src, alt }) => (
+                <figure className="my-6">
+                  <img src={src} alt={alt || ""} loading="lazy" />
+                  {alt && (
+                    <figcaption className="mono text-[11px] tracking-wider text-[hsl(var(--ink-muted))] mt-2 text-center">
+                      {alt}
+                    </figcaption>
+                  )}
+                </figure>
+              ),
               input: ({ type, checked, ...props }) => {
                 if (type === "checkbox") {
-                  return <input type="checkbox" checked={checked} readOnly className="mr-2 accent-primary" />;
+                  return <input type="checkbox" checked={checked} readOnly className="mr-2" />;
                 }
                 return <input type={type} {...props} />;
               },
@@ -187,25 +148,28 @@ const BlogPostPage = () => {
           </ReactMarkdown>
 
           {/* End marker */}
-          <div className="mt-12 pt-6 border-t border-border flex items-center justify-between">
-            <span className="text-xs text-muted-foreground/50 tracking-wider">EOF</span>
-            <Link to="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1.5 group">
-              <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-              back to blog
+          <div className="mt-14 pt-6 border-t border-[hsl(var(--rule))] flex items-center justify-between">
+            <span className="mono text-[11px] tracking-[0.3em] text-[hsl(var(--ink-dim))]">
+              &sect; &sect; &sect;
+            </span>
+            <Link
+              to="/blog"
+              className="mono text-[11.5px] uppercase tracking-widest text-[hsl(var(--ink-muted))] hover:text-[hsl(var(--signature))] inline-flex items-center gap-2 transition-colors"
+            >
+              <ArrowLeft size={12} /> Back to writing
             </Link>
           </div>
-        </motion.article>
+        </article>
 
-        {/* TOC sidebar */}
         {toc.length > 0 && (
-          <motion.aside
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
-            className="hidden lg:block w-60 shrink-0"
-          >
-            <TableOfContents items={toc} />
-          </motion.aside>
+          <aside className="hidden lg:block w-56 shrink-0">
+            <div className="sticky top-24">
+              <p className="mono text-[10.5px] uppercase tracking-widest text-[hsl(var(--ink-muted))] mb-3">
+                Contents
+              </p>
+              <TableOfContents items={toc} />
+            </div>
+          </aside>
         )}
       </div>
     </div>

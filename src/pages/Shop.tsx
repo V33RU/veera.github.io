@@ -43,7 +43,7 @@ const Shop = () => {
     <div className="mx-auto max-w-5xl px-4 py-10">
       <SilkscreenLabel designator="Q1" label="shop" className="mb-2" />
       <p className="text-muted-foreground text-sm mb-8">
-        Gadgets, books, and extras — tools of the trade for hardware hackers.
+        Gadgets, books, and extras - tools of the trade for hardware hackers.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">

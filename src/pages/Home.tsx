@@ -1,9 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import TypingText from "@/components/TypingText";
-import SilkscreenLabel from "@/components/SilkscreenLabel";
-import { projects, domains, publications, cves } from "@/data/projects";
-import { Badge } from "@/components/ui/badge";
+import { projects, cves, publications } from "@/data/projects";
 import { ExternalLink, GraduationCap, Ticket, Mail, Coffee } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -39,490 +35,401 @@ const sponsorshipMailto = `mailto:${SPONSORSHIP_EMAIL}?subject=${encodeURICompon
   "Thanks."
 )}`;
 
+const talks = [
+  { year: "2026", venue: "Black Hat - India", role: "Arsenal - TCPK Windows thick-client & MSIX audit toolkit." },
+  { year: "2025", venue: "BSides Bangalore", role: "Hardware & IoT village lead." },
+  { year: "2024", venue: "BSides Dehradun", role: "Keynote on open-source hardware security tooling in India." },
+  { year: "2023", venue: "cocon", role: "Workshop on UART, SWD, and JTAG for the paranoid." },
+  { year: "2023", venue: "VulnCon", role: "Talk on the anatomy of a BLE stack buffer overflow." },
+  { year: "2022", venue: "CraCCon", role: "Talk on radio protocol reverse engineering with SDR." },
+  { year: "Rec.", venue: "Null / OWASP chapters", role: "Recurring workshops on IoT, firmware, and mobile security." },
+];
+
+const socials = [
+  { label: "GitHub", url: "https://github.com/v33ru", role: "Code" },
+  { label: "X - @v33riot", url: "https://x.com/v33riot", role: "Signal" },
+  { label: "LinkedIn", url: "https://www.linkedin.com/in/veeraiot", role: "Work" },
+  { label: "Medium", url: "https://medium.com/@veerababupenugonda", role: "Writing" },
+  { label: "ORCID", url: "https://orcid.org/0009-0007-9342-6957", role: "Research" },
+  { label: "Sessionize", url: "https://sessionize.com/veerababu-penugonda/", role: "Talks" },
+];
+
+const programs = [
+  { label: "iotsrg1@gmail.com", url: "mailto:iotsrg1@gmail.com", role: "Email" },
+  { label: "HackerOne", url: "https://hackerone.com/mr-iot", role: "Bounty" },
+  { label: "Bugcrowd", url: "https://bugcrowd.com/h/V33RU_Mr-IoT", role: "Bounty" },
+  { label: "OpenBugBounty", url: "https://www.openbugbounty.org/researchers/Mr-IoT/", role: "Bounty" },
+  { label: "Buy me a coffee", url: "https://buymeacoffee.com/v33ru", role: "Support" },
+];
+
+const SectionHead = ({ title, note }: { title: string; note?: string }) => (
+  <div className="flex items-baseline justify-between gap-4 pb-3 mb-8 border-b border-[hsl(var(--rule))]">
+    <h2 className="section-title">{title}</h2>
+    {note && <span className="section-note">{note}</span>}
+  </div>
+);
+
 const Home = () => {
-  const [showContent, setShowContent] = useState(false);
   const [mentorshipOpen, setMentorshipOpen] = useState(false);
   const [sponsorshipOpen, setSponsorshipOpen] = useState(false);
   const [coffeeOpen, setCoffeeOpen] = useState(false);
 
+  const featured = cves[0];
+  const restCves = cves.slice(1);
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 crt-flicker">
-      {/* Hero */}
-      <section className="mb-16">
-        <SilkscreenLabel designator="U1" label="identity" />
-        <h1 className="text-3xl md:text-5xl font-bold phosphor-glow mb-4 text-primary leading-tight">
-          <TypingText 
-            text="Mr-IoT" 
-            speed={100} 
-            onComplete={() => setShowContent(true)}
-          />
+    <div className="mx-auto max-w-4xl px-5 md:px-8 py-12 md:py-16">
+      {/* Lede */}
+      <section className="mb-20">
+        <p className="eyebrow mb-5 flex items-center gap-3">
+          <span className="w-5 h-px bg-[hsl(var(--rule-strong))] inline-block" />
+          Hardware &amp; IoT Security Research / Since 2017
+        </p>
+        <h1 className="text-[38px] md:text-[54px] leading-[1.05] tracking-[-0.022em] font-medium text-[hsl(var(--ink))] mb-7 max-w-3xl text-balance">
+          I break embedded devices, then{" "}
+          <em className="not-italic text-[hsl(var(--signature))] font-normal">publish the exact byte that mattered.</em>
         </h1>
-        <AnimatePresence>
-          {showContent && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <p className="text-foreground text-lg mb-4">
-                IoT Security Researcher | Hardware Breaker | Community Builder
-              </p>
-              <div className="text-muted-foreground text-sm max-w-3xl space-y-3 leading-relaxed">
-                <p>
-                  Veerababu P (Mr-IoT) is a Security Researcher and the founder of the <span className="text-primary">IoTSRG</span> community,
-                  an active platform he has nurtured since 2017 to foster innovation in IoT security.
-                  He is passionate about transforming complex hardware security knowledge into accessible
-                  open-source resources, having built specialized tools and an IoT pentesting OS.
-                </p>
-                <p>
-                  As a frequent speaker and trainer, Veerababu has delivered keynote sessions, workshops,
-                  and villages at prominent conferences such as Blackhat-India, BSides Bangalore, BSides Dehradun,
-                  cocon, VulnCon, CraCCon, and Null/OWASP. His research primarily targets emerging attack surfaces,
-                  hardware microprobing, and protocol fuzzing. When he is not hunting for vulnerabilities,
-                  he is coding new automation frameworks.
-                </p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <p className="text-[19px] md:text-[21px] text-[hsl(var(--ink-muted))] leading-snug max-w-2xl mb-8 italic">
+          Independent research on Bluetooth, radio, and firmware attack surfaces - and the tools I ship along the way.
+        </p>
+        <div className="max-w-2xl space-y-4 text-[17px] leading-[1.65] text-[hsl(var(--ink-2))]">
+          <p>
+            Founder of{" "}
+            <a href="https://iotsrg.org" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--signature))] signature-underline">
+              IoTSRG
+            </a>
+            , an active community for hardware and IoT security research in India since 2017. My work targets emerging attack surfaces - hardware microprobing, protocol fuzzing, and the BLE and radio stacks that ship inside medical devices, meters, and consumer wearables. Everything I publish stays free.
+          </p>
+          <p>
+            I speak, train, and disclose. Keynote sessions, workshops, and villages at Black Hat India, BSides Bangalore, BSides Dehradun, cocon, VulnCon, CraCCon, and the Null / OWASP chapters. When I&rsquo;m not hunting for vulnerabilities, I&rsquo;m coding new automation frameworks to hunt them faster.
+          </p>
+        </div>
       </section>
 
-      {/* Connect + Profile Image */}
-      <AnimatePresence>
-        {showContent && (
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="mb-16"
-          >
-            <SilkscreenLabel designator="J1" label="connect --social" className="mb-4" />
+      {/* Now */}
+      <aside className="mb-20 px-6 py-5 bg-[hsl(var(--paper-2))] border-l-2 border-[hsl(var(--signature))]" aria-labelledby="now-h">
+        <div className="flex items-baseline justify-between gap-4 mb-3">
+          <span id="now-h" className="eyebrow text-[hsl(var(--signature))]">Now</span>
+          <span className="mono text-[10.5px] uppercase tracking-widest text-[hsl(var(--ink-muted))]">Updated {new Date().getFullYear()}</span>
+        </div>
+        <div className="space-y-2 text-[16px] leading-[1.6] text-[hsl(var(--ink-2))]">
+          <p>
+            Preparing <em className="text-[hsl(var(--ink))]">TCPK</em> for its Black Hat Arsenal debut in India - a Windows thick-client and MSIX audit toolkit with static, runtime, and IL analysis in one loop.
+          </p>
+          <p>
+            Following up on Nordic&rsquo;s BLE CGMS disclosure ({" "}
+            <a href="#recent" className="text-[hsl(var(--signature))] signature-underline">CVE-2026-14297</a>
+            {" "}) and quietly hunting the same shape of bug elsewhere in the medical-device BLE surface.
+          </p>
+          <p>
+            Writing the next installment of <em className="text-[hsl(var(--ink))]">Field Notes</em> on UART discovery workflows using <em className="text-[hsl(var(--ink))]">BaudOwl</em>.
+          </p>
+        </div>
+      </aside>
 
-            <div className="flex flex-col md:flex-row gap-8 items-start">
-              {/* Net labels */}
-              <div className="grid grid-cols-2 gap-x-4 flex-1">
-                {([
-                  { label: "LINKEDIN", url: "https://www.linkedin.com/in/veeraiot", netColor: "hsl(220 70% 55%)" },
-                  { label: "X", url: "https://x.com/v33riot", netColor: "hsl(0 70% 55%)" },
-                  { label: "GITHUB", url: "https://github.com/v33ru", netColor: "hsl(120 50% 45%)" },
-                  { label: "MEDIUM", url: "https://medium.com/@veerababupenugonda", netColor: "hsl(45 90% 55%)" },
-                  { label: "HACKERONE", url: "https://hackerone.com/mr-iot", netColor: "hsl(15 70% 50%)" },
-                  { label: "BUGCROWD", url: "https://bugcrowd.com/h/V33RU_Mr-IoT", netColor: "hsl(25 85% 52%)" },
-                  { label: "OPENBUGBOUNTY", url: "https://www.openbugbounty.org/researchers/Mr-IoT/", netColor: "hsl(80 60% 45%)" },
-                  { label: "NULL", url: "https://null.community/profile/3556-mr-iot", netColor: "hsl(330 60% 50%)" },
-                  { label: "SESSIONIZE", url: "https://sessionize.com/veerababu-penugonda/", netColor: "hsl(260 65% 55%)" },
-                  { label: "CFP", url: "https://cfp.directory/speakers/mr-iot", netColor: "hsl(195 70% 50%)" },
-                  { label: "SLIDES", url: "https://www.slideshare.net/VeerababuPenugonda", netColor: "hsl(50 90% 50%)" },
-                  { label: "ORCID", url: "https://orcid.org/0009-0007-9342-6957", netColor: "hsl(155 60% 45%)" },
-                  { label: "COFFEE", onClick: () => setCoffeeOpen(true), netColor: "hsl(280 60% 55%)" },
-                  { label: "MENTORSHIP", onClick: () => setMentorshipOpen(true), netColor: "hsl(170 70% 45%)" },
-                  { label: "CONFERENCE", onClick: () => setSponsorshipOpen(true), netColor: "hsl(35 90% 55%)" },
-                ] as Array<{ label: string; netColor: string; url?: string; onClick?: () => void }>).map((link, i) => (
-                  <motion.a
-                    key={link.label}
-                    href={link.url}
-                    onClick={link.onClick ? (e) => { e.preventDefault(); link.onClick!(); } : undefined}
-                    target={link.url ? "_blank" : undefined}
-                    rel={link.url ? "noopener noreferrer" : undefined}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 + i * 0.05 }}
-                    className="group flex items-center gap-0 py-[4px] cursor-pointer min-w-0"
+      {/* Recent CVE */}
+      {featured && (
+        <section id="recent" className="mb-20">
+          <SectionHead title="Recent / Disclosure" note={`Filed ${featured.year}`} />
+          <div className="flex flex-wrap items-baseline gap-3 mb-2">
+            <a
+              href={featured.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mono text-[15px] font-medium text-[hsl(var(--signature))] signature-underline tracking-tight"
+            >
+              {featured.id}
+            </a>
+            <span className="mono text-[11px] uppercase tracking-widest text-[hsl(var(--ink-muted))]">
+              {featured.issuer}
+            </span>
+          </div>
+          <h3 className="text-[24px] md:text-[30px] leading-[1.2] tracking-tight font-medium text-[hsl(var(--ink))] mb-4 max-w-2xl text-balance">
+            A 20-byte buffer, and every peer with an ATT_MTU above 23.
+          </h3>
+          <p className="text-[17.5px] leading-[1.65] text-[hsl(var(--ink-2))] max-w-2xl mb-4">
+            A blood-glucose monitoring service on Nordic&rsquo;s nRF Connect SDK, the world&rsquo;s most widely shipped BLE stack, accepted the full attacker-controlled ATT payload and copied it straight into a fixed 20-byte BSS buffer. Any byte past the twentieth landed on whatever the linker had placed next: padding, a mutex, occasionally a callable function pointer.
+          </p>
+          <pre className="mono text-[13px] leading-[1.7] bg-[hsl(var(--paper-2))] border border-[hsl(var(--rule))] rounded-sm px-5 py-4 overflow-x-auto max-w-2xl mb-4 text-[hsl(var(--ink))]">
+{`// cgms_racp.c, req_buf is a static 20-byte array
+memcpy(req_buf, req_data, req_len);
+//                          ^
+//     up to ATT_MTU, no length check`}
+          </pre>
+          <p className="text-[17.5px] leading-[1.65] text-[hsl(var(--ink-2))] max-w-2xl mb-5">
+            The fix is one length check, applied at the ATT layer before any data is processed. It shipped in v3.3.1 as commit{" "}
+            <code className="mono text-[13px] text-[hsl(var(--signature))]">0684d602</code>. Reported through Nordic PSIRT.
+          </p>
+          <p className="text-[14px] text-[hsl(var(--ink-muted))]">
+            {featured.description}
+          </p>
+        </section>
+      )}
+
+      {/* Selected work */}
+      <section id="work" className="mb-20">
+        <SectionHead title="Selected work / Open source" note={`${projects.length} tools`} />
+        <ol className="list-none p-0 m-0">
+          {projects.map((p, i) => (
+            <li key={p.name} className="grid grid-cols-[1fr_auto] gap-x-5 gap-y-1 py-5 border-b border-[hsl(var(--rule))]">
+              <h3 className="text-[20px] leading-tight font-medium tracking-tight flex items-baseline gap-3 min-w-0">
+                <span className="mono text-[11px] font-medium tracking-wider text-[hsl(var(--ink-dim))] w-6 shrink-0 pt-1">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {p.url ? (
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[hsl(var(--ink))] hover:text-[hsl(var(--signature))] transition-colors inline-flex items-baseline gap-1.5 min-w-0"
                   >
-                    {/* Net label arrow */}
-                    <div className="flex items-center shrink-0">
-                      <svg width="14" height="20" viewBox="0 0 14 20" className="shrink-0">
-                        <polygon
-                          points="0,2 10,2 14,10 10,18 0,18"
-                          fill="none"
-                          stroke={link.netColor}
-                          strokeWidth="1.5"
-                          className="transition-all duration-300 group-hover:fill-current"
-                          style={{ fill: 'transparent' }}
-                        />
-                        <polygon
-                          points="0,2 10,2 14,10 10,18 0,18"
-                          className="transition-all duration-300 opacity-0 group-hover:opacity-20"
-                          style={{ fill: link.netColor }}
-                        />
-                      </svg>
-                    </div>
+                    <span className="truncate">{p.name}</span>
+                    <ExternalLink size={12} className="text-[hsl(var(--ink-dim))] shrink-0" />
+                  </a>
+                ) : (
+                  <span>{p.name}</span>
+                )}
+              </h3>
+              <span className="mono text-[12px] text-[hsl(var(--ink-muted))] tracking-wider whitespace-nowrap self-baseline">
+                {p.year}
+              </span>
+              <p className="col-span-2 pl-9 text-[15.5px] leading-[1.55] text-[hsl(var(--ink-muted))] max-w-3xl">
+                {p.description}
+              </p>
+              {p.showcase && (
+                <p className="col-span-2 pl-9 mono text-[11px] tracking-wider text-[hsl(var(--signature))] mt-1">
+                  &diams; {p.showcase}
+                </p>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
 
-                    {/* Net name label */}
-                    <div
-                      className="px-2 py-[2px] border-y border-r text-[11px] font-bold tracking-[0.2em] transition-colors duration-300"
-                      style={{
-                        borderColor: link.netColor,
-                        color: link.netColor,
-                      }}
-                    >
-                      {link.label}
-                    </div>
-
-                    {/* Trace line */}
-                    <div className="flex items-center flex-1 max-w-[60px] mx-2">
-                      <div
-                        className="h-[1.5px] flex-1 transition-all duration-300 group-hover:h-[2.5px]"
-                        style={{
-                          background: `linear-gradient(90deg, ${link.netColor}, ${link.netColor}40)`,
-                          boxShadow: `0 0 4px ${link.netColor}40`,
-                        }}
-                      />
-                      {/* Junction dot */}
-                      <div
-                        className="w-2 h-2 rounded-full shrink-0 transition-shadow duration-300 group-hover:shadow-[0_0_8px_2px]"
-                        style={{
-                          backgroundColor: link.netColor,
-                          boxShadow: `0 0 3px ${link.netColor}60`,
-                        }}
-                      />
-                    </div>
-
-                    {/* Destination indicator */}
-                    <span className="text-muted-foreground text-[10px] tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      → OPEN
-                    </span>
-                  </motion.a>
-                ))}
+      {/* CVEs */}
+      <section id="cves" className="mb-20">
+        <SectionHead title="CVE / Advisories" note={`${cves.length} filed`} />
+        <ul className="list-none p-0 m-0">
+          {[featured, ...restCves].filter(Boolean).map((cve) => (
+            <li key={cve.id} className="grid grid-cols-[1fr_auto] gap-4 py-4 border-b border-[hsl(var(--rule))] items-baseline">
+              <div className="flex flex-wrap gap-x-4 gap-y-1 items-baseline min-w-0">
+                <a
+                  href={cve.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mono text-[14px] font-medium text-[hsl(var(--signature))] signature-underline tracking-tight"
+                >
+                  {cve.id}
+                </a>
+                <span className="italic text-[15px] text-[hsl(var(--ink))] font-medium">{cve.issuer}</span>
               </div>
+              <span className="mono text-[11px] uppercase tracking-widest text-[hsl(var(--ink-muted))] justify-self-end">
+                {cve.year}
+              </span>
+              {cve.description && (
+                <p className="col-span-2 text-[15px] leading-[1.55] text-[hsl(var(--ink-muted))] max-w-3xl">
+                  {cve.description}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
 
-              {/* Profile image */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 }}
-                className="shrink-0 w-[200px] h-[200px] md:w-[220px] md:h-[220px] rounded border border-border bg-card overflow-hidden relative self-center md:self-start"
-              >
-                <img
-                  src="/veera.webp"
-                  alt="Mr-IoT"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                  }}
-                />
-                <div className="hidden absolute inset-0 flex items-center justify-center text-muted-foreground/40">
-                  <div className="text-center">
-                    <div className="text-3xl mb-1">⬡</div>
-                    <p className="text-[9px] tracking-widest uppercase">Profile</p>
-                  </div>
-                </div>
-                {/* Corner traces */}
-                <div className="absolute top-0 left-0 w-4 h-[2px] bg-primary/30" />
-                <div className="absolute top-0 left-0 h-4 w-[2px] bg-primary/30" />
-                <div className="absolute bottom-0 right-0 w-4 h-[2px] bg-primary/30" />
-                <div className="absolute bottom-0 right-0 h-4 w-[2px] bg-primary/30" />
-              </motion.div>
-            </div>
-          </motion.section>
-        )}
-      </AnimatePresence>
+      {/* Writing */}
+      <section id="writing" className="mb-20">
+        <SectionHead title="Writing" note="Feature pieces" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1">
+          {publications.map((pub) => (
+            <a
+              key={pub.title}
+              href={pub.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-5 border-b border-[hsl(var(--rule))] block group"
+            >
+              <p className="mono text-[10.5px] uppercase tracking-widest text-[hsl(var(--ink-muted))] mb-1.5">
+                {pub.publishedIn} / {pub.year}
+              </p>
+              <h3 className="text-[18px] leading-[1.3] font-medium tracking-tight text-[hsl(var(--ink))] group-hover:text-[hsl(var(--signature))] transition-colors">
+                {pub.title}
+              </h3>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {/* Speaking */}
+      <section id="speaking" className="mb-20">
+        <SectionHead title="Speaking &amp; Villages" note="Recent stages" />
+        <ul className="list-none p-0 m-0">
+          {talks.map((t, i) => (
+            <li
+              key={i}
+              className="grid grid-cols-[5rem_1fr] gap-5 py-3.5 border-b border-dashed border-[hsl(var(--rule))]"
+            >
+              <span className="mono text-[12px] text-[hsl(var(--ink-dim))] tracking-wider self-baseline">
+                {t.year}
+              </span>
+              <div>
+                <span className="block text-[16.5px] font-medium tracking-tight text-[hsl(var(--ink))]">
+                  {t.venue}
+                </span>
+                <span className="block italic text-[14.5px] text-[hsl(var(--ink-muted))] leading-[1.5]">
+                  {t.role}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="mb-16">
+        <SectionHead title="Follow / Contact" note="Programs &amp; social" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2">
+          <div>
+            <p className="eyebrow mb-3">Follow</p>
+            <ul className="list-none p-0 m-0 space-y-2">
+              {socials.map((s) => (
+                <li key={s.label} className="flex items-baseline justify-between gap-4">
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[15px] text-[hsl(var(--ink))] hover:text-[hsl(var(--signature))] transition-colors"
+                  >
+                    {s.label}
+                  </a>
+                  <span className="mono text-[10.5px] uppercase tracking-widest text-[hsl(var(--ink-dim))]">
+                    {s.role}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="eyebrow mb-3">Programs</p>
+            <ul className="list-none p-0 m-0 space-y-2">
+              {programs.map((p) => (
+                <li key={p.label} className="flex items-baseline justify-between gap-4">
+                  <a
+                    href={p.url}
+                    target={p.url.startsWith("mailto:") ? undefined : "_blank"}
+                    rel={p.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                    className="text-[15px] text-[hsl(var(--ink))] hover:text-[hsl(var(--signature))] transition-colors"
+                  >
+                    {p.label}
+                  </a>
+                  <span className="mono text-[10.5px] uppercase tracking-widest text-[hsl(var(--ink-dim))]">
+                    {p.role}
+                  </span>
+                </li>
+              ))}
+              <li className="flex items-baseline justify-between gap-4 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setMentorshipOpen(true)}
+                  className="text-[15px] text-[hsl(var(--ink))] hover:text-[hsl(var(--signature))] transition-colors text-left"
+                >
+                  Mentorship request
+                </button>
+                <span className="mono text-[10.5px] uppercase tracking-widest text-[hsl(var(--ink-dim))]">Email</span>
+              </li>
+              <li className="flex items-baseline justify-between gap-4">
+                <button
+                  type="button"
+                  onClick={() => setSponsorshipOpen(true)}
+                  className="text-[15px] text-[hsl(var(--ink))] hover:text-[hsl(var(--signature))] transition-colors text-left"
+                >
+                  Conference sponsorship
+                </button>
+                <span className="mono text-[10.5px] uppercase tracking-widest text-[hsl(var(--ink-dim))]">Email</span>
+              </li>
+              <li className="flex items-baseline justify-between gap-4">
+                <button
+                  type="button"
+                  onClick={() => setCoffeeOpen(true)}
+                  className="text-[15px] text-[hsl(var(--ink))] hover:text-[hsl(var(--signature))] transition-colors text-left"
+                >
+                  Support the work
+                </button>
+                <span className="mono text-[10.5px] uppercase tracking-widest text-[hsl(var(--ink-dim))]">Coffee</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
       {/* Mentorship dialog */}
       <Dialog open={mentorshipOpen} onOpenChange={setMentorshipOpen}>
-        <DialogContent className="max-w-xl bg-card border-border">
+        <DialogContent className="max-w-xl">
           <DialogHeader>
-            <DialogTitle className="text-primary flex items-center gap-2">
-              <GraduationCap size={20} />
-              IoT Security Mentorship
+            <DialogTitle className="flex items-center gap-2 text-[hsl(var(--ink))]">
+              <GraduationCap size={20} /> IoT Security Mentorship
             </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              I mentor a small number of people each cycle who are serious about IoT and hardware security. Drop me an email with the details below and I will read it personally.
+            <DialogDescription className="text-[hsl(var(--ink-2))]">
+              I mentor a small number of people each cycle. Drop me an email with the details below and I will read it personally.
             </DialogDescription>
           </DialogHeader>
-          <div className="text-muted-foreground text-xs space-y-1">
-            <p className="text-foreground/80 font-medium">Include in your email:</p>
-            <ul className="list-disc list-inside space-y-0.5 pl-1">
-              <li>Name, country, background (student / self-taught / pro / researcher)</li>
-              <li>Current experience level with security and hardware</li>
-              <li>Topics you want to focus on (firmware RE, BLE, fault injection, secure boot, RF...)</li>
-              <li>Specific 3-6 month goal, be concrete</li>
-              <li>Realistic weekly time commitment</li>
-              <li>Public work links (GitHub, blog, writeups, CTF profile)</li>
-              <li>Why mentorship from me specifically</li>
-            </ul>
-          </div>
           <a
             href={mentorshipMailto}
-            className="group inline-flex items-center gap-3 px-5 py-3 rounded border border-primary/40 bg-primary/5 hover:bg-primary/15 hover:border-primary transition-all self-start"
+            className="inline-flex items-center gap-3 px-5 py-3 border border-[hsl(var(--signature))] bg-[hsl(var(--signature)/0.05)] hover:bg-[hsl(var(--signature)/0.12)] transition-colors self-start"
           >
-            <GraduationCap size={18} className="text-primary" />
-            <span className="text-foreground font-medium text-sm">Email Mentorship Request</span>
-            <Mail size={14} className="text-primary/60 group-hover:text-primary transition-colors" />
+            <GraduationCap size={18} className="text-[hsl(var(--signature))]" />
+            <span className="text-[14px] font-medium">Email mentorship request</span>
+            <Mail size={14} className="text-[hsl(var(--signature))]/60" />
           </a>
-          <p className="text-[10px] text-muted-foreground/60">
-            Opens your email client with a pre-filled template to {MENTORSHIP_EMAIL}.
-          </p>
+          <p className="text-[11px] text-[hsl(var(--ink-muted))]">Opens your mail client with a pre-filled template to {MENTORSHIP_EMAIL}.</p>
         </DialogContent>
       </Dialog>
 
-      {/* Coffee / Support dialog */}
+      {/* Coffee dialog */}
       <Dialog open={coffeeOpen} onOpenChange={setCoffeeOpen}>
-        <DialogContent className="max-w-xl bg-card border-border">
+        <DialogContent className="max-w-xl">
           <DialogHeader>
-            <DialogTitle className="text-primary flex items-center gap-2">
-              <Coffee size={20} />
-              Support the Work
+            <DialogTitle className="flex items-center gap-2 text-[hsl(var(--ink))]">
+              <Coffee size={20} /> Support the work
             </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
+            <DialogDescription className="text-[hsl(var(--ink-2))]">
               Everything on this site is free and stays free. If it has helped you, fueling the next round of work is the cleanest way to give back.
             </DialogDescription>
           </DialogHeader>
-          <div className="text-muted-foreground text-xs space-y-1">
-            <p className="text-foreground/80 font-medium">Your support directly funds:</p>
-            <ul className="list-disc list-inside space-y-0.5 pl-1">
-              <li>Hosting and travel for IoT and hardware security <span className="text-foreground/80">meetups</span> in India</li>
-              <li>Buying target hardware to tear down for new <span className="text-foreground/80">deep technical blogs</span></li>
-              <li>Lab gear (logic analyzers, glitchers, SDRs, dev kits) for original research</li>
-              <li>Time to write longer-form <span className="text-foreground/80">publications</span> in Hakin9, PenTest Magazine, and similar outlets</li>
-              <li>Open source tools released for the community (HardenCheck, etc.)</li>
-            </ul>
-          </div>
           <a
             href="https://buymeacoffee.com/v33ru"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 px-5 py-3 rounded border border-primary/40 bg-primary/5 hover:bg-primary/15 hover:border-primary transition-all self-start"
+            className="inline-flex items-center gap-3 px-5 py-3 border border-[hsl(var(--signature))] bg-[hsl(var(--signature)/0.05)] hover:bg-[hsl(var(--signature)/0.12)] transition-colors self-start"
           >
-            <Coffee size={18} className="text-primary" />
-            <span className="text-foreground font-medium text-sm">Buy Me a Coffee</span>
-            <ExternalLink size={14} className="text-primary/60 group-hover:text-primary transition-colors" />
+            <Coffee size={18} className="text-[hsl(var(--signature))]" />
+            <span className="text-[14px] font-medium">Buy me a coffee</span>
+            <ExternalLink size={14} className="text-[hsl(var(--signature))]/60" />
           </a>
-          <p className="text-[10px] text-muted-foreground/60">
-            Opens buymeacoffee.com/v33ru in a new tab. Any amount helps. No subscription pressure.
-          </p>
         </DialogContent>
       </Dialog>
 
-      {/* Conference Sponsorship dialog */}
+      {/* Sponsorship dialog */}
       <Dialog open={sponsorshipOpen} onOpenChange={setSponsorshipOpen}>
-        <DialogContent className="max-w-xl bg-card border-border">
+        <DialogContent className="max-w-xl">
           <DialogHeader>
-            <DialogTitle className="text-primary flex items-center gap-2">
-              <Ticket size={20} />
-              Conference Sponsorship
+            <DialogTitle className="flex items-center gap-2 text-[hsl(var(--ink))]">
+              <Ticket size={20} /> Conference sponsorship
             </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              Need sponsorship to attend or present at a security conference? Drop me an email with the details below and I will review it personally.
+            <DialogDescription className="text-[hsl(var(--ink-2))]">
+              Need sponsorship to attend or present at a security conference? Drop me an email with the details below.
             </DialogDescription>
           </DialogHeader>
-          <div className="text-muted-foreground text-xs space-y-1">
-            <p className="text-foreground/80 font-medium">Include in your email:</p>
-            <ul className="list-disc list-inside space-y-0.5 pl-1">
-              <li>Name, country, background</li>
-              <li>Conference name, URL, and dates</li>
-              <li>Your research / work so far (CTFs, CVEs, blogs, tools, talks, bug bounty, hardware projects). Be specific.</li>
-              <li>What help you need (tickets only)</li>
-              <li>Why you need sponsorship and why this conference matters to you</li>
-              <li>Public work links (GitHub, Twitter, blog, CTF profile)</li>
-            </ul>
-          </div>
           <a
             href={sponsorshipMailto}
-            className="group inline-flex items-center gap-3 px-5 py-3 rounded border border-primary/40 bg-primary/5 hover:bg-primary/15 hover:border-primary transition-all self-start"
+            className="inline-flex items-center gap-3 px-5 py-3 border border-[hsl(var(--signature))] bg-[hsl(var(--signature)/0.05)] hover:bg-[hsl(var(--signature)/0.12)] transition-colors self-start"
           >
-            <Ticket size={18} className="text-primary" />
-            <span className="text-foreground font-medium text-sm">Email Sponsorship Request</span>
-            <Mail size={14} className="text-primary/60 group-hover:text-primary transition-colors" />
+            <Ticket size={18} className="text-[hsl(var(--signature))]" />
+            <span className="text-[14px] font-medium">Email sponsorship request</span>
+            <Mail size={14} className="text-[hsl(var(--signature))]/60" />
           </a>
-          <p className="text-[10px] text-muted-foreground/60">
-            Opens your email client with a pre-filled template to {SPONSORSHIP_EMAIL}.
-          </p>
+          <p className="text-[11px] text-[hsl(var(--ink-muted))]">Opens your mail client with a pre-filled template to {SPONSORSHIP_EMAIL}.</p>
         </DialogContent>
       </Dialog>
-
-      {/* Projects */}
-      {showContent && (
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="mb-16"
-        >
-          <SilkscreenLabel designator="U2" label="projects" />
-          <div className="circuit-border rounded overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border bg-secondary/30">
-                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">PROJECT</th>
-                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">YEAR</th>
-                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">STATUS</th>
-                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">DESCRIPTION</th>
-                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">SHOWCASE</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {projects.map((p, i) => (
-                    <tr key={p.name} className="border-b border-border/50 hover:bg-secondary/20 transition-colors">
-                      <td className="px-4 py-2 text-foreground font-medium">
-                        {p.url ? (
-                          <a href={p.url} target="_blank" rel="noopener noreferrer" className="hover:text-primary inline-flex items-center gap-1">
-                            {p.name} <ExternalLink size={12} className="text-primary/50" />
-                          </a>
-                        ) : p.name}
-                      </td>
-                      <td className="px-4 py-2 text-muted-foreground">{p.year}</td>
-                      <td className="px-4 py-2">
-                        <Badge variant={p.track === "Active" ? "default" : "secondary"} className="text-xs">
-                          {p.track}
-                        </Badge>
-                      </td>
-                      <td className="px-4 py-2 text-muted-foreground">{p.description}</td>
-                      <td className="px-4 py-2">
-                        {p.showcase ? (
-                          <Badge variant="outline" className="text-[10px] border-primary/60 text-primary bg-primary/5 whitespace-nowrap">
-                            {p.showcase}
-                          </Badge>
-                        ) : (
-                          <span className="text-muted-foreground/40">-</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </motion.section>
-      )}
-
-      {/* Domains of Destruction */}
-      {showContent && (
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mb-16"
-        >
-          <SilkscreenLabel designator="R1" label="domains of destruction" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {domains.map((d, i) => (
-              <div key={i} className="flex items-start gap-3 px-3 py-2 rounded bg-secondary/20 border border-border/50">
-                <div className="solder-point mt-1 shrink-0" />
-                <span className="text-sm text-foreground">{d}</span>
-              </div>
-            ))}
-          </div>
-        </motion.section>
-      )}
-
-      {/* Publications */}
-      {showContent && (
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="mb-16"
-        >
-          <SilkscreenLabel designator="C1" label="publications" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {publications.map((pub, i) => (
-              <a
-                key={i}
-                href={pub.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col chip-card rounded overflow-hidden hover:border-primary/50 transition-colors"
-              >
-                <div className="w-full h-40 bg-secondary/30 overflow-hidden flex items-center justify-center relative">
-                  {pub.cover ? (
-                    <img
-                      src={pub.cover}
-                      alt={pub.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground/40 p-4 text-center">
-                      <div className="text-4xl">📄</div>
-                      <p className="text-[10px] tracking-widest uppercase">Cover unavailable</p>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                    <span className="text-white text-xs flex items-center gap-1">
-                      <ExternalLink size={11} /> View Publication
-                    </span>
-                  </div>
-                </div>
-                <div className="p-3">
-                  <p className="text-foreground text-xs font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-2">
-                    {pub.title}
-                  </p>
-                  <p className="text-muted-foreground text-[10px] mt-1">
-                    {pub.publishedIn} • {pub.year}
-                  </p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </motion.section>
-      )}
-
-      {/* CVEs */}
-      {showContent && (
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="mb-16"
-        >
-          <SilkscreenLabel designator="D1" label="cve / advisories" />
-          <div className="circuit-border rounded overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border bg-secondary/30">
-                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">CVE</th>
-                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">YEAR</th>
-                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">DESCRIPTION</th>
-                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">SOURCE</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cves.map((cve) => (
-                    <tr key={cve.id} className="border-b border-border/50 hover:bg-secondary/20 transition-colors">
-                      <td className="px-4 py-2.5">
-                        <a
-                          href={cve.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-mono font-bold text-xs tracking-wider text-primary hover:text-primary/80 inline-flex items-center gap-1.5"
-                        >
-                          {cve.id}
-                          <ExternalLink size={11} className="text-primary/50 shrink-0" />
-                        </a>
-                      </td>
-                      <td className="px-4 py-2.5 text-muted-foreground">{cve.year}</td>
-                      <td className="px-4 py-2.5 text-muted-foreground">{cve.description || <span className="text-muted-foreground/40 italic text-xs">—</span>}</td>
-                      <td className="px-4 py-2.5">
-                        <Badge variant="secondary" className="text-[10px]">{cve.issuer}</Badge>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </motion.section>
-      )}
-
-      {/* Collab */}
-      {showContent && (
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="mb-8 border border-border rounded p-6 bg-secondary/10"
-        >
-          <SilkscreenLabel designator="TP1" label="collab" className="mb-2" />
-          <p className="text-foreground text-sm">
-            If you're a hacker, conference organizer, community builder, hardware vendor, or FOSS believer —
-            let's build something disruptive together. Open for research collabs, village setups, training sessions, or tool drops.
-          </p>
-        </motion.section>
-      )}
-
     </div>
   );
 };

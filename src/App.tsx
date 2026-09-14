@@ -4,7 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Navbar from "@/components/Navbar";
-import CircuitSideDecor from "@/components/CircuitSideDecor";
 import Footer from "@/components/Footer";
 import Home from "./pages/Home";
 import Blog from "./pages/Blog";
@@ -24,8 +23,6 @@ const App = () => (
       <Toaster />
       <Sonner />
       <HashRouter>
-        <div className="crt-scanlines" />
-        <CircuitSideDecor />
         <Navbar />
         <main className="min-h-screen">
           <Routes>

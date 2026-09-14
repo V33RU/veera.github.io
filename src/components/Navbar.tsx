@@ -1,150 +1,136 @@
-import { useState } from "react";
-import { NavLink as RouterNavLink, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { Menu, X, Sun, Moon } from "lucide-react";
 
-const leftPins = [
-  { to: "/", label: "HOME", pin: "01" },
-  { to: "/blog", label: "BLOG", pin: "02" },
-  { to: "/timeline", label: "TMLN", pin: "03" },
+const links = [
+  { to: "/", label: "Home" },
+  { to: "/blog", label: "Writing" },
+  { to: "/timeline", label: "Timeline" },
+  { to: "/unscripted", label: "Notes" },
+  { to: "/photography", label: "Photos" },
+  { to: "/shop", label: "Shop" },
 ];
 
-const rightPins = [
-  { to: "/unscripted", label: "UNSC", pin: "06" },
-  { to: "/photography", label: "PHTO", pin: "05" },
-  { to: "/shop", label: "SHOP", pin: "04" },
-];
+const THEME_KEY = "mr-iot-theme";
 
-const allPins = [
-  { to: "/", label: "~/home", pin: "01" },
-  { to: "/blog", label: "~/blog", pin: "02" },
-  { to: "/timeline", label: "~/timeline", pin: "03" },
-  { to: "/shop", label: "~/shop", pin: "04" },
-  { to: "/photography", label: "~/photos", pin: "05" },
-  { to: "/unscripted", label: "~/unscripted", pin: "06" },
-];
+type ThemeMode = "light" | "dark" | "auto";
 
-const PinLink = ({ to, label, pin, side }: { to: string; label: string; pin: string; side: "left" | "right" }) => {
-  const { pathname } = useLocation();
-  const isActive = to === "/" ? pathname === "/" : pathname.startsWith(to);
+function getStoredTheme(): ThemeMode {
+  try {
+    const t = localStorage.getItem(THEME_KEY);
+    if (t === "light" || t === "dark") return t;
+  } catch {
+    // Ignore storage errors (private mode etc.)
+  }
+  return "auto";
+}
 
-  const content = side === "left" ? (
-    <>
-      <span className="text-[10px] font-light opacity-40 w-4 text-right mr-1">{pin}</span>
-      <span className={cn("text-xs tracking-widest px-3 py-1.5 transition-all", isActive && "text-primary phosphor-glow-subtle")}>
-        {label}
-      </span>
-      <div className={cn("w-12 lg:w-20 h-[2px] transition-all", isActive ? "bg-primary shadow-[0_0_6px_hsl(38_80%_55%/0.4)]" : "bg-border group-hover:bg-primary/50")} />
-      <div className={cn("w-[7px] h-[7px] rounded-full transition-all", isActive ? "bg-primary shadow-[0_0_8px_hsl(38_80%_55%/0.5)]" : "bg-muted-foreground/30 group-hover:bg-primary/50")} />
-    </>
-  ) : (
-    <>
-      <div className={cn("w-[7px] h-[7px] rounded-full transition-all", isActive ? "bg-primary shadow-[0_0_8px_hsl(38_80%_55%/0.5)]" : "bg-muted-foreground/30 group-hover:bg-primary/50")} />
-      <div className={cn("w-12 lg:w-20 h-[2px] transition-all", isActive ? "bg-primary shadow-[0_0_6px_hsl(38_80%_55%/0.4)]" : "bg-border group-hover:bg-primary/50")} />
-      <span className={cn("text-xs tracking-widest px-3 py-1.5 transition-all", isActive && "text-primary phosphor-glow-subtle")}>
-        {label}
-      </span>
-      <span className="text-[10px] font-light opacity-40 w-4 ml-1">{pin}</span>
-    </>
-  );
+function applyTheme(mode: ThemeMode) {
+  const root = document.documentElement;
+  if (mode === "light") root.setAttribute("data-theme", "light");
+  else if (mode === "dark") root.setAttribute("data-theme", "dark");
+  else root.removeAttribute("data-theme");
+}
 
-  return (
-    <RouterNavLink
-      to={to}
-      className="group flex items-center gap-0 text-muted-foreground hover:text-primary transition-all"
-    >
-      {content}
-    </RouterNavLink>
-  );
-};
+function currentIsDark(): boolean {
+  const attr = document.documentElement.getAttribute("data-theme");
+  if (attr === "dark") return true;
+  if (attr === "light") return false;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    applyTheme(getStoredTheme());
+    setIsDark(currentIsDark());
+  }, []);
+
+  const toggleTheme = () => {
+    const next: ThemeMode = currentIsDark() ? "light" : "dark";
+    applyTheme(next);
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch {
+      // Ignore
+    }
+    setIsDark(next === "dark");
+  };
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm">
-      {/* Desktop: IC Chip Layout */}
-      <div className="hidden md:block">
-        <div className="mx-auto max-w-5xl px-4 py-3">
-          <div className="relative flex items-stretch justify-center">
-            {/* Left pins */}
-            <div className="flex flex-col justify-center gap-0">
-              {leftPins.map((item) => (
-                <PinLink key={item.to} {...item} side="left" />
-              ))}
-            </div>
+    <nav className="sticky top-0 z-40 bg-[hsl(var(--paper)/0.94)] backdrop-blur-sm border-b border-[hsl(var(--rule))]">
+      <div className="mx-auto max-w-4xl px-5 md:px-8 py-4 flex items-center gap-4">
+        <NavLink to="/" className="flex items-center gap-3 group" aria-label="Mr-IoT home">
+          <span className="w-9 h-9 flex items-center justify-center border border-[hsl(var(--rule-strong))] bg-[hsl(var(--paper-2))] font-medium text-[hsl(var(--ink))] italic text-lg leading-none tracking-[-0.06em] group-hover:border-[hsl(var(--signature))] transition-colors">
+            <span>M</span><sub className="text-[hsl(var(--signature))] text-[12px] ml-[1px] align-baseline">i</sub>
+          </span>
+          <span className="hidden sm:flex flex-col">
+            <span className="text-[15px] font-medium leading-tight tracking-tight">
+              Veerababu P <span className="text-[hsl(var(--signature))]">Mr-IoT</span>
+            </span>
+            <span className="mono text-[10px] uppercase tracking-widest text-[hsl(var(--ink-muted))] leading-tight">
+              Hardware &amp; IoT security research
+            </span>
+          </span>
+        </NavLink>
 
-            {/* Center chip body */}
-            <div className="relative border border-border bg-card mx-0 px-8 py-4 min-w-[160px] flex flex-col items-center justify-center">
-              {/* Notch */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[1px] w-6 h-3 rounded-b-full border border-t-0 border-border bg-background" />
-              {/* Pin 1 dot */}
-              <div className="absolute top-2 left-2 w-2 h-2 rounded-full border border-primary/30" />
+        <div className="hidden md:flex items-center gap-6 ml-auto mono text-[11.5px] uppercase tracking-[0.14em] text-[hsl(var(--ink-muted))]">
+          {links.slice(1).map((l) => (
+            <NavLink
+              key={l.to}
+              to={l.to}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[hsl(var(--ink))] border-b border-[hsl(var(--signature))] pb-0.5"
+                  : "hover:text-[hsl(var(--ink))] transition-colors"
+              }
+            >
+              {l.label}
+            </NavLink>
+          ))}
+        </div>
 
-              <RouterNavLink to="/" className="text-primary font-bold text-lg phosphor-glow tracking-[0.3em] leading-none">
-                Mr-IoT
-              </RouterNavLink>
+        <button
+          type="button"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          className="ml-auto md:ml-0 flex items-center justify-center w-8 h-8 border border-[hsl(var(--rule))] text-[hsl(var(--ink-muted))] hover:text-[hsl(var(--ink))] hover:border-[hsl(var(--rule-strong))] transition-colors"
+        >
+          {isDark ? <Sun size={14} /> : <Moon size={14} />}
+        </button>
 
-              {/* Bottom pad traces */}
-              <div className="absolute bottom-1 right-2 flex gap-[2px]">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="w-[3px] h-[6px] bg-border/50" />
-                ))}
-              </div>
-            </div>
+        <button
+          type="button"
+          className="md:hidden flex items-center justify-center w-8 h-8 border border-[hsl(var(--rule))] text-[hsl(var(--ink-muted))] hover:text-[hsl(var(--ink))]"
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X size={14} /> : <Menu size={14} />}
+        </button>
+      </div>
 
-            {/* Right pins */}
-            <div className="flex flex-col justify-center gap-0">
-              {rightPins.map((item) => (
-                <PinLink key={item.to} {...item} side="right" />
-              ))}
-            </div>
+      {mobileOpen && (
+        <div className="md:hidden border-t border-[hsl(var(--rule))] bg-[hsl(var(--paper))]">
+          <div className="mx-auto max-w-4xl px-5 py-3 flex flex-col gap-2 mono text-[13px] uppercase tracking-[0.12em]">
+            {links.map((l) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                onClick={() => setMobileOpen(false)}
+                className={({ isActive }) =>
+                  isActive
+                    ? "py-2 text-[hsl(var(--signature))]"
+                    : "py-2 text-[hsl(var(--ink-2))] hover:text-[hsl(var(--ink))]"
+                }
+              >
+                {l.label}
+              </NavLink>
+            ))}
           </div>
         </div>
-      </div>
-
-      {/* Mobile */}
-      <div className="md:hidden border-b border-border">
-        <div className="px-4 py-3 flex items-center justify-between">
-          <RouterNavLink to="/" className="text-primary font-bold text-lg phosphor-glow tracking-wider">
-            Mr-IoT
-          </RouterNavLink>
-          <button
-            className="text-primary border border-border p-1.5 rounded-sm"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
-        </div>
-
-        <AnimatePresence>
-          {mobileOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="border-t border-border overflow-hidden"
-            >
-              <div className="px-4 py-2 space-y-0">
-                {allPins.map((item) => (
-                  <RouterNavLink
-                    key={item.to}
-                    to={item.to}
-                    className="flex items-center gap-3 px-2 py-2.5 text-sm text-muted-foreground hover:text-primary transition-colors border-b border-border/30 last:border-0"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    <span className="text-[10px] text-primary/40 w-4 font-mono">{item.pin}</span>
-                    <div className="w-3 h-[2px] bg-border" />
-                    <div className="w-[5px] h-[5px] rounded-full bg-muted-foreground/30" />
-                    <span className="tracking-wider">{item.label}</span>
-                  </RouterNavLink>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      )}
     </nav>
   );
 };

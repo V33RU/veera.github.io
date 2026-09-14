@@ -1,14 +1,12 @@
 const Footer = () => {
   return (
-    <footer className="border-t border-primary/30 mt-20 bg-secondary/20">
-      <div className="mx-auto max-w-5xl px-4 py-10">
-        <p className="text-center text-base sm:text-lg text-primary phosphor-glow-subtle italic font-medium">
-          "In a world of closed devices, open-source is rebellion."
+    <footer className="mt-24 border-t border-[hsl(var(--rule))]">
+      <div className="mx-auto max-w-4xl px-5 md:px-8 py-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-baseline">
+        <p className="italic text-[hsl(var(--ink))] text-[15px] leading-relaxed max-w-sm">
+          &ldquo;In a world of closed devices, open source is rebellion.&rdquo;
         </p>
-        <p className="text-center text-sm text-foreground/80 mt-3 tracking-wide">
-          <span className="text-primary/60">-</span> Mr-IoT
-          <span className="text-primary/40 mx-2">•</span>
-          {new Date().getFullYear()}
+        <p className="mono text-[10.5px] uppercase tracking-[0.14em] text-[hsl(var(--ink-muted))] md:text-right">
+          Mr-IoT &nbsp;/&nbsp; Bengaluru &nbsp;/&nbsp; {new Date().getFullYear()}
         </p>
       </div>
     </footer>
