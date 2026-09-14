@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         mono: ['"JetBrains Mono"', '"IBM Plex Mono"', 'monospace'],
+        hacker: ['"Victor Mono"', '"JetBrains Mono"', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",

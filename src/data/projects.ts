@@ -4,10 +4,13 @@ export interface Project {
   track: "Active" | "Legacy";
   description: string;
   url?: string;
+  showcase?: string;
 }
 
 export const projects: Project[] = [
   // 2026
+  { name: "BaudOwl", year: 2026, track: "Active", description: "UART baudrate auto-detection, U-Boot exploitation, and serial security testing (Rust)", url: "https://github.com/iotsrg/baudowl" },
+  { name: "TCPK", year: 2026, track: "Active", description: "Windows thick-client and MSIX security audit toolkit (static + runtime, IL verification, AI triage)", url: "https://github.com/V33RU/tcpk", showcase: "Black Hat Arsenal India 2026" },
   { name: "Akhanda-OS", year: 2026, track: "Active", description: "Embedded hacking OS / security platform", url: "https://github.com/akhanda-os" },
   { name: "RFSploit", year: 2026, track: "Active", description: "RF exploitation toolkit (SDR, signals, protocol attacks)", url: "https://github.com/V33RU/rfsploit" },
   { name: "BlueSploit", year: 2026, track: "Active", description: "Bluetooth exploitation toolkit", url: "https://github.com/v33ru/bluesploit" },
@@ -41,6 +44,13 @@ export interface CVEEntry {
 }
 
 export const cves: CVEEntry[] = [
+  {
+    id: "CVE-2026-14297",
+    year: 2026,
+    issuer: "Nordic Semi",
+    description: "BLE CGMS RACP buffer overflow in nRF Connect SDK v2.2.0-v3.3.0 (CVSS 4.0: 8.7)",
+    url: "https://nrfconnectdocs.nordicsemi.com/pdf/SA/SA-2026-540-v1_0.pdf",
+  },
   {
     id: "CVE-2026-44634",
     year: 2026,
