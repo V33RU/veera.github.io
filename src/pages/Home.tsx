@@ -64,13 +64,24 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <p className="text-foreground text-lg mb-2">
+              <p className="text-foreground text-lg mb-4">
                 IoT Security Researcher | Hardware Breaker | Community Builder
               </p>
-              <p className="text-muted-foreground text-sm max-w-2xl">
-                Turning zero-clicks into open-source arsenals. Breaking, building, and securing 
-                embedded tech while fueling the rise of research through <span className="text-primary">IoTSRG</span>.
-              </p>
+              <div className="text-muted-foreground text-sm max-w-3xl space-y-3 leading-relaxed">
+                <p>
+                  Veerababu P (Mr-IoT) is a Security Researcher and the founder of the <span className="text-primary">IoTSRG</span> community,
+                  an active platform he has nurtured since 2017 to foster innovation in IoT security.
+                  He is passionate about transforming complex hardware security knowledge into accessible
+                  open-source resources, having built specialized tools and an IoT pentesting OS.
+                </p>
+                <p>
+                  As a frequent speaker and trainer, Veerababu has delivered keynote sessions, workshops,
+                  and villages at prominent conferences such as Blackhat-India, BSides Bangalore, BSides Dehradun,
+                  cocon, VulnCon, CraCCon, and Null/OWASP. His research primarily targets emerging attack surfaces,
+                  hardware microprobing, and protocol fuzzing. When he is not hunting for vulnerabilities,
+                  he is coding new automation frameworks.
+                </p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -339,6 +350,7 @@ const Home = () => {
                     <th className="text-left px-4 py-2 text-primary text-xs font-medium">YEAR</th>
                     <th className="text-left px-4 py-2 text-primary text-xs font-medium">STATUS</th>
                     <th className="text-left px-4 py-2 text-primary text-xs font-medium">DESCRIPTION</th>
+                    <th className="text-left px-4 py-2 text-primary text-xs font-medium">SHOWCASE</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -358,6 +370,15 @@ const Home = () => {
                         </Badge>
                       </td>
                       <td className="px-4 py-2 text-muted-foreground">{p.description}</td>
+                      <td className="px-4 py-2">
+                        {p.showcase ? (
+                          <Badge variant="outline" className="text-[10px] border-primary/60 text-primary bg-primary/5 whitespace-nowrap">
+                            {p.showcase}
+                          </Badge>
+                        ) : (
+                          <span className="text-muted-foreground/40">-</span>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -496,11 +517,12 @@ const Home = () => {
         >
           <SilkscreenLabel designator="TP1" label="collab" className="mb-2" />
           <p className="text-foreground text-sm">
-            If you're a hacker, conference organizer, community builder, hardware vendor, or FOSS believer — 
+            If you're a hacker, conference organizer, community builder, hardware vendor, or FOSS believer —
             let's build something disruptive together. Open for research collabs, village setups, training sessions, or tool drops.
           </p>
         </motion.section>
       )}
+
     </div>
   );
 };
