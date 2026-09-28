@@ -69,17 +69,17 @@ const Home = () => {
               </p>
               <div className="text-muted-foreground text-sm max-w-3xl space-y-3 leading-relaxed">
                 <p>
-                  Veerababu P (Mr-IoT) is a Security Researcher and the founder of the <span className="text-primary">IoTSRG</span> community,
-                  an active platform he has nurtured since 2017 to foster innovation in IoT security.
-                  He is passionate about transforming complex hardware security knowledge into accessible
-                  open-source resources, having built specialized tools and an IoT pentesting OS.
+                  I'm Veerababu P, well known as <span className="text-primary">Mr-IoT</span>, a Security Researcher and the founder of the <span className="text-primary">IoTSRG</span> community,
+                  an active platform I've nurtured since 2017 to foster innovation in IoT security.
+                  I'm passionate about transforming complex hardware security knowledge into accessible
+                  open-source resources, and I've built specialized tools and an IoT pentesting OS along the way.
                 </p>
                 <p>
-                  As a frequent speaker and trainer, Veerababu has delivered keynote sessions, workshops,
+                  As a frequent speaker and trainer, I've delivered keynote sessions, workshops,
                   and villages at prominent conferences such as Blackhat-India, BSides Bangalore, BSides Dehradun,
-                  cocon, VulnCon, CraCCon, and Null/OWASP. His research primarily targets emerging attack surfaces,
-                  hardware microprobing, and protocol fuzzing. When he is not hunting for vulnerabilities,
-                  he is coding new automation frameworks.
+                  cocon, VulnCon, CraCCon, and Null/OWASP. My research primarily targets emerging attack surfaces,
+                  hardware microprobing, and protocol fuzzing. When I'm not hunting for vulnerabilities,
+                  I'm coding new automation frameworks.
                 </p>
               </div>
             </motion.div>
