@@ -9,6 +9,8 @@ function initMermaid() {
     startOnLoad: false,
     theme: "dark",
     securityLevel: "strict",
+    logLevel: "fatal",
+    suppressErrorRendering: true,
     fontFamily: "'JetBrains Mono', 'IBM Plex Mono', monospace",
     fontSize: 22,
     flowchart: { htmlLabels: true, curve: "basis", nodeSpacing: 80, rankSpacing: 90, padding: 20, useMaxWidth: false },
@@ -34,43 +36,56 @@ interface Props {
   code: string;
 }
 
+function looksLikeErrorSvg(svg: string): boolean {
+  return (
+    svg.includes("Syntax error in text") ||
+    svg.includes('aria-roledescription="error"') ||
+    svg.includes("mermaid version")
+  );
+}
+
 const MermaidDiagram = ({ code }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [svg, setSvg] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [failed, setFailed] = useState<boolean>(false);
 
   useEffect(() => {
     initMermaid();
     let cancelled = false;
     const id = `mermaid-${++idCounter}-${Date.now()}`;
-    mermaid
-      .render(id, code)
-      .then(({ svg }) => {
+
+    (async () => {
+      try {
+        const parsed = await mermaid.parse(code, { suppressErrors: true });
+        if (parsed === false) throw new Error("parse-failed");
+        const rendered = await mermaid.render(id, code);
         if (cancelled) return;
-        const scaled = svg
+        if (looksLikeErrorSvg(rendered.svg)) throw new Error("render-emitted-error");
+        const scaled = rendered.svg
           .replace(/max-width:\s*[^;"]+;?/g, "")
           .replace(/<svg ([^>]*?)width="[^"]*"/, "<svg $1")
           .replace(/<svg ([^>]*?)height="[^"]*"/, "<svg $1")
           .replace(/<svg /, '<svg style="width:100%;height:auto;" ');
         setSvg(scaled);
-      })
-      .catch((e: unknown) => {
-        if (!cancelled) setError(e instanceof Error ? e.message : String(e));
-      });
+      } catch {
+        if (!cancelled) setFailed(true);
+      }
+    })();
+
     return () => {
       cancelled = true;
     };
   }, [code]);
 
-  if (error) {
+  if (failed) {
     return (
-      <div className="my-6 rounded border border-destructive/50 bg-destructive/10 p-3">
-        <div className="text-xs text-destructive mb-2">mermaid render error</div>
-        <pre className="text-xs text-muted-foreground overflow-x-auto whitespace-pre-wrap">{error}</pre>
-        <pre className="text-xs text-muted-foreground/60 mt-2 overflow-x-auto whitespace-pre-wrap">{code}</pre>
-      </div>
+      <pre className="my-6 rounded border border-border bg-secondary/20 p-4 overflow-x-auto text-xs text-muted-foreground whitespace-pre-wrap font-mono">
+        {code}
+      </pre>
     );
   }
+
+  if (!svg) return null;
 
   return (
     <div
