@@ -75,9 +75,9 @@ const Home = () => {
                   open-source resources, and I've built specialized tools and an IoT pentesting OS along the way.
                 </p>
                 <p>
-                  As a frequent speaker and trainer, I've delivered keynote sessions, workshops,
-                  and villages at prominent conferences such as Blackhat-India, BSides Bangalore, BSides Dehradun,
-                  cocon, VulnCon, CraCCon, and Null/OWASP. My research primarily targets emerging attack surfaces,
+                  As a <span className="text-primary">Black Hat Arsenal speaker</span> and frequent trainer,
+                  I've delivered keynote sessions, workshops, and villages at prominent conferences such as
+                  Blackhat-India, BSides Bangalore, BSides Dehradun, cocon, VulnCon, CraCCon, and Null/OWASP. My research primarily targets emerging attack surfaces,
                   hardware microprobing, and protocol fuzzing. When I'm not hunting for vulnerabilities,
                   I'm coding new automation frameworks.
                 </p>
