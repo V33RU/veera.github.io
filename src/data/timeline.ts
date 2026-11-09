@@ -2,11 +2,12 @@ export interface TimelineEvent {
   conference: string;
   location: string;
   topic: string;
-  role: "Talk" | "Workshop" | "Keynote" | "Village Lead" | "Training";
+  role: "Talk" | "Workshop" | "Keynote" | "Village Lead" | "Training" | "Arsenal";
   year: number;
 }
 
 export const timelineEvents: TimelineEvent[] = [
+  { conference: "Black Hat India", location: "India", topic: "TCPK - Windows Thick-Client Security Toolkit", role: "Arsenal", year: 2026 },
   { conference: "miniorange", location: "Pune, India", topic: "Bluetooth Hacking Workshop", role: "Workshop", year: 2026 },
   { conference: "Seasides", location: "Goa, India", topic: "Advanced HW + BLE Exploitation", role: "Workshop", year: 2025 },
   { conference: "BSides Kerala", location: "Kerala, India", topic: "IoT Bug Discovery and Exploitation", role: "Workshop", year: 2025 },

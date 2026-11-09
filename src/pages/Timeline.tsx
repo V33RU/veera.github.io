@@ -4,7 +4,7 @@ import { timelineEvents, type TimelineEvent } from "@/data/timeline";
 import { Badge } from "@/components/ui/badge";
 import SilkscreenLabel from "@/components/SilkscreenLabel";
 
-const roles = ["All", "Talk", "Workshop", "Keynote", "Village Lead", "Training"] as const;
+const roles = ["All", "Talk", "Workshop", "Keynote", "Village Lead", "Training", "Arsenal"] as const;
 
 const Timeline = () => {
   const [filter, setFilter] = useState<string>("All");
